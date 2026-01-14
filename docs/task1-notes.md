@@ -32,3 +32,10 @@ The weblog and content subsystem is responsible for managing blogs, blog entries
 - Content entities are cleanly separated from business logic.
 - Manager interfaces allow multiple persistence implementations.
 - The subsystem shows moderate coupling between entries and categories.
+
+
+### UML Modeling Assumptions
+- Only core content-related classes were modeled.
+- UI controllers and persistence details were abstracted.
+- Attributes shown are representative, not exhaustive.
+
