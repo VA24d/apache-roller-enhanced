@@ -68,6 +68,14 @@ Run Docker Compose to build and launch Roller along with a PostgreSQL database:
 
     $ cd roller
     $ docker-compose up
+
+
+
+    
+
+-Project initialized by team 33
+
+
     
 It will take a while to build and start the Docker image. 
 Once it's done browse to <http://localhost:8080/roller> to try Roller.
