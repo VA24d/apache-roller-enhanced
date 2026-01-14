@@ -1,0 +1,55 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "Weblog & Content Subsystem" {
+
+  class Weblog {
+    id
+    handle
+    name
+  }
+
+  class WeblogEntry {
+    id
+    title
+    content
+    pubTime
+  }
+
+  class WeblogEntryComment {
+    id
+    content
+    postTime
+  }
+
+  class WeblogCategory {
+    id
+    name
+  }
+
+  class WeblogBookmark {
+    id
+    name
+    url
+  }
+
+  interface WeblogManager
+
+  class JPAWeblogManagerImpl
+
+  class WeblogEntryManager
+
+  class WeblogEntryRenderer
+}
+
+Weblog "1" o-- "many" WeblogEntry
+WeblogEntry "1" o-- "many" WeblogEntryComment
+Weblog "1" o-- "many" WeblogCategory
+Weblog "1" o-- "many" WeblogBookmark
+
+WeblogManager <|.. JPAWeblogManagerImpl
+WeblogManager ..> Weblog
+WeblogEntryManager ..> WeblogEntry
+WeblogEntryRenderer ..> WeblogEntry
+
+@enduml
