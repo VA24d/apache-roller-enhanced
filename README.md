@@ -81,6 +81,5 @@ Once it's done browse to <http://localhost:8080/roller> to try Roller.
 
 
 
--Project Initialised by team 33
--Initial setup complete
+
 
