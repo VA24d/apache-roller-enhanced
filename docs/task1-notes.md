@@ -39,3 +39,29 @@ The weblog and content subsystem is responsible for managing blogs, blog entries
 - UI controllers and persistence details were abstracted.
 - Attributes shown are representative, not exhaustive.
 
+
+
+## Design Strengths and Weaknesses
+
+### Strengths
+
+1. **Clear Separation of Concerns**  
+   The weblog and content subsystem separates data representation (POJOs such as Weblog and WeblogEntry) from business logic (manager interfaces and implementations). This improves modularity and makes the system easier to extend.
+
+2. **Use of Manager Interfaces**  
+   Interfaces such as WeblogManager decouple clients from concrete implementations. This allows different persistence strategies and improves testability.
+
+3. **Rich Domain Modeling**  
+   Core blogging concepts like weblogs, entries, comments, categories, and bookmarks are modeled as distinct classes, improving clarity and expressiveness of the domain.
+
+### Weaknesses
+
+1. **High Coupling Between Content Entities**  
+   Classes like WeblogEntry are associated with multiple other entities (comments, categories, weblog), which may increase coupling and make changes harder to localize.
+
+2. **Large Manager Implementations**  
+   Concrete implementations such as JPAWeblogManagerImpl handle many responsibilities related to persistence and business logic, which can lead to God-class tendencies.
+
+3. **Limited Encapsulation of Rendering Logic**  
+   Rendering-related functionality depends directly on content objects, which may blur the boundary between content management and presentation concerns.
+
