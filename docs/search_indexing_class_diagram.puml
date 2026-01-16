@@ -1,0 +1,56 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "business.search" {
+  interface IndexManager
+  class SearchResultList
+  class SearchResultMap
+}
+
+package "business.search.lucene" {
+  class LuceneIndexManager
+  abstract class IndexOperation
+  abstract class ReadFromIndexOperation
+  abstract class WriteToIndexOperation
+  class SearchOperation
+  class AddEntryOperation
+  class RemoveEntryOperation
+  class ReIndexEntryOperation
+  class RebuildWebsiteIndexOperation
+  class RemoveWebsiteIndexOperation
+  class IndexUtil
+  class FieldConstants
+}
+
+package "ui.rendering.servlets" {
+  class SearchServlet
+}
+
+package "webservices.opensearch" {
+  class OpenSearchServlet
+}
+
+IndexManager <|.. LuceneIndexManager
+IndexOperation <|-- ReadFromIndexOperation
+IndexOperation <|-- WriteToIndexOperation
+ReadFromIndexOperation <|-- SearchOperation
+WriteToIndexOperation <|-- AddEntryOperation
+WriteToIndexOperation <|-- RemoveEntryOperation
+WriteToIndexOperation <|-- ReIndexEntryOperation
+WriteToIndexOperation <|-- RebuildWebsiteIndexOperation
+WriteToIndexOperation <|-- RemoveWebsiteIndexOperation
+
+LuceneIndexManager ..> IndexOperation : schedules
+LuceneIndexManager ..> SearchOperation : executes
+LuceneIndexManager ..> SearchResultList : returns
+LuceneIndexManager ..> SearchResultMap : returns
+
+SearchOperation ..> IndexUtil
+SearchOperation ..> FieldConstants
+IndexOperation ..> FieldConstants
+IndexOperation ..> IndexUtil
+
+SearchServlet ..> IndexManager : search
+OpenSearchServlet ..> IndexManager : search endpoints
+
+@enduml

@@ -7,4 +7,5 @@ In this directory you'll find Roller docs in AsciiDoc format, various examples a
 * `roller-template-guide.adoc` - How to create Roller templates and themes
 * `examples/` - example configuration and script files
 * `testing/` - Various test scripts
-
+* `task1-search-indexing-subsystem.md` - Task 1 documentation for Search & Indexing (Lucene)
+* `search_indexing_class_diagram.puml` - UML class diagram for Search & Indexing subsystem
