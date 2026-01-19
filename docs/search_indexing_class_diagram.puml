@@ -2,17 +2,69 @@
 skinparam classAttributeIconSize 0
 
 package "business.search" {
-  interface IndexManager
-  class SearchResultList
-  class SearchResultMap
+  interface IndexManager {
+    +initialize()
+    +rebuildWeblogIndex()
+    +rebuildWeblogIndex(weblog)
+    +addEntryIndexOperation(entry)
+    +addEntryReIndexOperation(entry)
+    +removeEntryIndexOperation(entry)
+    +removeWeblogIndex(weblog)
+    +search(term, handle, category, locale, pageNum, entryCount, urlStrategy)
+  }
+  class SearchResultList {
+    -limit : int
+    -offset : int
+    -categories : Set<String>
+    -results : List<WeblogEntryWrapper>
+    +getResults()
+    +getCategories()
+  }
+  class SearchResultMap {
+    -limit : int
+    -offset : int
+    -categories : Set<String>
+    -results : Map<Date, Set<WeblogEntryWrapper>>
+    +getResults()
+    +getCategories()
+  }
 }
 
 package "business.search.lucene" {
-  class LuceneIndexManager
-  abstract class IndexOperation
-  abstract class ReadFromIndexOperation
-  abstract class WriteToIndexOperation
-  class SearchOperation
+  class LuceneIndexManager {
+    -reader : IndexReader
+    -searchEnabled : boolean
+    -indexDir : String
+    -rwl : ReadWriteLock
+    +initialize()
+    +search(term, handle, category, locale, pageNum, entryCount, urlStrategy)
+    +getSharedIndexReader()
+  }
+  abstract class IndexOperation {
+    -manager : LuceneIndexManager
+    -writer : IndexWriter
+    +run()
+    #getDocument(entry)
+    #beginWriting()
+    #endWriting()
+    #doRun()
+  }
+  abstract class ReadFromIndexOperation {
+    +run()
+  }
+  abstract class WriteToIndexOperation {
+    +run()
+  }
+  class SearchOperation {
+    -term : String
+    -weblogHandle : String
+    -category : String
+    -locale : String
+    -searchresults : TopFieldDocs
+    +doRun()
+    +getResults()
+    +getResultsCount()
+  }
   class AddEntryOperation
   class RemoveEntryOperation
   class ReIndexEntryOperation
@@ -23,11 +75,65 @@ package "business.search.lucene" {
 }
 
 package "ui.rendering.servlets" {
-  class SearchServlet
+  class SearchServlet {
+    +doGet(request, response)
+  }
+}
+
+package "ui.rendering.model" {
+  class SearchResultsModel {
+    -results : Map<Date, Set<WeblogEntryWrapper>>
+    -hits : int
+    -offset : int
+    -limit : int
+    +init(initData)
+    +getResults()
+  }
+  class SearchResultsFeedModel {
+    -results : List<WeblogEntryWrapper>
+    -hits : int
+    -offset : int
+    -limit : int
+    +init(initData)
+    +getResults()
+  }
+}
+
+package "ui.rendering.pagers" {
+  class SearchResultsPager {
+    -query : String
+    -category : String
+    -page : int
+    +getNextLink()
+    +getPrevLink()
+  }
+  class SearchResultsFeedPager {
+    -feedRequest : WeblogFeedRequest
+    +getUrl()
+  }
+}
+
+package "ui.rendering.util" {
+  class WeblogSearchRequest {
+    -query : String
+    -pageNum : int
+    -weblogCategoryName : String
+    +getQuery()
+    +getPageNum()
+  }
+  class WeblogFeedRequest {
+    -term : String
+    -page : int
+    -weblogCategoryName : String
+    +getTerm()
+    +getPage()
+  }
 }
 
 package "webservices.opensearch" {
-  class OpenSearchServlet
+  class OpenSearchServlet {
+    +doGet(request, response)
+  }
 }
 
 IndexManager <|.. LuceneIndexManager
@@ -50,7 +156,16 @@ SearchOperation ..> FieldConstants
 IndexOperation ..> FieldConstants
 IndexOperation ..> IndexUtil
 
-SearchServlet ..> IndexManager : search
+SearchServlet ..> WeblogSearchRequest : parses
+SearchServlet ..> SearchResultsModel : loads
+SearchResultsModel ..> IndexManager : search
+SearchResultsModel ..> SearchResultsPager : paginate
+SearchResultsFeedModel ..> IndexManager : search
+SearchResultsFeedModel ..> SearchResultsFeedPager : paginate
+SearchResultsFeedModel ..> WeblogFeedRequest : parses
+SearchResultsPager ..> WeblogSearchRequest : uses
+SearchResultsFeedPager ..> WeblogFeedRequest : uses
+
 OpenSearchServlet ..> IndexManager : search endpoints
 
 @enduml
