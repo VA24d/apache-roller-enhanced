@@ -1,9 +1,12 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-package "business.search" {
-  interface IndexManager {
+package "business.search" <<business>> {
+  interface IndexManager <<interface>> {
     +initialize()
+    +shutdown()
+    +release()
+    +isInconsistentAtStartup() : boolean
     +rebuildWeblogIndex()
     +rebuildWeblogIndex(weblog)
     +addEntryIndexOperation(entry)
@@ -30,29 +33,37 @@ package "business.search" {
   }
 }
 
-package "business.search.lucene" {
+package "business.search.lucene" <<implementation>> {
   class LuceneIndexManager {
     -reader : IndexReader
+    -roller : Weblogger
     -searchEnabled : boolean
     -indexDir : String
+    -indexConsistencyMarker : File
+    -inconsistentAtStartup : boolean
     -rwl : ReadWriteLock
     +initialize()
+    +shutdown()
     +search(term, handle, category, locale, pageNum, entryCount, urlStrategy)
+    +scheduleIndexOperation(operation)
+    +executeIndexOperationNow(operation)
     +getSharedIndexReader()
+    +resetSharedReader()
+    +getAnalyzer() : Analyzer
   }
-  abstract class IndexOperation {
+  abstract class IndexOperation <<abstract>> {
     -manager : LuceneIndexManager
     -writer : IndexWriter
     +run()
-    #getDocument(entry)
+    #getDocument(entry) : Document
     #beginWriting()
     #endWriting()
-    #doRun()
+    #doRun() {abstract}
   }
-  abstract class ReadFromIndexOperation {
+  abstract class ReadFromIndexOperation <<abstract>> {
     +run()
   }
-  abstract class WriteToIndexOperation {
+  abstract class WriteToIndexOperation <<abstract>> {
     +run()
   }
   class SearchOperation {
@@ -60,82 +71,136 @@ package "business.search.lucene" {
     -weblogHandle : String
     -category : String
     -locale : String
+    -searcher : IndexSearcher
     -searchresults : TopFieldDocs
+    -parseError : String
+    -{static} SEARCH_FIELDS : String[]
+    -{static} SORTER : Sort
+    -{static} docLimit : int = 500
     +doRun()
-    +getResults()
-    +getResultsCount()
+    +getResults() : TopFieldDocs
+    +getResultsCount() : int
   }
   class AddEntryOperation
   class RemoveEntryOperation
   class ReIndexEntryOperation
   class RebuildWebsiteIndexOperation
   class RemoveWebsiteIndexOperation
-  class IndexUtil
-  class FieldConstants
+  
+  class IndexUtil <<utility>> {
+    +{static} queryParser helpers
+    +{static} term construction
+    +{static} field extraction
+  }
+  
+  class FieldConstants <<utility>> {
+    +{static} CONTENT : String
+    +{static} TITLE : String
+    +{static} C_CONTENT : String
+    +{static} PUBLISHED : String
+    +{static} HANDLE : String
+    +{static} LOCALE : String
+    +{static} CATEGORY : String
+    +{static} ID : String
+  }
 }
 
-package "ui.rendering.servlets" {
-  class SearchServlet {
+package "ui.rendering.servlets" <<presentation>> {
+  class SearchServlet <<servlet>> {
     +doGet(request, response)
   }
 }
 
-package "ui.rendering.model" {
+package "ui.rendering.model" <<presentation>> {
+  interface Model <<interface>> {
+    +init(initData : Map)
+    +getModelName() : String
+  }
+  
+  class PageModel {
+    #weblog : Weblog
+    #urlStrategy : URLStrategy
+  }
+  
   class SearchResultsModel {
     -results : Map<Date, Set<WeblogEntryWrapper>>
+    -pager : SearchResultsPager
     -hits : int
     -offset : int
     -limit : int
-    +init(initData)
-    +getResults()
+    -errorMessage : String
+    -{static} RESULTS_PER_PAGE : int = 10
+    +init(initData : Map)
+    +getResults() : Map
+    +addEntryToResults(entry)
   }
   class SearchResultsFeedModel {
     -results : List<WeblogEntryWrapper>
+    -pager : SearchResultsFeedPager
     -hits : int
     -offset : int
     -limit : int
-    +init(initData)
-    +getResults()
+    -errorMessage : String
+    +init(initData : Map)
+    +getResults() : List
+    +getModelName() : String
   }
 }
 
-package "ui.rendering.pagers" {
+package "ui.rendering.pagers" <<presentation>> {
+  interface WeblogEntriesPager <<interface>> {
+    +getNextLink() : String
+    +getPrevLink() : String
+  }
+  
   class SearchResultsPager {
     -query : String
     -category : String
     -page : int
-    +getNextLink()
-    +getPrevLink()
+    +getNextLink() : String
+    +getPrevLink() : String
   }
   class SearchResultsFeedPager {
     -feedRequest : WeblogFeedRequest
-    +getUrl()
+    +getUrl() : String
   }
 }
 
-package "ui.rendering.util" {
+package "ui.rendering.util" <<presentation>> {
   class WeblogSearchRequest {
     -query : String
     -pageNum : int
     -weblogCategoryName : String
-    +getQuery()
-    +getPageNum()
+    -weblogCategory : WeblogCategory
+    +getQuery() : String
+    +getPageNum() : int
+    +getWeblogCategory() : WeblogCategory
   }
   class WeblogFeedRequest {
     -term : String
     -page : int
     -weblogCategoryName : String
-    +getTerm()
-    +getPage()
+    -weblogCategory : WeblogCategory
+    -type : String
+    -format : String
+    -tags : List<String>
+    -excerpts : boolean
+    +getTerm() : String
+    +getPage() : int
+    +getWeblogCategory() : WeblogCategory
+    +getFormat() : String
+    +getTags() : List
+    +isExcerpts() : boolean
   }
 }
 
-package "webservices.opensearch" {
-  class OpenSearchServlet {
+package "webservices.opensearch" <<webservices>> {
+  class OpenSearchServlet <<servlet>> {
     +doGet(request, response)
   }
 }
 
+' Inheritance and implementation
 IndexManager <|.. LuceneIndexManager
 IndexOperation <|-- ReadFromIndexOperation
 IndexOperation <|-- WriteToIndexOperation
@@ -145,8 +210,12 @@ WriteToIndexOperation <|-- RemoveEntryOperation
 WriteToIndexOperation <|-- ReIndexEntryOperation
 WriteToIndexOperation <|-- RebuildWebsiteIndexOperation
 WriteToIndexOperation <|-- RemoveWebsiteIndexOperation
+Model <|.. SearchResultsFeedModel
+PageModel <|-- SearchResultsModel
+WeblogEntriesPager <|.. SearchResultsPager
 
-LuceneIndexManager ..> IndexOperation : schedules
+' Associations and dependencies
+LuceneIndexManager "1" ..> "*" IndexOperation : schedules
 LuceneIndexManager ..> SearchOperation : executes
 LuceneIndexManager ..> SearchResultList : returns
 LuceneIndexManager ..> SearchResultMap : returns
@@ -158,14 +227,29 @@ IndexOperation ..> IndexUtil
 
 SearchServlet ..> WeblogSearchRequest : parses
 SearchServlet ..> SearchResultsModel : loads
+SearchResultsModel "1" o-- "1" SearchResultsPager : contains
 SearchResultsModel ..> IndexManager : search
-SearchResultsModel ..> SearchResultsPager : paginate
+SearchResultsFeedModel "1" o-- "1" SearchResultsFeedPager : contains
 SearchResultsFeedModel ..> IndexManager : search
-SearchResultsFeedModel ..> SearchResultsFeedPager : paginate
 SearchResultsFeedModel ..> WeblogFeedRequest : parses
 SearchResultsPager ..> WeblogSearchRequest : uses
-SearchResultsFeedPager ..> WeblogFeedRequest : uses
+SearchResultsFeedPager "1" --> "1" WeblogFeedRequest : uses
 
 OpenSearchServlet ..> IndexManager : search endpoints
+
+' Notes
+note right of IndexOperation
+  Template Method pattern:
+  doRun() is abstract,
+  beginWriting/endWriting
+  provide lifecycle hooks
+end note
+
+note right of LuceneIndexManager
+  Uses ReadWriteLock for concurrency:
+  - Read operations share lock
+  - Write operations exclusive
+  - Resets shared reader after writes
+end note
 
 @enduml
