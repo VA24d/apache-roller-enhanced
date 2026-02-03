@@ -1,0 +1,28 @@
+@startuml
+title Task 3C Automated Refactoring Pipeline
+
+start
+:Load config + .env;
+:Read Designite designCodeSmells.csv;
+:Select top N smells;
+
+repeat
+  :Resolve smell -> source file;
+  if (File length > max_chunk_lines?) then (yes)
+    :Take head + tail slices;
+    :Annotate omitted lines;
+  else (no)
+    :Use full file content;
+  endif
+  :Prompt OpenAI with smell + context;
+  :Capture summary + diff;
+repeat while (more smells?)
+
+:Write refactor_report.md;
+if (GITHUB_TOKEN & GITHUB_REPO set?) then (yes)
+  :Create PR with report;
+else (no)
+  :Skip PR creation;
+endif
+stop
+@enduml
