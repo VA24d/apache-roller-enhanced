@@ -1,6 +1,6 @@
 repository:
   root: "../"
-  designite_smells_csv: "analysis/designite/designCodeSmells.csv"
+  designite_smells_csv: "../../analysis/designite/designCodeSmells.csv"
 
 pipeline:
   schedule: "manual" # placeholder for cron integration
@@ -15,7 +15,7 @@ llm:
 
 pr:
   title: "chore(task3): LLM refactoring suggestions"
-  body_template: "docs/pr_body.md"
-  base_branch: "main"
-  head_branch: "task3-llm-suggestions"
+  body_template: "../docs/pr_body.md"
+  base_branch: "master"
+  head_branch: "vijay"
   draft: true
