@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class WriteToIndexOperation extends IndexOperation {
     
-    public WriteToIndexOperation(LuceneIndexManager mgr) {
+    public WriteToIndexOperation(IndexOperationContext mgr) {
         super(mgr);
     }
     

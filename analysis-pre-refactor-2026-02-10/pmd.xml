@@ -1,0 +1,1141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 https://pmd.github.io/schema/report_2_0_0.xsd" version="7.17.0" timestamp="2026-02-03T16:45:01.901">
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/planet/business/jpa/JPAPlanetManagerImpl.java">
+<violation beginline="79" endline="79" begincolumn="33" endcolumn="71" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.planet.business.jpa" class="JPAPlanetManagerImpl" method="saveSubscription" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `existing.getId().equals(sub.getId())`.
+</violation>
+<violation beginline="127" endline="128" begincolumn="20" endcolumn="80" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.planet.business.jpa" class="JPAPlanetManagerImpl" method="getAllSubscriptions" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `strategy.getNamedQuery("Subscription.getAll"......`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/planet/config/PlanetRuntimeConfig.java">
+<violation beginline="74" endline="74" begincolumn="24" endcolumn="43" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.planet.config" class="PlanetRuntimeConfig" method="getBooleanProperty" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'PlanetRuntimeConfig': 'getProperty' is already in scope
+</violation>
+<violation beginline="89" endline="89" begincolumn="24" endcolumn="43" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.planet.config" class="PlanetRuntimeConfig" method="getIntProperty" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'PlanetRuntimeConfig': 'getProperty' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/planet/pojos/Subscription.java">
+<violation beginline="174" endline="174" begincolumn="18" endcolumn="27" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.planet.pojos" class="Subscription" method="setGroups" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'setGroups(Set&lt;PlanetGroup&gt;)'.
+</violation>
+<violation beginline="184" endline="184" begincolumn="18" endcolumn="28" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.planet.pojos" class="Subscription" method="setEntries" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'setEntries(Set&lt;SubscriptionEntry&gt;)'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/planet/util/MailUtil.java">
+<violation beginline="34" endline="34" begincolumn="31" endcolumn="37" rule="ExtendsObject" ruleset="Code Style" package="org.apache.roller.planet.util" class="MailUtil" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#extendsobject" priority="4">
+No need to explicitly extend Object.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/planet/util/rome/ContentModuleImpl.java">
+<violation beginline="26" endline="26" begincolumn="35" endcolumn="48" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.planet.util.rome" class="ContentModuleImpl" method="ContentModuleImpl" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'ContentModule': 'URI' is already in scope because it is inherited by an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/planet/util/rome/ContentModuleParser.java">
+<violation beginline="46" endline="46" begincolumn="16" endcolumn="32" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.planet.util.rome" class="ContentModuleParser" method="parse" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `foundSomething`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/util/DateUtil.java">
+<violation beginline="286" endline="286" begincolumn="43" endcolumn="57" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="now" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Date' is already in scope because it is imported in this file
+</violation>
+<violation beginline="351" endline="351" begincolumn="16" endcolumn="24" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="defaultDateFormat" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'DateUtil': 'friendlyDateFormat' is already in scope
+</violation>
+<violation beginline="356" endline="356" begincolumn="19" endcolumn="45" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="minimalDateFormat" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.text': 'SimpleDateFormat' is already in scope because it is imported in this file
+</violation>
+<violation beginline="433" endline="433" begincolumn="29" endcolumn="37" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="minimalDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'DateUtil': 'minimalDateFormat' is already in scope
+</violation>
+<violation beginline="438" endline="438" begincolumn="29" endcolumn="37" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="fullDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'DateUtil': 'fullDateFormat' is already in scope
+</violation>
+<violation beginline="532" endline="532" begincolumn="44" endcolumn="52" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="parseWeblogURLDateString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'DateUtil': 'get8charDateFormat' is already in scope
+</violation>
+<violation beginline="533" endline="533" begincolumn="44" endcolumn="52" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="DateUtil" method="parseWeblogURLDateString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'DateUtil': 'get6charDateFormat' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/util/PropertyExpander.java">
+<violation beginline="36" endline="36" begincolumn="93" endcolumn="116" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.util" class="PropertyExpander" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util.regex': 'Pattern' is already in scope because it is imported in this file
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/TestTask.java">
+<violation beginline="30" endline="30" begincolumn="19" endcolumn="27" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business" class="TestTask" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'TestTask': 'NAME' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/WebloggerFactory.java">
+<violation beginline="47" endline="47" begincolumn="16" endcolumn="43" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business" class="WebloggerFactory" method="isBootstrapped" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `webloggerProvider != null`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/jpa/JPAPersistenceStrategy.java">
+<violation beginline="124" endline="126" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.business.jpa" class="JPAPersistenceStrategy" method="refresh" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/jpa/JPAPingTargetManagerImpl.java">
+<violation beginline="136" endline="136" begincolumn="25" endcolumn="29" rule="UnusedLocalVariable" ruleset="Best Practices" package="org.apache.roller.weblogger.business.jpa" class="JPAPingTargetManagerImpl" method="isHostnameKnown" variable="addr" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'addr'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/jpa/JPAWeblogEntryManagerImpl.java">
+<violation beginline="607" endline="608" begincolumn="16" endcolumn="57" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogEntryManagerImpl" method="isDuplicateWeblogCategoryName" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `getWeblogCategoryByName(cat.getWeblog(), cat.ge...`.
+</violation>
+<violation beginline="865" endline="865" begincolumn="25" endcolumn="39" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogEntryManagerImpl" method="getMostCommentedWeblogEntries" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `(Long) row[0]`.
+</violation>
+<violation beginline="1106" endline="1106" begincolumn="16" endcolumn="66" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogEntryManagerImpl" method="getTagComboExists" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `results != null &amp;&amp; results.size() == tags.size()`.
+</violation>
+<violation beginline="1154" endline="1154" begincolumn="44" endcolumn="56" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogEntryManagerImpl" method="updateTagCount" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `new Date()`.
+</violation>
+<violation beginline="1325" endline="1327" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogEntryManagerImpl" method="resetHitCount" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/jpa/JPAWeblogManagerImpl.java">
+<violation beginline="104" endline="104" begincolumn="36" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogManagerImpl" method="saveWeblog" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Date' is already in scope because it is imported in this file
+</violation>
+<violation beginline="685" endline="685" begincolumn="25" endcolumn="39" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.jpa" class="JPAWeblogManagerImpl" method="getMostCommentedWeblogs" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `(Long) row[0]`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/pings/PingQueueTask.java">
+<violation beginline="53" endline="53" begincolumn="29" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.pings" class="PingQueueTask" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerTaskWithLeasing': 'DEFAULT_LEASE_MINS' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="83" endline="83" begincolumn="19" endcolumn="32" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.pings" class="PingQueueTask" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'PingQueueTask': 'NAME' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/plugins/comment/LinkMarkupPlugin.java">
+<violation beginline="92" endline="92" begincolumn="57" endcolumn="74" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.comment" class="LinkMarkupPlugin" method="render" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `matcher.start()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/plugins/entry/ConvertLineBreaksPlugin.java">
+<violation beginline="54" endline="54" begincolumn="66" endcolumn="89" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="ConvertLineBreaksPlugin" method="ConvertLineBreaksPlugin" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'ConvertLineBreaksPlugin': 'VERSION' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/plugins/entry/EncodePreTagsPlugin.java">
+<violation beginline="37" endline="37" begincolumn="48" endcolumn="55" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="EncodePreTagsPlugin" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Pattern': 'compile' is already in scope
+</violation>
+<violation beginline="40" endline="40" begincolumn="49" endcolumn="56" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="EncodePreTagsPlugin" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Pattern': 'compile' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/plugins/entry/SmileysPlugin.java">
+<violation beginline="84" endline="84" begincolumn="13" endcolumn="26" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="SmileysPlugin" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'SmileysPlugin': 'smileyPatterns' is already in scope because it is declared in an enclosing type
+</violation>
+<violation beginline="87" endline="87" begincolumn="43" endcolumn="56" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="SmileysPlugin" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'SmileysPlugin': 'smileyDefs' is already in scope because it is declared in an enclosing type
+</violation>
+<violation beginline="88" endline="88" begincolumn="41" endcolumn="54" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="SmileysPlugin" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'SmileysPlugin': 'smileyDefs' is already in scope because it is declared in an enclosing type
+</violation>
+<violation beginline="91" endline="91" begincolumn="36" endcolumn="49" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="SmileysPlugin" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'SmileysPlugin': 'smileyDefs' is already in scope because it is declared in an enclosing type
+</violation>
+<violation beginline="105" endline="105" begincolumn="13" endcolumn="26" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="SmileysPlugin" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'SmileysPlugin': 'smileyPatterns' is already in scope because it is declared in an enclosing type
+</violation>
+<violation beginline="106" endline="106" begincolumn="13" endcolumn="26" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.plugins.entry" class="SmileysPlugin" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'SmileysPlugin': 'imageTags' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/runnable/ContinuousWorkerThread.java">
+<violation beginline="65" endline="65" begincolumn="17" endcolumn="23" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ContinuousWorkerThread" method="run" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Thread': 'currentThread' is already in scope
+</violation>
+<violation beginline="68" endline="68" begincolumn="13" endcolumn="24" rule="DontCallThreadRun" ruleset="Multithreading" package="org.apache.roller.weblogger.business.runnable" class="ContinuousWorkerThread" method="run" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_multithreading.html#dontcallthreadrun" priority="4">
+Dont call Thread.run() explicitly, use Thread.start()
+</violation>
+<violation beginline="73" endline="73" begincolumn="17" endcolumn="23" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ContinuousWorkerThread" method="run" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Thread': 'sleep' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/runnable/ResetHitCountsTask.java">
+<violation beginline="47" endline="47" begincolumn="28" endcolumn="38" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ResetHitCountsTask" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerTask': 'DEFAULT_INTERVAL_MINS' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="50" endline="50" begincolumn="29" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ResetHitCountsTask" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerTaskWithLeasing': 'DEFAULT_LEASE_MINS' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="80" endline="80" begincolumn="19" endcolumn="37" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ResetHitCountsTask" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'ResetHitCountsTask': 'NAME' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/runnable/RollerTaskWithLeasing.java">
+<violation beginline="68" endline="68" begincolumn="17" endcolumn="24" rule="UnnecessaryReturn" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="RollerTaskWithLeasing" method="run" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryreturn" priority="3">
+Unnecessary return statement
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/runnable/ScheduledEntriesTask.java">
+<violation beginline="57" endline="57" begincolumn="29" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ScheduledEntriesTask" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerTaskWithLeasing': 'DEFAULT_LEASE_MINS' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="87" endline="87" begincolumn="19" endcolumn="39" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="ScheduledEntriesTask" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'ScheduledEntriesTask': 'NAME' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/runnable/TaskScheduler.java">
+<violation beginline="105" endline="105" begincolumn="34" endcolumn="62" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="TaskScheduler" method="run" variable="sleepTime" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `endOfMinute.getTime() + 50`.
+</violation>
+<violation beginline="113" endline="113" begincolumn="33" endcolumn="61" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.runnable" class="TaskScheduler" method="run" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `endOfMinute.getTime() + 50`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/search/lucene/IndexUtil.java">
+<violation beginline="63" endline="65" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.business.search.lucene" class="IndexUtil" method="getTerm" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/search/lucene/LuceneIndexManager.java">
+<violation beginline="377" endline="377" begincolumn="29" endcolumn="47" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.business.search.lucene" class="LuceneIndexManager" method="createIndex" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'LuceneIndexManager': 'getAnalyzer' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/startup/DatabaseInstaller.java">
+<violation beginline="871" endline="871" begincolumn="11" endcolumn="32" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.business.startup" class="DatabaseInstaller" method="parseVersionString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/themes/SharedThemeFromDir.java">
+<violation beginline="446" endline="446" begincolumn="65" endcolumn="75" rule="UnusedFormalParameter" ruleset="Best Practices" package="org.apache.roller.weblogger.business.themes" class="SharedThemeFromDir" method="createRendition" variable="templateId" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'templateId'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/themes/SharedThemeTemplate.java">
+<violation beginline="29" endline="29" begincolumn="1" endcolumn="26" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.business.themes" class="SharedThemeTemplate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.HashMap'
+</violation>
+<violation beginline="153" endline="154" begincolumn="16" endcolumn="57" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.business.themes" class="SharedThemeTemplate" method="toString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `id + "," + name + "," + description + "," + lin...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/themes/ThemeMetadataTemplate.java">
+<violation beginline="25" endline="25" begincolumn="1" endcolumn="26" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.business.themes" class="ThemeMetadataTemplate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.HashMap'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/themes/WeblogCustomTheme.java">
+<violation beginline="162" endline="162" begincolumn="23" endcolumn="25" rule="UnusedLocalVariable" ruleset="Best Practices" package="org.apache.roller.weblogger.business.themes" class="WeblogCustomTheme" method="getResource" variable="mf" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'mf'.
+</violation>
+<violation beginline="164" endline="166" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.business.themes" class="WeblogCustomTheme" method="getResource" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/business/themes/WeblogSharedTheme.java">
+<violation beginline="254" endline="254" begincolumn="27" endcolumn="29" rule="UnusedLocalVariable" ruleset="Best Practices" package="org.apache.roller.weblogger.business.themes" class="WeblogSharedTheme" method="getResource" variable="mf" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'mf'.
+</violation>
+<violation beginline="257" endline="259" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.business.themes" class="WeblogSharedTheme" method="getResource" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/config/AuthMethod.java">
+<violation beginline="38" endline="38" begincolumn="32" endcolumn="42" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="AuthMethod" method="getAuthMethod" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'AuthMethod': 'values' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/config/WebloggerConfig.java">
+<violation beginline="208" endline="208" begincolumn="24" endcolumn="39" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerConfig" method="getBooleanProperty" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'WebloggerConfig': 'getProperty' is already in scope
+</violation>
+<violation beginline="229" endline="229" begincolumn="24" endcolumn="39" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerConfig" method="getIntProperty" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'WebloggerConfig': 'getProperty' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/config/WebloggerRuntimeConfig.java">
+<violation beginline="26" endline="26" begincolumn="1" endcolumn="47" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerRuntimeConfig" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.roller.util.RollerConstants'
+</violation>
+<violation beginline="88" endline="88" begincolumn="24" endcolumn="46" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerRuntimeConfig" method="getBooleanProperty" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'WebloggerRuntimeConfig': 'getProperty' is already in scope
+</violation>
+<violation beginline="104" endline="104" begincolumn="24" endcolumn="46" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerRuntimeConfig" method="getIntProperty" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'WebloggerRuntimeConfig': 'getProperty' is already in scope
+</violation>
+<violation beginline="222" endline="222" begincolumn="16" endcolumn="54" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerRuntimeConfig" method="isFrontPageWeblog" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `frontPageHandle.equals(weblogHandle)`.
+</violation>
+<violation beginline="235" endline="235" begincolumn="16" endcolumn="61" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.config" class="WebloggerRuntimeConfig" method="isSiteWideWeblog" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isFrontPageWeblog(weblogHandle) &amp;&amp; siteWide`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/config/runtime/PropertyDef.java">
+<violation beginline="106" endline="108" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.config.runtime" class="PropertyDef" method="setRows" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="123" endline="125" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.config.runtime" class="PropertyDef" method="setCols" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/planet/tasks/RefreshRollerPlanetTask.java">
+<violation beginline="88" endline="88" begincolumn="19" endcolumn="42" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.planet.tasks" class="RefreshRollerPlanetTask" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RefreshRollerPlanetTask': 'NAME' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/planet/tasks/SyncWebsitesTask.java">
+<violation beginline="63" endline="63" begincolumn="28" endcolumn="38" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.planet.tasks" class="SyncWebsitesTask" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerTask': 'DEFAULT_INTERVAL_MINS' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="66" endline="66" begincolumn="29" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.planet.tasks" class="SyncWebsitesTask" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerTaskWithLeasing': 'DEFAULT_LEASE_MINS' is already in scope because it is inherited by an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/GlobalPermission.java">
+<violation beginline="136" endline="136" begincolumn="21" endcolumn="34" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.weblogger.pojos" class="GlobalPermission" method="actionImplies" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'actionImplies(String, String)'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/MediaFile.java">
+<violation beginline="201" endline="201" begincolumn="18" endcolumn="25" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.weblogger.pojos" class="MediaFile" method="setTags" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'setTags(Set&lt;MediaFileTag&gt;)'.
+</violation>
+<violation beginline="348" endline="349" begincolumn="16" endcolumn="56" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="MediaFile" method="isImageFile" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `getContentType().toLowerCase().startsWith(Media...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/MediaFileComparator.java">
+<violation beginline="36" endline="36" begincolumn="65" endcolumn="66" rule="UnnecessarySemicolon" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="MediaFileComparator" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessarysemicolon" priority="3">
+Unnecessary semicolon
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/MediaFileDirectoryComparator.java">
+<violation beginline="36" endline="36" begincolumn="44" endcolumn="45" rule="UnnecessarySemicolon" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="MediaFileDirectoryComparator" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessarysemicolon" priority="3">
+Unnecessary semicolon
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/MediaFileFilter.java">
+<violation beginline="33" endline="33" begincolumn="51" endcolumn="52" rule="UnnecessarySemicolon" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="MediaFileFilter" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessarysemicolon" priority="3">
+Unnecessary semicolon
+</violation>
+<violation beginline="39" endline="39" begincolumn="56" endcolumn="57" rule="UnnecessarySemicolon" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="MediaFileFilter" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessarysemicolon" priority="3">
+Unnecessary semicolon
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/RuntimeConfigProperty.java">
+<violation beginline="86" endline="86" begincolumn="16" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="RuntimeConfigProperty" method="toString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `getName() + "=" + getValue()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/StatCountCountComparator.java">
+<violation beginline="44" endline="44" begincolumn="17" endcolumn="59" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="StatCountCountComparator" method="compare" variable="compVal" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `sc1.getCount() == sc2.getCount() ? 0 : 1`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/TagStat.java">
+<violation beginline="63" endline="63" begincolumn="16" endcolumn="32" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="TagStat" method="toString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `str.toString()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/TagStatCountComparator.java">
+<violation beginline="49" endline="49" begincolumn="17" endcolumn="59" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="TagStatCountComparator" method="compare" variable="compVal" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `st1.getCount() == st2.getCount() ? 0 : 1`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/TemplateRendition.java">
+<violation beginline="26" endline="26" begincolumn="12" endcolumn="16" rule="UnnecessaryModifier" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="RenditionType" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessarymodifier" priority="3">
+Unnecessary modifier 'public' on enum 'RenditionType': the enum is declared in an interface type
+</violation>
+<violation beginline="28" endline="28" begincolumn="12" endcolumn="16" rule="UnnecessaryModifier" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="TemplateLanguage" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessarymodifier" priority="3">
+Unnecessary modifier 'public' on enum 'TemplateLanguage': the enum is declared in an interface type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/Weblog.java">
+<violation beginline="76" endline="76" begincolumn="44" endcolumn="58" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="Weblog" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Date' is already in scope because it is imported in this file
+</violation>
+<violation beginline="217" endline="217" begincolumn="12" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="Weblog" method="getCreator" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'org.apache.roller.weblogger.pojos': 'User' is already in scope because it is declared in the same package
+</violation>
+<violation beginline="487" endline="488" begincolumn="16" endcolumn="84" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="Weblog" method="getCommentModerationRequired" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `getModerateComments() || WebloggerRuntimeConfig...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/WeblogBookmark.java">
+<violation beginline="126" endline="126" begincolumn="12" endcolumn="29" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogBookmark" method="getPriority" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.lang': 'Integer' is already in scope because it is declared in java.lang
+</violation>
+<violation beginline="130" endline="130" begincolumn="29" endcolumn="46" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogBookmark" method="setPriority" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.lang': 'Integer' is already in scope because it is declared in java.lang
+</violation>
+<violation beginline="152" endline="152" begincolumn="12" endcolumn="66" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogBookmark" method="getFolder" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'org.apache.roller.weblogger.pojos': 'WeblogBookmarkFolder' is already in scope because it is declared in the same package
+</violation>
+<violation beginline="156" endline="156" begincolumn="27" endcolumn="81" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogBookmark" method="setFolder" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'org.apache.roller.weblogger.pojos': 'WeblogBookmarkFolder' is already in scope because it is declared in the same package
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/WeblogBookmarkFolder.java">
+<violation beginline="158" endline="158" begincolumn="18" endcolumn="30" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.weblogger.pojos" class="WeblogBookmarkFolder" method="setBookmarks" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'setBookmarks(List&lt;WeblogBookmark&gt;)'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/WeblogEntry.java">
+<violation beginline="732" endline="732" begincolumn="11" endcolumn="54" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.pojos" class="WeblogEntry" method="getComments" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/WeblogEntryTag.java">
+<violation beginline="129" endline="129" begincolumn="12" endcolumn="30" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogEntryTag" method="getTime" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.sql': 'Timestamp' is already in scope because it is imported in this file
+</violation>
+<violation beginline="133" endline="133" begincolumn="25" endcolumn="43" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogEntryTag" method="setTime" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.sql': 'Timestamp' is already in scope because it is imported in this file
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/pojos/WeblogTemplate.java">
+<violation beginline="170" endline="170" begincolumn="16" endcolumn="85" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.pojos" class="WeblogTemplate" method="isRequired" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `requiredTemplates.contains(getName()) || "Weblo...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/RollerContext.java">
+<violation beginline="112" endline="112" begincolumn="9" endcolumn="22" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core" class="RollerContext" method="contextInitialized" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'RollerContext': 'servletContext' is already in scope because it is declared in an enclosing type
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/filters/BootstrapFilter.java">
+<violation beginline="76" endline="81" begincolumn="16" endcolumn="42" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core.filters" class="BootstrapFilter" method="isInstallUrl" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `uri != null &amp;&amp; (uri.endsWith("bootstrap.rol") |...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/filters/CustomOpenIDAuthenticationProcessingFilter.java">
+<violation beginline="61" endline="80" begincolumn="13" endcolumn="14" rule="EmptyControlStatement" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core.filters" class="CustomOpenIDAuthenticationProcessingFilter" method="attemptAuthentication" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#emptycontrolstatement" priority="3">
+Empty if statement
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/filters/IPBanFilter.java">
+<violation beginline="63" endline="63" begincolumn="13" endcolumn="20" rule="UnnecessaryReturn" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core.filters" class="IPBanFilter" method="doFilter" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryreturn" priority="3">
+Unnecessary return statement
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/security/CustomUserRegistry.java">
+<violation beginline="174" endline="174" begincolumn="27" endcolumn="43" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.core.security" class="CustomUserRegistry" method="getLdapAttribute" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'getLdapAttribute(Attributes, String)'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/tags/calendar/CalendarModel.java">
+<violation beginline="59" endline="59" begincolumn="24" endcolumn="38" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core.tags.calendar" class="CalendarModel" method="computeUrl" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Date' is already in scope because it is imported in this file
+</violation>
+<violation beginline="68" endline="68" begincolumn="24" endcolumn="38" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core.tags.calendar" class="CalendarModel" method="getContent" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'java.util': 'Date' is already in scope because it is imported in this file
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/core/tags/calendar/CalendarTag.java">
+<violation beginline="262" endline="262" begincolumn="16" endcolumn="19" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.ui.core.tags.calendar" class="CalendarTag" method="doStartTag" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Tag': 'SKIP_BODY' is already in scope because it is inherited by an enclosing type
+</violation>
+<violation beginline="265" endline="265" begincolumn="62" endcolumn="65" rule="UnusedFormalParameter" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.core.tags.calendar" class="CalendarTag" method="printDayNotInMonth" variable="cal" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'cal'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/WeblogRequestMapper.java">
+<violation beginline="429" endline="431" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering" class="WeblogRequestMapper" method="isWeblog" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/model/PageModel.java">
+<violation beginline="139" endline="139" begincolumn="16" endcolumn="55" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.model" class="PageModel" method="isPermalink" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `pageRequest.getWeblogAnchor() != null`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/model/PreviewPageModel.java">
+<violation beginline="75" endline="76" begincolumn="16" endcolumn="58" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.model" class="PreviewPageModel" method="isPermalink" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `previewRequest.getPreviewEntry() != null || pre...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/model/SearchResultsFeedModel.java">
+<violation beginline="139" endline="139" begincolumn="5" endcolumn="30" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.model" class="SearchResultsFeedModel" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `hits &gt; (offset + limit)`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/model/SearchResultsModel.java">
+<violation beginline="121" endline="121" begincolumn="41" endcolumn="66" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.model" class="SearchResultsModel" method="init" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `hits &gt; (offset + limit)`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/model/UtilitiesModel.java">
+<violation beginline="106" endline="106" begincolumn="16" endcolumn="58" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.model" class="UtilitiesModel" method="isUserAuthenticated" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `parsedRequest.getAuthenticUser() != null`.
+</violation>
+<violation beginline="238" endline="238" begincolumn="20" endcolumn="27" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.rendering.model" class="UtilitiesModel" method="replace" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'replace(String, Pattern, String)'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/pagers/CommentsPager.java">
+<violation beginline="141" endline="141" begincolumn="36" endcolumn="55" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.pagers" class="CommentsPager" method="getLastUpdated" variable="newest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `getItems().get(0)`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/pagers/WeblogEntriesListPager.java">
+<violation beginline="155" endline="155" begincolumn="36" endcolumn="55" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.pagers" class="WeblogEntriesListPager" method="getLastUpdated" variable="newest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `getItems().get(0)`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/plugins/comments/LdapCommentAuthenticator.java">
+<violation beginline="179" endline="179" begincolumn="6" endcolumn="47" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="LdapCommentAuthenticator" method="validateUsernamePass" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `ldapUser != null &amp;&amp; !ldapUser.isEmpty()`.
+</violation>
+<violation beginline="180" endline="180" begincolumn="8" endcolumn="49" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="LdapCommentAuthenticator" method="validateUsernamePass" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `ldapPass != null &amp;&amp; !ldapPass.isEmpty()`.
+</violation>
+<violation beginline="198" endline="198" begincolumn="6" endcolumn="43" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="LdapCommentAuthenticator" method="validateRollerProperties" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `ldapDc != null &amp;&amp; !ldapDc.isEmpty()`.
+</violation>
+<violation beginline="199" endline="199" begincolumn="8" endcolumn="45" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="LdapCommentAuthenticator" method="validateRollerProperties" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `ldapOu != null &amp;&amp; !ldapOu.isEmpty()`.
+</violation>
+<violation beginline="200" endline="200" begincolumn="8" endcolumn="49" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="LdapCommentAuthenticator" method="validateRollerProperties" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `ldapPort != null &amp;&amp; !ldapPort.isEmpty()`.
+</violation>
+<violation beginline="201" endline="201" begincolumn="8" endcolumn="49" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="LdapCommentAuthenticator" method="validateRollerProperties" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `ldapHost != null &amp;&amp; !ldapHost.isEmpty()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/plugins/comments/MathCommentAuthenticator.java">
+<violation beginline="58" endline="58" begincolumn="15" endcolumn="68" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="MathCommentAuthenticator" method="getHtml" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/plugins/comments/TrackbackLinkbackCommentValidator.java">
+<violation beginline="64" endline="65" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="TrackbackLinkbackCommentValidator" method="validate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="65" endline="65" begincolumn="11" endcolumn="42" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.plugins.comments" class="TrackbackLinkbackCommentValidator" method="validate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/servlets/CommentServlet.java">
+<violation beginline="374" endline="374" begincolumn="49" endcolumn="97" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.servlets" class="CommentServlet" method="doPost" variable="notifySubscribers" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `validationScore == RollerConstants.PERCENT_100`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/servlets/FeedServlet.java">
+<violation beginline="200" endline="200" begincolumn="25" endcolumn="37" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.servlets" class="FeedServlet" method="doGet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isSiteWide`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/servlets/PageServlet.java">
+<violation beginline="21" endline="21" begincolumn="1" endcolumn="39" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.servlets" class="PageServlet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.net.MalformedURLException'
+</violation>
+<violation beginline="22" endline="22" begincolumn="1" endcolumn="21" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.servlets" class="PageServlet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.net.URL'
+</violation>
+<violation beginline="278" endline="280" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.servlets" class="PageServlet" method="doGet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="394" endline="394" begincolumn="25" endcolumn="37" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.servlets" class="PageServlet" method="doGet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isSiteWide`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/ModDateHeaderUtil.java">
+<violation beginline="101" endline="101" begincolumn="48" endcolumn="74" rule="UnusedNullCheckInEquals" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util" class="ModDateHeaderUtil" method="respondIfNotModified" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#unusednullcheckinequals" priority="3">
+Invoke equals() on the object you've already ensured is not null
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/ParsedRequest.java">
+<violation beginline="113" endline="113" begincolumn="16" endcolumn="44" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.util" class="ParsedRequest" method="isLoggedIn" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `this.authenticUser != null`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/WeblogEntryCommentForm.java">
+<violation beginline="71" endline="71" begincolumn="16" endcolumn="45" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogEntryCommentForm" method="isPreview" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `this.previewComment != null`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/WeblogFeedRequest.java">
+<violation beginline="147" endline="149" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogFeedRequest" method="WeblogFeedRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/WeblogPageRequest.java">
+<violation beginline="244" endline="246" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogPageRequest" method="WeblogPageRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="271" endline="271" begincolumn="16" endcolumn="65" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogPageRequest" method="isValidDestination" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `servlet != null &amp;&amp; PAGE_SERVLET.equals(servlet)`.
+</violation>
+<violation beginline="276" endline="277" begincolumn="16" endcolumn="61" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogPageRequest" method="isValidDateString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `dateString != null &amp;&amp; StringUtils.isNumeric(dat...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/WeblogPreviewRequest.java">
+<violation beginline="81" endline="81" begincolumn="16" endcolumn="68" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogPreviewRequest" method="isValidDestination" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `servlet != null &amp;&amp; PREVIEW_SERVLET.equals(servlet)`.
+</violation>
+<violation beginline="111" endline="113" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogPreviewRequest" method="getTheme" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/WeblogPreviewResourceRequest.java">
+<violation beginline="91" endline="93" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogPreviewResourceRequest" method="getTheme" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/WeblogSearchRequest.java">
+<violation beginline="92" endline="94" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util" class="WeblogSearchRequest" method="WeblogSearchRequest" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/cache/PlanetCache.java">
+<violation beginline="88" endline="90" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.util.cache" class="PlanetCache" method="PlanetCache" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/cache/SiteWideCache.java">
+<violation beginline="222" endline="226" begincolumn="17" endcolumn="18" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.rendering.util.cache" class="SiteWideCache" method="generateKey" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/util/cache/WeblogPageCache.java">
+<violation beginline="193" endline="197" begincolumn="17" endcolumn="18" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.rendering.util.cache" class="WeblogPageCache" method="generateKey" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/velocity/VelocityRendererFactory.java">
+<violation beginline="65" endline="67" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.rendering.velocity" class="VelocityRendererFactory" method="getRenderer" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/rendering/velocity/WebappResourceLoader.java">
+<violation beginline="273" endline="273" begincolumn="11" endcolumn="68" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.rendering.velocity" class="WebappResourceLoader" method="isSourceModified" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `cachedFile.lastModified() != resource.getLastMo...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/CacheInfo.java">
+<violation beginline="27" endline="27" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="CacheInfo" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/CreateUserBean.java">
+<violation beginline="187" endline="187" begincolumn="11" endcolumn="43" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.admin" class="CreateUserBean" method="copyFrom" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/GlobalCommentManagement.java">
+<violation beginline="44" endline="44" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="GlobalCommentManagement" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/GlobalCommentManagementBean.java">
+<violation beginline="90" endline="90" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.admin" class="GlobalCommentManagementBean" method="getStartDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="101" endline="101" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.admin" class="GlobalCommentManagementBean" method="getEndDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/GlobalConfig.java">
+<violation beginline="216" endline="221" begincolumn="20" endcolumn="14" rule="EmptyControlStatement" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="GlobalConfig" method="save" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#emptycontrolstatement" priority="3">
+Empty if statement
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/PingTargetEdit.java">
+<violation beginline="29" endline="29" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="PingTargetEdit" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+<violation beginline="119" endline="121" begincolumn="21" endcolumn="22" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.struts2.admin" class="PingTargetEdit" method="myValidate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/PingTargets.java">
+<violation beginline="32" endline="32" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="PingTargets" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/UserAdmin.java">
+<violation beginline="21" endline="21" begincolumn="1" endcolumn="28" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="UserAdmin" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.ArrayList'
+</violation>
+<violation beginline="29" endline="29" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="UserAdmin" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/admin/UserEdit.java">
+<violation beginline="265" endline="265" begincolumn="38" endcolumn="85" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.admin" class="UserEdit" method="myValidate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `user.getUserName().equals(bean.getUserName())`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/CreateWeblog.java">
+<violation beginline="36" endline="36" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="CreateWeblog" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/Install.java">
+<violation beginline="199" endline="201" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.core" class="Install" method="getDatabaseProductName" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="205" endline="206" begincolumn="19" endcolumn="18" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.core" class="Install" method="getDatabaseProductName" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/Login.java">
+<violation beginline="24" endline="24" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="Login" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/MainMenu.java">
+<violation beginline="32" endline="32" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="MainMenu" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/OAuthAuthorize.java">
+<violation beginline="25" endline="25" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="OAuthAuthorize" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+<violation beginline="57" endline="57" begincolumn="18" endcolumn="20" rule="UnusedLocalVariable" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.struts2.core" class="OAuthAuthorize" method="execute" variable="ud" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'ud'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/OAuthKeys.java">
+<violation beginline="29" endline="29" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="OAuthKeys" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/Profile.java">
+<violation beginline="149" endline="149" begincolumn="38" endcolumn="85" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="Profile" method="myValidate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `user.getUserName().equals(bean.getUserName())`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/Register.java">
+<violation beginline="40" endline="40" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="Register" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+<violation beginline="156" endline="160" begincolumn="17" endcolumn="18" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.struts2.core" class="Register" method="execute" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/core/Setup.java">
+<violation beginline="31" endline="31" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.core" class="Setup" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Bookmarks.java">
+<violation beginline="35" endline="35" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Bookmarks" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/BookmarksImport.java">
+<violation beginline="34" endline="34" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="BookmarksImport" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Categories.java">
+<violation beginline="31" endline="31" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Categories" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/CategoryRemove.java">
+<violation beginline="35" endline="35" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="CategoryRemove" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Comments.java">
+<violation beginline="50" endline="50" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Comments" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/CommentsBean.java">
+<violation beginline="100" endline="100" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.editor" class="CommentsBean" method="getStartDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="111" endline="111" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.editor" class="CommentsBean" method="getEndDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Entries.java">
+<violation beginline="39" endline="39" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Entries" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/EntriesBean.java">
+<violation beginline="62" endline="62" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.editor" class="EntriesBean" method="getStartDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="72" endline="72" begincolumn="15" endcolumn="37" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.editor" class="EntriesBean" method="getEndDate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/EntryAddWithMediaFile.java">
+<violation beginline="26" endline="26" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="EntryAddWithMediaFile" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/EntryEdit.java">
+<violation beginline="60" endline="60" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="EntryEdit" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/EntryRemove.java">
+<violation beginline="31" endline="31" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="EntryRemove" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/FolderEdit.java">
+<violation beginline="31" endline="31" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="FolderEdit" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+<violation beginline="149" endline="151" begincolumn="13" endcolumn="14" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.struts2.editor" class="FolderEdit" method="myValidate" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MediaFileAdd.java">
+<violation beginline="107" endline="109" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileAdd" method="myPrepare" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MediaFileBase.java">
+<violation beginline="104" endline="104" begincolumn="18" endcolumn="24" rule="UnusedLocalVariable" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileBase" method="doDeleteSelected" variable="dirIds" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'dirIds'.
+</violation>
+<violation beginline="140" endline="140" begincolumn="18" endcolumn="24" rule="UnusedLocalVariable" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileBase" method="doMoveSelected" variable="dirIds" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'dirIds'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MediaFileEdit.java">
+<violation beginline="32" endline="32" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileEdit" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MediaFileImageChooser.java">
+<violation beginline="25" endline="25" begincolumn="1" endcolumn="61" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileImageChooser" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.roller.weblogger.business.FileIOException'
+</violation>
+<violation beginline="36" endline="36" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileImageChooser" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MediaFileImageDim.java">
+<violation beginline="26" endline="26" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileImageDim" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MediaFileView.java">
+<violation beginline="39" endline="39" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MediaFileView" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MemberResign.java">
+<violation beginline="30" endline="30" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MemberResign" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Members.java">
+<violation beginline="103" endline="106" begincolumn="25" endcolumn="26" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.struts2.editor" class="Members" method="save" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+<violation beginline="119" endline="131" begincolumn="21" endcolumn="22" rule="CollapsibleIfStatements" ruleset="Design" package="org.apache.roller.weblogger.ui.struts2.editor" class="Members" method="save" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#collapsibleifstatements" priority="3">
+This if statement could be combined with its parent
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/MembersInvite.java">
+<violation beginline="33" endline="33" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="MembersInvite" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Pings.java">
+<violation beginline="31" endline="31" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Pings" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/StylesheetEdit.java">
+<violation beginline="130" endline="132" begincolumn="11" endcolumn="10" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.editor" class="StylesheetEdit" method="copyStylesheet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="342" endline="342" begincolumn="16" endcolumn="79" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="StylesheetEdit" method="isCustomTheme" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `WeblogTheme.CUSTOM.equals(getActionWeblog().get...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/TemplateEdit.java">
+<violation beginline="30" endline="30" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="TemplateEdit" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/TemplateEditBean.java">
+<violation beginline="230" endline="230" begincolumn="16" endcolumn="45" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="TemplateEditBean" method="isMobile" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `id.equals(mobileTemplateId)`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/Templates.java">
+<violation beginline="34" endline="34" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Templates" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+<violation beginline="300" endline="300" begincolumn="16" endcolumn="79" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="Templates" method="isCustomTheme" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `WeblogTheme.CUSTOM.equals(getActionWeblog().get...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/ThemeEdit.java">
+<violation beginline="40" endline="40" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="ThemeEdit" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+<violation beginline="138" endline="138" begincolumn="50" endcolumn="130" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="ThemeEdit" method="save" variable="skipStylesheet" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `sharedThemeCustomStylesheet &amp;&amp; selectedThemeId....`.
+</violation>
+<violation beginline="230" endline="230" begincolumn="16" endcolumn="79" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="ThemeEdit" method="isCustomTheme" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `WeblogTheme.CUSTOM.equals(getActionWeblog().get...`.
+</violation>
+<violation beginline="236" endline="240" begincolumn="20" endcolumn="59" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="ThemeEdit" method="isFirstCustomization" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `WebloggerFactory.getWeblogger().getWeblogManage...`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/WeblogConfig.java">
+<violation beginline="42" endline="42" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="WeblogConfig" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/WeblogConfigBean.java">
+<violation beginline="22" endline="22" begincolumn="1" endcolumn="50" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="WeblogConfigBean" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.commons.text.StringEscapeUtils'
+</violation>
+<violation beginline="45" endline="45" begincolumn="20" endcolumn="34" rule="UnusedPrivateField" ruleset="Best Practices" package="org.apache.roller.weblogger.ui.struts2.editor" class="WeblogConfigBean" variable="defaultPlugins" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'defaultPlugins'.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/editor/WeblogRemove.java">
+<violation beginline="26" endline="26" begincolumn="1" endcolumn="64" rule="UnnecessaryImport" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.editor" class="WeblogRemove" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'org.apache.struts2.convention.annotation.AllowedMethods'
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/pagers/MediaFilePager.java">
+<violation beginline="59" endline="59" begincolumn="13" endcolumn="41" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.pagers" class="MediaFilePager" method="isJustOnePage" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `pageNum == 0 &amp;&amp; !moreItems`.
+</violation>
+<violation beginline="67" endline="67" begincolumn="13" endcolumn="26" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.struts2.pagers" class="MediaFilePager" method="hasPrevious" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `pageNum &gt; 0`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/struts2/util/UIAction.java">
+<violation beginline="142" endline="142" begincolumn="11" endcolumn="33" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.ui.struts2.util" class="UIAction" method="isUserIsAdmin" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="180" endline="180" begincolumn="16" endcolumn="64" rule="SimplifiedTernary" ruleset="Design" package="org.apache.roller.weblogger.ui.struts2.util" class="UIAction" method="getBooleanProp" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#simplifiedternary" priority="3">
+This conditional expression can be simplified with || or &amp;&amp;
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/ui/tags/StringTagSupport.java">
+<violation beginline="105" endline="105" begincolumn="16" endcolumn="27" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.ui.tags" class="StringTagSupport" method="doEndTag" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `EVAL_PAGE`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/HTMLSanitizer.java">
+<violation beginline="97" endline="97" begincolumn="19" endcolumn="32" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="HTMLSanitizer" method="conditionallySanitize" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'HTMLSanitizer': 'sanitize' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/IPBanList.java">
+<violation beginline="107" endline="107" begincolumn="17" endcolumn="68" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="IPBanList" method="addBannedIp" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bannedIpsFile != null &amp;&amp; bannedIpsFile.canWrite()`.
+</violation>
+<violation beginline="135" endline="135" begincolumn="17" endcolumn="45" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="IPBanList" method="loadBannedIpsIfNeeded" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bannedIpsFile.hasChanged()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/LinkbackExtractor.java">
+<violation beginline="106" endline="111" begincolumn="25" endcolumn="11" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="LinkbackExtractor" method="extractByParsingHtml" variable="parser" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `new HTMLEditorKit()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/MailUtil.java">
+<violation beginline="133" endline="133" begincolumn="13" endcolumn="21" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendPendingEntryNotice" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'MailUtil': 'sendTextMessage' is already in scope
+</violation>
+<violation beginline="188" endline="188" begincolumn="13" endcolumn="21" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendWeblogInvitation" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'MailUtil': 'sendTextMessage' is already in scope
+</violation>
+<violation beginline="331" endline="331" begincolumn="20" endcolumn="33" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="334" endline="334" begincolumn="20" endcolumn="33" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="337" endline="337" begincolumn="20" endcolumn="33" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="340" endline="340" begincolumn="20" endcolumn="33" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="357" endline="357" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="359" endline="359" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="360" endline="360" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="364" endline="364" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="367" endline="367" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="370" endline="370" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="375" endline="375" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="377" endline="377" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="378" endline="378" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="382" endline="382" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="385" endline="385" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="388" endline="388" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="393" endline="393" begincolumn="29" endcolumn="42" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="399" endline="399" begincolumn="33" endcolumn="46" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="403" endline="403" begincolumn="29" endcolumn="42" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `isPlainText`.
+</violation>
+<violation beginline="426" endline="426" begincolumn="21" endcolumn="91" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="MailUtil" method="sendEmailNotification" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `StringUtils.equals(commentObject.getEmail()...)`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/Reflection.java">
+<violation beginline="51" endline="51" begincolumn="30" endcolumn="40" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Reflection" method="newInstances" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Reflection': 'newInstance' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/Trackback.java">
+<violation beginline="186" endline="186" begincolumn="15" endcolumn="63" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.util" class="Trackback" method="parseTrackbackResponse" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/Utilities.java">
+<violation beginline="206" endline="206" begincolumn="20" endcolumn="29" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="removeAndEscapeHTML" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Utilities': 'escapeHTML' is already in scope
+</violation>
+<violation beginline="206" endline="206" begincolumn="41" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="removeAndEscapeHTML" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Utilities': 'removeHTML' is already in scope
+</violation>
+<violation beginline="376" endline="377" begincolumn="15" endcolumn="14" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.util" class="Utilities" method="copyFile" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="424" endline="425" begincolumn="19" endcolumn="18" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.util" class="Utilities" method="copyInputToOutput" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="442" endline="443" begincolumn="19" endcolumn="18" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.util" class="Utilities" method="copyInputToOutput" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="540" endline="540" begincolumn="16" endcolumn="35" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="encodeString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `encodedStr.trim()`.
+</violation>
+<violation beginline="553" endline="553" begincolumn="16" endcolumn="23" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="decodeString" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `value`.
+</violation>
+<violation beginline="612" endline="612" begincolumn="24" endcolumn="54" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="truncateNicely" variable="diff" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `str2.length() &lt; str.length()`.
+</violation>
+<violation beginline="737" endline="737" begincolumn="27" endcolumn="48" rule="UnusedPrivateMethod" ruleset="Best Practices" package="org.apache.roller.weblogger.util" class="Utilities" method="removeVisibleHTMLTags" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'removeVisibleHTMLTags(String)'.
+</violation>
+<violation beginline="883" endline="883" begincolumn="21" endcolumn="29" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="toBase64" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bByte2`.
+</violation>
+<violation beginline="884" endline="884" begincolumn="21" endcolumn="29" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="toBase64" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bByte3`.
+</violation>
+<violation beginline="889" endline="890" begincolumn="23" endcolumn="50" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="toBase64" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bByte2 ? strBase64Chars.charAt((byte3 / 64) + (...`.
+</violation>
+<violation beginline="889" endline="889" begincolumn="24" endcolumn="32" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="toBase64" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bByte2`.
+</violation>
+<violation beginline="891" endline="891" begincolumn="23" endcolumn="77" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="toBase64" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bByte3 ? strBase64Chars.charAt(byte3 &amp; 0x3F) : '='`.
+</violation>
+<violation beginline="891" endline="891" begincolumn="24" endcolumn="32" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="toBase64" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `bByte3`.
+</violation>
+<violation beginline="928" endline="928" begincolumn="15" endcolumn="24" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="Utilities" method="normalizeTag" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'Utilities': 'stripInvalidTagCharacters' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/WSSEUtilities.java">
+<violation beginline="61" endline="61" begincolumn="24" endcolumn="37" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="WSSEUtilities" method="generateWSSEHeader" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'WSSEUtilities': 'base64Encode' is already in scope
+</violation>
+<violation beginline="66" endline="66" begincolumn="25" endcolumn="38" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="org.apache.roller.weblogger.util" class="WSSEUtilities" method="generateWSSEHeader" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'WSSEUtilities': 'generateDigest' is already in scope
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/cache/ExpiringCacheEntry.java">
+<violation beginline="75" endline="75" begincolumn="16" endcolumn="56" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util.cache" class="ExpiringCacheEntry" method="hasExpired" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `(this.timeCached + this.timeout) &lt; now`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/util/cache/LazyExpiringCacheEntry.java">
+<violation beginline="76" endline="76" begincolumn="16" endcolumn="51" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.util.cache" class="LazyExpiringCacheEntry" method="isInvalid" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `this.timeCached &lt; lastInvalidated`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/webservices/atomprotocol/MediaCollection.java">
+<violation beginline="253" endline="253" begincolumn="19" endcolumn="47" rule="EmptyCatchBlock" ruleset="Error Prone" package="org.apache.roller.weblogger.webservices.atomprotocol" class="MediaCollection" method="getCollection" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_errorprone.html#emptycatchblock" priority="3">
+Avoid empty catch blocks
+</violation>
+<violation beginline="317" endline="317" begincolumn="56" endcolumn="80" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.webservices.atomprotocol" class="MediaCollection" method="getCollection" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `sortedResources.length`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/webservices/atomprotocol/RollerAtomHandler.java">
+<violation beginline="508" endline="508" begincolumn="28" endcolumn="48" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.webservices.atomprotocol" class="RollerAtomHandler" method="authenticationOAUTH" variable="realm" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `request.isSecure()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/webservices/oauth/AccessTokenServlet.java">
+<violation beginline="94" endline="94" begincolumn="24" endcolumn="44" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.webservices.oauth" class="AccessTokenServlet" method="handleException" variable="realm" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `request.isSecure()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/webservices/oauth/AuthorizationServlet.java">
+<violation beginline="163" endline="163" begincolumn="24" endcolumn="44" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.webservices.oauth" class="AuthorizationServlet" method="handleException" variable="realm" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `request.isSecure()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/webservices/oauth/RequestTokenServlet.java">
+<violation beginline="106" endline="106" begincolumn="24" endcolumn="44" rule="UselessParentheses" ruleset="Code Style" package="org.apache.roller.weblogger.webservices.oauth" class="RequestTokenServlet" method="handleException" variable="realm" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#uselessparentheses" priority="4">
+Useless parentheses around `request.isSecure()`.
+</violation>
+</file>
+<file name="/Users/va/SE assignment 1/project-1-team-33/app/src/main/java/org/apache/roller/weblogger/webservices/xmlrpc/MetaWeblogAPIHandler.java">
+<violation beginline="456" endline="456" begincolumn="82" endcolumn="88" rule="UnusedFormalParameter" ruleset="Best Practices" package="org.apache.roller.weblogger.webservices.xmlrpc" class="MetaWeblogAPIHandler" method="createPostStruct" variable="userid" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'userid'.
+</violation>
+<violation beginline="491" endline="491" begincolumn="92" endcolumn="98" rule="UnusedFormalParameter" ruleset="Best Practices" package="org.apache.roller.weblogger.webservices.xmlrpc" class="MetaWeblogAPIHandler" method="createCategoryStruct" variable="userid" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'userid'.
+</violation>
+</file>
+</pmd>

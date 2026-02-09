@@ -1,0 +1,6 @@
+package,smell_count
+org/apache/roller/weblogger,1097
+org/apache/roller/planet,41
+org/apache/roller/util,9
+org/apache/roller/testutils,6
+org/apache/roller/RollerException.java,2
