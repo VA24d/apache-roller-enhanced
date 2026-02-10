@@ -42,14 +42,15 @@ public final class IndexUtil {
      *            The lucene document field to create a term with
      * @param input
      *            The input you wish to convert into a term
+     * @param analyzer
+     *            The Lucene analyzer to use for tokenization
      * 
      * @return Lucene search term
      */
-    public static Term getTerm(String field, String input) {
+    public static Term getTerm(String field, String input, Analyzer analyzer) {
         if (input == null || field == null) {
             return null;
         }
-        Analyzer analyzer = LuceneIndexManager.getAnalyzer();
         Term term = null;
         try {
             TokenStream tokens = analyzer.tokenStream(field, new StringReader(input));
