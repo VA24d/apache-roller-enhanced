@@ -124,15 +124,16 @@ public class CreateWeblog extends UIAction {
         
         if(!hasActionErrors()) {
             
-            Weblog wd = new Weblog(
-                    getBean().getHandle(),
-                    user.getUserName(),
-                    getBean().getName(),
-                    getBean().getDescription(),
-                    getBean().getEmailAddress(),
-                    getBean().getTheme(),
-                    getBean().getLocale(),
-                    getBean().getTimeZone());
+                Weblog wd = Weblog.builder()
+                    .handle(getBean().getHandle())
+                    .creator(user.getUserName())
+                    .name(getBean().getName())
+                    .tagline(getBean().getDescription())
+                    .emailAddress(getBean().getEmailAddress())
+                    .editorTheme(getBean().getTheme())
+                    .locale(getBean().getLocale())
+                    .timeZone(getBean().getTimeZone())
+                    .build();
             
             // pick a weblog editor for this weblog
             String def = WebloggerRuntimeConfig.getProperty("users.editor.pages");
