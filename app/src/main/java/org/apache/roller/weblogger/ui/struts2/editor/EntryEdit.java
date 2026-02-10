@@ -30,7 +30,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
@@ -342,7 +342,7 @@ public final class EntryEdit extends UIAction {
                 addMessage("weblogEdit.publishedEntry");
                 break;
             case SCHEDULED:
-                addMessage("weblogEdit.scheduledEntry", DateUtil.fullDate(getEntry().getPubTime()));
+                addMessage("weblogEdit.scheduledEntry", DateFormatUtil.fullDate(getEntry().getPubTime()));
                 break;
             case PENDING:
                 addMessage("weblogEdit.submittedForReview");

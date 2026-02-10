@@ -49,7 +49,8 @@ import org.apache.roller.weblogger.pojos.WeblogEntryTag;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogEntryAttribute;
 import org.apache.roller.weblogger.pojos.StatCountCountComparator;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.jpa.constants.WeblogEntryQueryConstants;
 import org.apache.roller.weblogger.business.jpa.search.CommentSearchParams;
@@ -784,7 +785,7 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
         }
 
         for (WeblogEntry entry : entries) {
-            Date sDate = DateUtil.getNoonOfDay(entry.getPubTime(), cal);
+            Date sDate = DateBoundaryUtil.getNoonOfDay(entry.getPubTime(), cal);
             List<WeblogEntry> dayEntries = map.computeIfAbsent(sDate, k -> new ArrayList<>());
             dayEntries.add(entry);
         }
@@ -801,7 +802,7 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
         List<WeblogEntry> entries = getWeblogEntries(wesc);
 
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat formatter = DateUtil.get8charDateFormat();
+        SimpleDateFormat formatter = DateFormatUtil.get8charDateFormat();
         if (wesc.getWeblog() != null) {
             TimeZone tz = wesc.getWeblog().getTimeZoneInstance();
             cal.setTimeZone(tz);
@@ -809,7 +810,7 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
         }
 
         for (WeblogEntry entry : entries) {
-            Date sDate = DateUtil.getNoonOfDay(entry.getPubTime(), cal);
+            Date sDate = DateBoundaryUtil.getNoonOfDay(entry.getPubTime(), cal);
             if (map.get(sDate) == null) {
                 map.put(sDate, formatter.format(sDate));
             }

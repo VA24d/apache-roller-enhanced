@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.business.WebloggerFactory;
@@ -126,7 +126,7 @@ public class SearchResultsModel extends PageModel {
 		WeblogEntryWrapper entry) {
 
 		// convert entry's each date to midnight (00m 00h 00s)
-		Date midnight = DateUtil.getStartOfDay(entry.getPubTime());
+		Date midnight = DateBoundaryUtil.getStartOfDay(entry.getPubTime());
 
 		// ensure we do not get duplicates from Lucene by
 		// using a Set Collection. Entries sorted by pubTime.
