@@ -51,6 +51,9 @@ import org.apache.roller.weblogger.pojos.WeblogEntryAttribute;
 import org.apache.roller.weblogger.pojos.StatCountCountComparator;
 import org.apache.roller.util.DateUtil;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.jpa.constants.WeblogEntryQueryConstants;
+import org.apache.roller.weblogger.business.jpa.search.CommentSearchParams;
+import org.apache.roller.weblogger.business.jpa.search.NextPrevEntryParams;
 
 
 /**
@@ -295,11 +298,10 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
         this.entryAnchorToIdMap.remove(entry.getWebsite().getHandle()+":"+entry.getAnchor());
     }
     
-    private List<WeblogEntry> getNextPrevEntries(WeblogEntry current, String catName,
-            String locale, int maxEntries, boolean next)
+    private List<WeblogEntry> getNextPrevEntries(NextPrevEntryParams params)
             throws WebloggerException {
 
-		if (current == null) {
+		if (params.getCurrent() == null) {
 			LOG.debug("current WeblogEntry cannot be null");
 			return Collections.emptyList();
 		}
@@ -307,53 +309,53 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
         TypedQuery<WeblogEntry> query;
         WeblogCategory category;
         
-        List<Object> params = new ArrayList<>();
+        List<Object> queryParams = new ArrayList<>();
         int size = 0;
         String queryString = "SELECT e FROM WeblogEntry e WHERE ";
         StringBuilder whereClause = new StringBuilder();
 
-        params.add(size++, current.getWebsite());
+        queryParams.add(size++, params.getCurrent().getWebsite());
         whereClause.append("e.website = ?").append(size);
         
-        params.add(size++, PubStatus.PUBLISHED);
+        queryParams.add(size++, PubStatus.PUBLISHED);
         whereClause.append(" AND e.status = ?").append(size);
                 
-        if (next) {
-            params.add(size++, current.getPubTime());
+        if (params.isFindNext()) {
+            queryParams.add(size++, params.getCurrent().getPubTime());
             whereClause.append(" AND e.pubTime > ?").append(size);
         } else {
             // pub time null if current article not yet published, in Draft view
-            if (current.getPubTime() != null) {
-                params.add(size++, current.getPubTime());
+            if (params.getCurrent().getPubTime() != null) {
+                queryParams.add(size++, params.getCurrent().getPubTime());
                 whereClause.append(" AND e.pubTime < ?").append(size);
             }
         }
         
-        if (catName != null) {
-            category = getWeblogCategoryByName(current.getWebsite(), catName);
+        if (params.hasCategory()) {
+            category = getWeblogCategoryByName(params.getCurrent().getWebsite(), params.getCategoryName());
             if (category != null) {
-                params.add(size++, category);
+                queryParams.add(size++, category);
                 whereClause.append(" AND e.category = ?").append(size);
             } else {
-                throw new WebloggerException("Cannot find category: " + catName);
+                throw new WebloggerException("Cannot find category: " + params.getCategoryName());
             } 
         }
         
-        if(locale != null) {
-            params.add(size++, locale + '%');
+        if (params.hasLocale()) {
+            queryParams.add(size++, params.getLocale() + '%');
             whereClause.append(" AND e.locale like ?").append(size);
         }
         
-        if (next) {
+        if (params.isFindNext()) {
             whereClause.append(" ORDER BY e.pubTime ASC");
         } else {
             whereClause.append(" ORDER BY e.pubTime DESC");
         }
         query = strategy.getDynamicQuery(queryString + whereClause.toString(), WeblogEntry.class);
-        for (int i=0; i<params.size(); i++) {
-            query.setParameter(i+1, params.get(i));
+        for (int i=0; i<queryParams.size(); i++) {
+            query.setParameter(i+1, queryParams.get(i));
         }
-        query.setMaxResults(maxEntries);
+        query.setMaxResults(params.getMaxEntries());
         
         return query.getResultList();
     }
@@ -688,25 +690,29 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
      * @inheritDoc
      */
     @Override
-    public int removeMatchingComments(
-            Weblog     weblog,
-            WeblogEntry entry,
-            String  searchString,
-            Date    startDate,
-            Date    endDate,
-            ApprovalStatus status) throws WebloggerException {
+    public int removeMatchingComments(CommentSearchParams searchParams) throws WebloggerException {
         
         // TODO dynamic bulk delete query: I'd MUCH rather use a bulk delete,
         // but MySQL says "General error, message from server: "You can't
         // specify target table 'roller_comment' for update in FROM clause"
         
         CommentSearchCriteria csc = new CommentSearchCriteria();
-        csc.setWeblog(weblog);
-        csc.setEntry(entry);
-        csc.setSearchText(searchString);
-        csc.setStartDate(startDate);
-        csc.setEndDate(endDate);
-        csc.setStatus(status);
+        csc.setWeblog(searchParams.getWeblog());
+        if (searchParams.hasEntry()) {
+            csc.setEntry(searchParams.getEntry());
+        }
+        if (searchParams.hasSearchString()) {
+            csc.setSearchText(searchParams.getSearchString());
+        }
+        if (searchParams.hasStartDate()) {
+            csc.setStartDate(searchParams.getStartDate());
+        }
+        if (searchParams.hasEndDate()) {
+            csc.setEndDate(searchParams.getEndDate());
+        }
+        if (searchParams.hasStatus()) {
+            csc.setStatus(searchParams.getStatus());
+        }
 
         List<WeblogEntryComment> comments = getComments(csc);
         int count = 0;
@@ -858,12 +864,12 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
             for (Object obj : queryResults) {
                 Object[] row = (Object[]) obj;
                 StatCount sc = new StatCount(
-                        (String)row[1],                             // weblog handle
-                        (String)row[2],                             // entry anchor
-                        (String)row[3],                             // entry title
-                        "statCount.weblogEntryCommentCountType",    // stat desc
-                        ((Long)row[0]));                            // count
-                sc.setWeblogHandle((String)row[1]);
+                        (String)row[WeblogEntryQueryConstants.RESULT_HANDLE],    // weblog handle
+                        (String)row[WeblogEntryQueryConstants.RESULT_ANCHOR],    // entry anchor
+                        (String)row[WeblogEntryQueryConstants.RESULT_TITLE],     // entry title
+                        "statCount.weblogEntryCommentCountType",                 // stat desc
+                        ((Long)row[WeblogEntryQueryConstants.RESULT_COUNT]));    // count
+                sc.setWeblogHandle((String)row[WeblogEntryQueryConstants.RESULT_HANDLE]);
                 results.add(sc);
             }
         }
@@ -881,7 +887,8 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
     public WeblogEntry getNextEntry(WeblogEntry current,
             String catName, String locale) throws WebloggerException {
         WeblogEntry entry = null;
-        List<WeblogEntry> entryList = getNextPrevEntries(current, catName, locale, 1, true);
+        NextPrevEntryParams params = new NextPrevEntryParams(current, catName, locale, 1, true);
+        List<WeblogEntry> entryList = getNextPrevEntries(params);
         if (entryList != null && !entryList.isEmpty()) {
             entry = entryList.get(0);
         }
@@ -895,7 +902,8 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
     public WeblogEntry getPreviousEntry(WeblogEntry current,
             String catName, String locale) throws WebloggerException {
         WeblogEntry entry = null;
-        List<WeblogEntry> entryList = getNextPrevEntries(current, catName, locale, 1, false);
+        NextPrevEntryParams params = new NextPrevEntryParams(current, catName, locale, 1, false);
+        List<WeblogEntry> entryList = getNextPrevEntries(params);
         if (entryList != null && !entryList.isEmpty()) {
             entry = entryList.get(0);
         }
@@ -1316,14 +1324,14 @@ public class JPAWeblogEntryManagerImpl implements WeblogEntryManager {
     @Override
     public void resetHitCount(Weblog weblog) throws WebloggerException {
         TypedQuery<WeblogHitCount> q = strategy.getNamedQuery("WeblogHitCount.getByWeblog", WeblogHitCount.class);
-        q.setParameter(1, weblog);
+        q.setParameter(WeblogEntryQueryConstants.PARAM_TIMESTAMP, weblog);
         WeblogHitCount hitCount;
         try {
             hitCount = q.getSingleResult();
             hitCount.setDailyHits(0);
             strategy.store(hitCount);
         } catch (NoResultException e) {
-            // ignore: no hit count for weblog
+            LOG.debug("No hit count record found for weblog: " + weblog.getHandle() + ", skipping reset");
         }       
 
     }

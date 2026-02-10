@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.jpa.search.CommentSearchParams;
 import org.apache.roller.weblogger.pojos.CommentSearchCriteria;
 import org.apache.roller.weblogger.pojos.GlobalPermission;
 import org.apache.roller.weblogger.pojos.Weblog;
@@ -217,13 +218,14 @@ public class GlobalCommentManagement extends UIAction implements ServletRequestA
         
         try {
             WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
-            int deleted = wmgr.removeMatchingComments(
+            CommentSearchParams searchParams = new CommentSearchParams(
                     null,
                     null,
                     getBean().getSearchString(),
                     getBean().getStartDate(),
                     getBean().getEndDate(),
                     getBean().getStatus());
+            int deleted = wmgr.removeMatchingComments(searchParams);
             
             addMessage("commentManagement.deleteSuccess",Integer.toString(deleted));
             
