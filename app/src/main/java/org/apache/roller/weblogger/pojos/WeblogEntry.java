@@ -22,54 +22,50 @@ import java.io.Serializable;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.util.DateUtil;
-import org.apache.roller.util.RollerConstants;
 import org.apache.roller.util.UUIDGenerator;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.UserManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.plugins.entry.WeblogEntryPlugin;
-import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
-import org.apache.roller.weblogger.util.HTMLSanitizer;
-import org.apache.roller.weblogger.util.I18nMessages;
 import org.apache.roller.weblogger.util.Utilities;
 
 /**
  * Represents a Weblog Entry.
+ *
+ * <p>This is a domain entity focusing on data and business rules.
+ * Presentation/view concerns have been extracted to {@link WeblogEntryPresenter}.
+ * Plugin configuration is encapsulated in {@link PluginConfiguration}.
+ * Tag management is encapsulated in {@link TagManifest}.</p>
  */
 public class WeblogEntry implements Serializable {
     private static final Log mLogger = LogFactory.getFactory().getInstance(WeblogEntry.class);
     
     public static final long serialVersionUID = 2341505386843044125L;
 
+    /** Default title separator for anchor generation. Injectable for testability. */
+    public static final char DEFAULT_TITLE_SEPARATOR = '-';
+    public static final char UNDERSCORE_TITLE_SEPARATOR = '_';
+
     public enum PubStatus {DRAFT, PUBLISHED, PENDING, SCHEDULED}
 
-    private static final char TITLE_SEPARATOR =
-        WebloggerConfig.getBooleanProperty("weblogentry.title.useUnderscoreSeparator") ? '_' : '-';
-
-    // Simple properies
+    // ---- Core properties (persisted) ----
     private String    id            = UUIDGenerator.generateUUID();
     private String    title         = null;
     private String    link          = null;
@@ -90,21 +86,104 @@ public class WeblogEntry implements Serializable {
     private String    creatorUserName = null;      
     private String    searchDescription = null;
 
-    // set to true when switching between pending/draft/scheduled and published
-    // either the aggregate table needs the entry's tags added (for published)
-    // or subtracted (anything else)
+    // Set to true when switching between pending/draft/scheduled and published.
+    // Either the aggregate table needs the entry's tags added (for published)
+    // or subtracted (anything else).
     private Boolean   refreshAggregates = Boolean.FALSE;
 
-    // Associated objects
+    // ---- Associated objects ----
     private Weblog        website  = null;
     private WeblogCategory category = null;
+
+    // Resolved creator (injected, avoids Service Locator calls)
+    private transient User creator = null;
     
     // Collection of name/value entry attributes
     private Set<WeblogEntryAttribute> attSet = new TreeSet<>();
     
+    // Tag management via TagManifest (delegates business logic, raw sets kept for JPA)
+    private transient TagManifest tagManifest = new TagManifest();
     private Set<WeblogEntryTag> tagSet = new HashSet<>();
     private Set<WeblogEntryTag> removedTags = new HashSet<>();
     private Set<WeblogEntryTag> addedTags = new HashSet<>();
+
+    // Injectable title separator for anchor generation (removes static config coupling)
+    private transient char titleSeparator = DEFAULT_TITLE_SEPARATOR;
+
+    /**
+     * Builder for WeblogEntry to avoid long constructor parameter lists.
+     */
+    public static class Builder {
+        private final WeblogEntry entry;
+
+        public Builder() {
+            this.entry = new WeblogEntry();
+        }
+
+        public Builder id(String id) {
+            entry.setId(id);
+            return this;
+        }
+
+        public Builder category(WeblogCategory category) {
+            entry.setCategory(category);
+            return this;
+        }
+
+        public Builder website(Weblog website) {
+            entry.setWebsite(website);
+            return this;
+        }
+
+        public Builder creator(User creator) {
+            entry.setCreator(creator);
+            return this;
+        }
+
+        public Builder title(String title) {
+            entry.setTitle(title);
+            return this;
+        }
+
+        public Builder link(String link) {
+            entry.setLink(link);
+            return this;
+        }
+
+        public Builder text(String text) {
+            entry.setText(text);
+            return this;
+        }
+
+        public Builder anchor(String anchor) {
+            entry.setAnchor(anchor);
+            return this;
+        }
+
+        public Builder pubTime(Timestamp pubTime) {
+            entry.setPubTime(pubTime);
+            return this;
+        }
+
+        public Builder updateTime(Timestamp updateTime) {
+            entry.setUpdateTime(updateTime);
+            return this;
+        }
+
+        public Builder status(PubStatus status) {
+            entry.setStatus(status);
+            return this;
+        }
+        
+        public Builder locale(String locale) {
+            entry.setLocale(locale);
+            return this;
+        }
+
+        public WeblogEntry build() {
+            return entry;
+        }
+    }
     
     //----------------------------------------------------------- Construction
     
@@ -112,7 +191,6 @@ public class WeblogEntry implements Serializable {
     }
     
     public WeblogEntry(
-            String id,
             WeblogCategory category,
             Weblog website,
             User creator,
@@ -123,9 +201,9 @@ public class WeblogEntry implements Serializable {
             Timestamp pubTime,
             Timestamp updateTime,
             PubStatus status) {
-        //this.id = id;
         this.category = category;
         this.website = website;
+        this.creator = creator;
         this.creatorUserName = creator.getUserName();
         this.title = title;
         this.link = link;
@@ -151,6 +229,7 @@ public class WeblogEntry implements Serializable {
         this.setCategory(other.getCategory());
         this.setWebsite(other.getWebsite());
         this.setCreatorUserName(other.getCreatorUserName());
+        this.creator = other.creator;
         this.setTitle(other.getTitle());
         this.setLink(other.getLink());
         this.setText(other.getText());
@@ -166,6 +245,14 @@ public class WeblogEntry implements Serializable {
         this.setRightToLeft(other.getRightToLeft());
         this.setPinnedToMain(other.getPinnedToMain());
         this.setLocale(other.getLocale());
+    }
+
+    /**
+     * Set the title separator character for anchor generation.
+     * Allows injection for testability (removes static config coupling).
+     */
+    public void setTitleSeparator(char separator) {
+        this.titleSeparator = separator;
     }
     
     //------------------------------------------------------- Good citizenship
@@ -190,19 +277,13 @@ public class WeblogEntry implements Serializable {
         if (!(other instanceof WeblogEntry)) {
             return false;
         }
-        WeblogEntry o = (WeblogEntry)other;
-        return new EqualsBuilder()
-            .append(getAnchor(), o.getAnchor()) 
-            .append(getWebsite(), o.getWebsite()) 
-            .isEquals();
+        WeblogEntry o = (WeblogEntry) other;
+        return Objects.equals(getId(), o.getId());
     }
     
     @Override
     public int hashCode() { 
-        return new HashCodeBuilder()
-            .append(getAnchor())
-            .append(getWebsite())
-            .toHashCode();
+        return Objects.hashCode(getId());
     }
     
    //------------------------------------------------------ Simple properties
@@ -243,13 +324,38 @@ public class WeblogEntry implements Serializable {
         this.website = website;
     }
     
+    /**
+     * Get the creator User. Prefers the injected reference;
+     * falls back to Service Locator lookup if not set.
+     * 
+     * <p>Callers should prefer injecting the User via {@link #setCreator(User)}
+     * or the constructor to avoid the Service Locator anti-pattern.</p>
+     */
     public User getCreator() {
+        if (creator != null) {
+            return creator;
+        }
+        // Fallback: resolve via factory (legacy Service Locator)
         try {
-            return WebloggerFactory.getWeblogger().getUserManager().getUserByUserName(getCreatorUserName());
+            User resolved = WebloggerFactory.getWeblogger().getUserManager()
+                    .getUserByUserName(getCreatorUserName());
+            this.creator = resolved;
+            return resolved;
         } catch (Exception e) {
             mLogger.error("ERROR fetching user object for username: " + getCreatorUserName(), e);
         }
         return null;
+    }
+
+    /**
+     * Inject the creator User directly (Dependency Injection).
+     * Preferred over letting the entity resolve via WebloggerFactory.
+     */
+    public void setCreator(User creator) {
+        this.creator = creator;
+        if (creator != null) {
+            this.creatorUserName = creator.getUserName();
+        }
     }   
     
     public String getCreatorUserName() {
@@ -348,20 +454,26 @@ public class WeblogEntry implements Serializable {
     
     //-------------------------------------------------------------------------
 
+    /**
+     * Returns an unmodifiable view of the entry attributes.
+     * Use {@link #putEntryAttribute(String, String)} and
+     * {@link #removeEntryAttribute(String)} to modify.
+     */
     public Set<WeblogEntryAttribute> getEntryAttributes() {
-        return attSet;
+        return Collections.unmodifiableSet(attSet);
     }
 
+    /**
+     * Replace the entire attribute set (used by JPA/ORM framework).
+     */
     public void setEntryAttributes(Set<WeblogEntryAttribute> atts) {
         this.attSet = atts;
     }
     
     public String findEntryAttribute(String name) {
-        if (getEntryAttributes() != null) {
-            for (WeblogEntryAttribute att : getEntryAttributes()) {
-                if (name.equals(att.getName())) {
-                    return att.getValue();
-                }
+        for (WeblogEntryAttribute att : attSet) {
+            if (name.equals(att.getName())) {
+                return att.getValue();
             }
         }
         return null;
@@ -369,7 +481,7 @@ public class WeblogEntry implements Serializable {
         
     public void putEntryAttribute(String name, String value) throws Exception {
         WeblogEntryAttribute att = null;
-        for (WeblogEntryAttribute o : getEntryAttributes()) {
+        for (WeblogEntryAttribute o : attSet) {
             if (name.equals(o.getName())) {
                 att = o; 
                 break;
@@ -380,10 +492,18 @@ public class WeblogEntry implements Serializable {
             att.setEntry(this);
             att.setName(name);
             att.setValue(value);
-            getEntryAttributes().add(att);
+            attSet.add(att);
         } else {
             att.setValue(value);
         }
+    }
+
+    /**
+     * Remove an entry attribute by name.
+     * @return true if the attribute was found and removed
+     */
+    public boolean removeEntryAttribute(String name) {
+        return attSet.removeIf(att -> name.equals(att.getName()));
     }
     
     //-------------------------------------------------------------------------
@@ -451,6 +571,7 @@ public class WeblogEntry implements Serializable {
     
     /**
      * Comma-delimited list of this entry's Plugins.
+     * Prefer using {@link #getPluginConfiguration()} for structured access.
      */
     public String getPlugins() {
         return plugins;
@@ -458,6 +579,14 @@ public class WeblogEntry implements Serializable {
     
     public void setPlugins(String string) {
         plugins = string;
+    }
+
+    /**
+     * Returns an immutable {@link PluginConfiguration} for structured access
+     * to the plugin list. Replaces raw string parsing scattered through the entity.
+     */
+    public PluginConfiguration getPluginConfiguration() {
+        return new PluginConfiguration(plugins);
     }
 
     /**
@@ -525,6 +654,11 @@ public class WeblogEntry implements Serializable {
         this.locale = locale;
     }
     
+    /**
+     * Returns the tag set. Note: JPA/ORM requires mutable access to this
+     * collection via PROPERTY access. Application code should prefer
+     * {@link #addTag(String)} and {@link #setTagsAsString(String)}.
+     */
     public Set<WeblogEntryTag> getTags() {
          return tagSet;
     }
@@ -534,92 +668,57 @@ public class WeblogEntry implements Serializable {
          this.tagSet = tagSet;
          this.removedTags = new HashSet<>();
          this.addedTags = new HashSet<>();
+         // Sync TagManifest with JPA-loaded tags
+         this.tagManifest.setTags(tagSet);
     }
      
     /**
      * Roller lowercases all tags based on locale because there's not a 1:1 mapping
      * between uppercase/lowercase characters across all languages.  
-     * @param name
-     * @throws WebloggerException
+     * @param name tag name to add
+     * @throws WebloggerException on error
      */
     public void addTag(String name) throws WebloggerException {
         Locale localeObject = getWebsite() != null ? getWebsite().getLocaleInstance() : Locale.getDefault();
-        name = Utilities.normalizeTag(name, localeObject);
-        if (name.length() == 0) {
-            return;
-        }
-        
-        for (WeblogEntryTag tag : getTags()) {
-            if (tag.getName().equals(name)) {
-                return;
-            }
-        }
-
-        WeblogEntryTag tag = new WeblogEntryTag();
-        tag.setName(name);
-        tag.setCreatorUserName(getCreatorUserName());
-        tag.setWeblog(getWebsite());
-        tag.setWeblogEntry(this);
-        tag.setTime(getUpdateTime());
-        tagSet.add(tag);
-        
-        addedTags.add(tag);
+        tagManifest.addTag(name, getCreatorUserName(), getWebsite(), this, localeObject, getUpdateTime());
+        // Sync raw sets from TagManifest for JPA
+        syncTagsFromManifest();
     }
 
     public Set<WeblogEntryTag> getAddedTags() {
-        return addedTags;
+        return tagManifest.getAddedTags();
     }
     
     public Set<WeblogEntryTag> getRemovedTags() {
-        return removedTags;
+        return tagManifest.getRemovedTags();
     }
 
     public String getTagsAsString() {
-        StringBuilder sb = new StringBuilder();
-        // Sort by name
-        Set<WeblogEntryTag> tmp = new TreeSet<>(new WeblogEntryTagComparator());
-        tmp.addAll(getTags());
-        for (WeblogEntryTag entryTag : tmp) {
-            sb.append(entryTag.getName()).append(" ");
-        }
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1);
-        }
-
-        return sb.toString();
+        return tagManifest.toSortedString();
     }
 
     public void setTagsAsString(String tags) throws WebloggerException {
-        if (StringUtils.isEmpty(tags)) {
-            removedTags.addAll(tagSet);
-            tagSet.clear();
-            return;
-        }
-
-        List<String> updatedTags = Utilities.splitStringAsTags(tags);
-        Set<String> newTags = new HashSet<>(updatedTags.size());
         Locale localeObject = getWebsite() != null ? getWebsite().getLocaleInstance() : Locale.getDefault();
+        tagManifest.setTagsFromString(tags, getCreatorUserName(), getWebsite(), this, localeObject, getUpdateTime());
+        // Sync raw sets from TagManifest for JPA
+        syncTagsFromManifest();
+    }
 
-        for (String name : updatedTags) {
-            newTags.add(Utilities.normalizeTag(name, localeObject));
-        }
+    /**
+     * Returns the TagManifest for direct access to tag management.
+     */
+    public TagManifest getTagManifest() {
+        return tagManifest;
+    }
 
-        // remove old ones no longer passed.
-        for (Iterator<WeblogEntryTag> it = tagSet.iterator(); it.hasNext();) {
-            WeblogEntryTag tag = it.next();
-            if (!newTags.contains(tag.getName())) {
-                // tag no longer listed in UI, needs removal from DB
-                removedTags.add(tag);
-                it.remove();
-            } else {
-                // already in persisted set, therefore isn't new
-                newTags.remove(tag.getName());
-            }
-        }
-
-        for (String newTag : newTags) {
-            addTag(newTag);
-        }
+    /**
+     * Sync the raw JPA-visible tag sets from the TagManifest.
+     */
+    private void syncTagsFromManifest() {
+        // TagManifest.getMutableTags() is package-private for this sync
+        this.tagSet = tagManifest.getMutableTags();
+        this.addedTags = new HashSet<>(tagManifest.getAddedTags());
+        this.removedTags = new HashSet<>(tagManifest.getRemovedTags());
     }
 
     // ------------------------------------------------------------------------
@@ -628,42 +727,52 @@ public class WeblogEntry implements Serializable {
      * True if comments are still allowed on this entry considering the
      * allowComments and commentDays fields as well as the website and 
      * site-wide configs.
+     *
+     * @deprecated Couples to static runtime config. Use
+     * {@link #getCommentsStillAllowed(boolean)} and pass the site-wide setting.
      */
+    @Deprecated
     public boolean getCommentsStillAllowed() {
-        if (!WebloggerRuntimeConfig.getBooleanProperty("users.comments.enabled")) {
-            return false;
-        }
-        if (getWebsite().getAllowComments() != null && !getWebsite().getAllowComments()) {
-            return false;
-        }
-        if (getAllowComments() != null && !getAllowComments()) {
-            return false;
-        }
-        boolean ret = false;
-        if (getCommentDays() == null || getCommentDays() == 0) {
-            ret = true;
-        } else {
-            // we want to use pubtime for calculating when comments expire, but
-            // if pubtime isn't set (like for drafts) then just use updatetime
-            Date inPubTime = getPubTime();
-            if (inPubTime == null) {
-                inPubTime = getUpdateTime();
-            }
-            
-            Calendar expireCal = Calendar.getInstance(
-                    getWebsite().getLocaleInstance());
-            expireCal.setTime(inPubTime);
-            expireCal.add(Calendar.DATE, getCommentDays());
-            Date expireDay = expireCal.getTime();
-            Date today = new Date();
-            if (today.before(expireDay)) {
-                ret = true;
-            }
-        }
-        return ret;
+        return getCommentsStillAllowed(
+                WebloggerRuntimeConfig.getBooleanProperty("users.comments.enabled"));
     }
-    public void setCommentsStillAllowed(boolean ignored) {
-        // no-op
+
+    /**
+     * True if comments are still allowed on this entry considering the
+     * allowComments and commentDays fields as well as the website config
+     * and the provided site-wide comments-enabled flag.
+     *
+     * @param siteCommentsEnabled whether comments are enabled at the site level
+     */
+    public boolean getCommentsStillAllowed(boolean siteCommentsEnabled) {
+        if (!siteCommentsEnabled) {
+            return false;
+        }
+        if (getWebsite() != null && Boolean.FALSE.equals(getWebsite().getAllowComments())) {
+            return false;
+        }
+        if (Boolean.FALSE.equals(getAllowComments())) {
+            return false;
+        }
+        
+        Integer days = getCommentDays();
+        if (days == null || days == 0) {
+            return true;
+        }
+
+        // we want to use pubtime for calculating when comments expire, but
+        // if pubtime isn't set (like for drafts) then just use updatetime
+        Date calculationDate = getPubTime();
+        if (calculationDate == null) {
+            calculationDate = getUpdateTime();
+        }
+        
+        if (calculationDate == null) {
+            return true;
+        }
+        
+        Instant expiration = calculationDate.toInstant().plus(days, ChronoUnit.DAYS);
+        return Instant.now().isBefore(expiration);
     }
     
     
@@ -671,65 +780,70 @@ public class WeblogEntry implements Serializable {
     
     /**
      * Format the publish time of this weblog entry using the specified pattern.
-     * See java.text.SimpleDateFormat for more information on this format.
-     *
-     * @see java.text.SimpleDateFormat
-     * @return Publish time formatted according to pattern.
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#formatPubTime(String)}.
      */
+    @Deprecated
     public String formatPubTime(String pattern) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(pattern,
-                    this.getWebsite().getLocaleInstance());
-            
-            return format.format(getPubTime());
-        } catch (RuntimeException e) {
-            mLogger.error("Unexpected exception", e);
-        }
-        
-        return "ERROR: formatting date";
+        return new WeblogEntryPresenter(this).formatPubTime(pattern);
     }
     
     //------------------------------------------------------------------------
     
     /**
      * Format the update time of this weblog entry using the specified pattern.
-     * See java.text.SimpleDateFormat for more information on this format.
-     *
-     * @see java.text.SimpleDateFormat
-     * @return Update time formatted according to pattern.
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#formatUpdateTime(String)}.
      */
+    @Deprecated
     public String formatUpdateTime(String pattern) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(pattern);
-            
-            return format.format(getUpdateTime());
-        } catch (RuntimeException e) {
-            mLogger.error("Unexpected exception", e);
-        }
-        
-        return "ERROR: formatting date";
+        return new WeblogEntryPresenter(this).formatUpdateTime(pattern);
     }
     
     //------------------------------------------------------------------------
     
+    /**
+     * @deprecated Couples to WebloggerFactory (Service Locator). Use
+     * {@link #getComments(WeblogEntryManager)} instead.
+     */
+    @Deprecated
     public List<WeblogEntryComment> getComments() {
+        // LEGACY ADAPTER
         return getComments(true, true);
     }
     
     /**
-     * TODO: why is this method exposed to users with ability to get spam/non-approved comments?
+     * @deprecated Couples to WebloggerFactory (Service Locator). Use
+     * {@link #getComments(WeblogEntryManager, boolean)} instead.
      */
     @Deprecated
     public List<WeblogEntryComment> getComments(boolean ignoreSpam, boolean approvedOnly) {
+        // LEGACY ADAPTER
         try {
             WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            return getComments(wmgr, approvedOnly);
+        } catch (WebloggerException alreadyLogged) {
+            // Ignored, returning empty list
+        }
+        
+        return Collections.emptyList();
+    }
 
+    /**
+     * Get comments for this entry using an injected WeblogEntryManager (DI-friendly).
+     *
+     * @param wmgr the WeblogEntryManager to use for comment retrieval
+     * @param approvedOnly if true, return only approved comments
+     * @return list of comments, or empty list on error
+     */
+    public List<WeblogEntryComment> getComments(WeblogEntryManager wmgr, boolean approvedOnly) {
+        try {
             CommentSearchCriteria csc = new CommentSearchCriteria();
             csc.setWeblog(getWebsite());
             csc.setEntry(this);
             csc.setStatus(approvedOnly ? WeblogEntryComment.ApprovalStatus.APPROVED : null);
             return wmgr.getComments(csc);
-        } catch (WebloggerException alreadyLogged) {}
+        } catch (WebloggerException alreadyLogged) {
+            // Ignored, empty list returned
+        }
         
         return Collections.emptyList();
     }
@@ -742,9 +856,23 @@ public class WeblogEntry implements Serializable {
         
     /**
      * Returns absolute entry permalink.
+     * @deprecated Couples to WebloggerFactory (Service Locator). Use
+     * {@link #getPermalink(URLStrategy)} instead.
      */
+    @Deprecated
     public String getPermalink() {
-        return WebloggerFactory.getWeblogger().getUrlStrategy().getWeblogEntryURL(getWebsite(), null, getAnchor(), true);
+        // LEGACY ADAPTER
+        return getPermalink(WebloggerFactory.getWeblogger().getUrlStrategy());
+    }
+
+    /**
+     * Returns absolute entry permalink using an injected URLStrategy (DI-friendly).
+     *
+     * @param urlStrategy the URL strategy to use for link generation
+     * @return the absolute permalink URL
+     */
+    public String getPermalink(URLStrategy urlStrategy) {
+        return urlStrategy.getWeblogEntryURL(getWebsite(), null, getAnchor(), true);
     }
     
     /**
@@ -752,7 +880,7 @@ public class WeblogEntry implements Serializable {
      * @deprecated Use getPermalink() instead.
      */
     @Deprecated
-    public String getPermaLink() {
+    public String getRelativePermalink() {
         String lAnchor = URLEncoder.encode(getAnchor(), StandardCharsets.UTF_8);
         return "/" + getWebsite().getHandle() + "/entry/" + lAnchor;
     }
@@ -763,43 +891,53 @@ public class WeblogEntry implements Serializable {
      */
     @Deprecated
     public String getCommentsLink() {
-        return getPermaLink() + "#comments";
+        return getRelativePermalink() + "#comments";
     }
     
     /**
      * Return the Title of this post, or the first 255 characters of the
      * entry's text.
-     *
-     * @return String
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#getDisplayTitle()}.
      */
+    @Deprecated
     public String getDisplayTitle() {
-        if ( getTitle()==null || getTitle().isBlank() ) {
-            return StringUtils.left(Utilities.removeHTML(getText()), RollerConstants.TEXTWIDTH_255);
-        }
-        return Utilities.removeHTML(getTitle());
+        return new WeblogEntryPresenter(this).getDisplayTitle();
     }
     
     /**
-     * Return RSS 09x style description (escaped HTML version of entry text)
+     * Return RSS 09x style description (escaped HTML version of entry text).
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#getRss09xDescription()}.
      */
+    @Deprecated
     public String getRss09xDescription() {
-        return getRss09xDescription(-1);
+        return new WeblogEntryPresenter(this).getRss09xDescription();
     }
     
     /**
-     * Return RSS 09x style description (escaped HTML version of entry text)
+     * Return RSS 09x style description (escaped HTML version of entry text).
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#getRss09xDescription(int)}.
      */
+    @Deprecated
     public String getRss09xDescription(int maxLength) {
-        String ret = StringEscapeUtils.escapeHtml3(getText());
-        if (maxLength != -1 && ret.length() > maxLength) {
-            ret = ret.substring(0,maxLength-3)+"...";
-        }
-        return ret;
+        return new WeblogEntryPresenter(this).getRss09xDescription(maxLength);
     }
     
-    /** Create anchor for weblog entry, based on title or text */
+    /**
+     * Create anchor for weblog entry, based on title or text.
+     * @deprecated Couples to WebloggerFactory (Service Locator). Use
+     * {@link #createAnchor(WeblogEntryManager)} instead.
+     */
+    @Deprecated
     protected String createAnchor() throws WebloggerException {
-        return WebloggerFactory.getWeblogger().getWeblogEntryManager().createAnchor(this);
+        // LEGACY ADAPTER
+        return createAnchor(WebloggerFactory.getWeblogger().getWeblogEntryManager());
+    }
+
+    /**
+     * Create anchor for weblog entry using an injected WeblogEntryManager (DI-friendly).
+     */
+    protected String createAnchor(WeblogEntryManager mgr) throws WebloggerException {
+        return mgr.createAnchor(this);
     }
     
     /** Create anchor for weblog entry, based on title or text */
@@ -807,27 +945,28 @@ public class WeblogEntry implements Serializable {
         
         // Use title (minus non-alphanumeric characters)
         String base = null;
-        if (!StringUtils.isEmpty(getTitle())) {
+        if (StringUtils.isNotEmpty(getTitle())) {
             base = Utilities.replaceNonAlphanumeric(getTitle(), ' ').trim();    
         }
         // If we still have no base, then try text (minus non-alphanumerics)
-        if (StringUtils.isEmpty(base) && !StringUtils.isEmpty(getText())) {
+        if (StringUtils.isEmpty(base) && StringUtils.isNotEmpty(getText())) {
             base = Utilities.replaceNonAlphanumeric(getText(), ' ').trim();  
         }
         
-        if (!StringUtils.isEmpty(base)) {
+        if (StringUtils.isNotEmpty(base)) {
             
-            // Use only the first 4 words
-            StringTokenizer toker = new StringTokenizer(base);
-            String tmp = null;
-            int count = 0;
-            while (toker.hasMoreTokens() && count < 5) {
-                String s = toker.nextToken();
-                s = s.toLowerCase();
-                tmp = (tmp == null) ? s : tmp + TITLE_SEPARATOR + s;
-                count++;
+            // Use only the first 5 words
+            String[] tokens = base.split("\\s+");
+            StringBuilder sb = new StringBuilder();
+            int limit = Math.min(tokens.length, 5);
+
+            for (int i = 0; i < limit; i++) {
+                if (i > 0) {
+                    sb.append(titleSeparator);
+                }
+                sb.append(tokens[i].toLowerCase(Locale.ROOT));
             }
-            base = tmp;
+            base = sb.toString();
         }
         // No title or text, so instead we will use the items date
         // in YYYYMMDD format as the base anchor
@@ -839,41 +978,20 @@ public class WeblogEntry implements Serializable {
     }
     
     /**
-     * A no-op. TODO: fix formbean generation so this is not needed.
+     * Create a new {@link WeblogEntryPresenter} for this entry.
+     * Provides clean access to all presentation/view concerns.
      */
-    public void setPermalink(String string) {}
-    
-    /**
-     * A no-op. TODO: fix formbean generation so this is not needed.
-     */
-    public void setPermaLink(String string) {}
-    
-    /**
-     * A no-op.
-     * TODO: fix formbean generation so this is not needed.
-     * @param string
-     */
-    public void setDisplayTitle(String string) {
+    public WeblogEntryPresenter presenter() {
+        return new WeblogEntryPresenter(this);
     }
     
     /**
-     * A no-op.
-     * TODO: fix formbean generation so this is not needed.
-     * @param string
+     * Convenience method to get the plugins list.
+     * @deprecated Use {@link #getPluginConfiguration()} for structured access.
      */
-    public void setRss09xDescription(String string) {
-    }
-    
-    
-    /**
-     * Convenience method to transform mPlugins to a List
-     * @return
-     */
+    @Deprecated
     public List<String> getPluginsList() {
-        if (getPlugins() != null) {
-            return Arrays.asList( StringUtils.split(getPlugins(), ",") );
-        }
-        return Collections.emptyList();
+        return getPluginConfiguration().getPluginNames();
     }
 
     /** Convenience method for checking status */
@@ -893,40 +1011,50 @@ public class WeblogEntry implements Serializable {
 
     /**
      * Get entry text, transformed by plugins enabled for entry.
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#getTransformedText()}.
      */
+    @Deprecated
     public String getTransformedText() {
-        return render(getText());
+        return new WeblogEntryPresenter(this).getTransformedText();
     }
 
     /**
      * Get entry summary, transformed by plugins enabled for entry.
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#getTransformedSummary()}.
      */
+    @Deprecated
     public String getTransformedSummary() {
-        return render(getSummary());
+        return new WeblogEntryPresenter(this).getTransformedSummary();
     }
 
     /**
      * Determine if the specified user has permissions to edit this entry.
+     * @deprecated Couples to WebloggerFactory. Use {@link #hasWritePermissions(User, UserManager)}.
      */
+    @Deprecated
     public boolean hasWritePermissions(User user) throws WebloggerException {
+        // LEGACY ADAPTER
+        return hasWritePermissions(user, WebloggerFactory.getWeblogger().getUserManager());
+    }
+
+    /**
+     * Determine if the specified user has permissions to edit this entry.
+     * Accepts UserManager as a parameter for testability (Dependency Injection).
+     */
+    public boolean hasWritePermissions(User user, UserManager umgr) throws WebloggerException {
         
         // global admins can hack whatever they want
         GlobalPermission adminPerm = 
-            new GlobalPermission(Collections.singletonList(GlobalPermission.ADMIN));
-        boolean hasAdmin = WebloggerFactory.getWeblogger().getUserManager()
-            .checkPermission(adminPerm, user); 
+            new GlobalPermission(List.of(GlobalPermission.ADMIN));
+        boolean hasAdmin = umgr.checkPermission(adminPerm, user); 
         if (hasAdmin) {
             return true;
         }
         
         WeblogPermission perm;
         try {
-            // if user is an author then post status defaults to PUBLISHED, otherwise PENDING
-            UserManager umgr = WebloggerFactory.getWeblogger().getUserManager();
             perm = umgr.getWeblogPermission(getWebsite(), user);
-            
         } catch (WebloggerException ex) {
-            // security interceptor should ensure this never happens
             mLogger.error("ERROR retrieving user's permission", ex);
             return false;
         }
@@ -938,85 +1066,22 @@ public class WeblogEntry implements Serializable {
     }
     
     /**
-     * Transform string based on plugins enabled for this weblog entry.
-     */
-    private String render(String str) {
-        String ret = str;
-        mLogger.debug("Applying page plugins to string");
-        Map<String, WeblogEntryPlugin> inPlugins = getWebsite().getInitializedPlugins();
-        if (str != null && inPlugins != null) {
-            List<String> entryPlugins = getPluginsList();
-            
-            // if no Entry plugins, don't bother looping.
-            if (entryPlugins != null && !entryPlugins.isEmpty()) {
-                
-                // now loop over mPagePlugins, matching
-                // against Entry plugins (by name):
-                // where a match is found render Plugin.
-                for (Map.Entry<String, WeblogEntryPlugin> entry : inPlugins.entrySet()) {
-                    if (entryPlugins.contains(entry.getKey())) {
-                        WeblogEntryPlugin pagePlugin = entry.getValue();
-                        try {
-                            ret = pagePlugin.render(this, ret);
-                        } catch (Exception e) {
-                            mLogger.error("ERROR from plugin: " + pagePlugin.getName(), e);
-                        }
-                    }
-                }
-            }
-        } 
-        return HTMLSanitizer.conditionallySanitize(ret);
-    }
-    
-    
-    /**
      * Get the right transformed display content depending on the situation.
-     *
-     * If the readMoreLink is specified then we assume the caller wants to
-     * prefer summary over content and we include a "Read More" link at the
-     * end of the summary if it exists.  Otherwise, if the readMoreLink is
-     * empty or null then we assume the caller prefers content over summary.
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#displayContent(String)}.
      */
+    @Deprecated
     public String displayContent(String readMoreLink) {
-        
-        String displayContent;
-        
-        if(readMoreLink == null || readMoreLink.isBlank() || "nil".equals(readMoreLink)) {
-            
-            // no readMore link means permalink, so prefer text over summary
-            if(StringUtils.isNotEmpty(this.getText())) {
-                displayContent = this.getTransformedText();
-            } else {
-                displayContent = this.getTransformedSummary();
-            }
-        } else {
-            // not a permalink, so prefer summary over text
-            // include a "read more" link if needed
-            if(StringUtils.isNotEmpty(this.getSummary())) {
-                displayContent = this.getTransformedSummary();
-                if(StringUtils.isNotEmpty(this.getText())) {
-                    // add read more
-                    List<String> args = List.of(readMoreLink);
-                    
-                    // TODO: we need a more appropriate way to get the view locale here
-                    String readMore = I18nMessages.getMessages(getWebsite().getLocaleInstance()).getString("macro.weblog.readMoreLink", args);
-                    
-                    displayContent += readMore;
-                }
-            } else {
-                displayContent = this.getTransformedText();
-            }
-        }
-        
-        return HTMLSanitizer.conditionallySanitize(displayContent);
+        return new WeblogEntryPresenter(this).displayContent(readMoreLink);
     }
     
     
     /**
      * Get the right transformed display content.
+     * @deprecated Presentation concern. Use {@link WeblogEntryPresenter#getDisplayContent()}.
      */
+    @Deprecated
     public String getDisplayContent() { 
-        return displayContent(null);
+        return new WeblogEntryPresenter(this).getDisplayContent();
     }
 
     public Boolean getRefreshAggregates() {
