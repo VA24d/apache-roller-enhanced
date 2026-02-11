@@ -28,7 +28,8 @@ import org.apache.roller.weblogger.pojos.WeblogEntry;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogEntrySearchCriteria;
 import org.apache.roller.weblogger.pojos.wrapper.WeblogEntryWrapper;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.weblogger.business.URLStrategy;
 
 
@@ -87,7 +88,7 @@ public class WeblogEntriesMonthPager extends AbstractWeblogEntriesPager {
         cal.setTime(month);
         cal.add(Calendar.MONTH, -1);
         prevMonth = cal.getTime();
-        Date endOfPrevMonth = DateUtil.getEndOfMonth(prevMonth,cal) ;
+        Date endOfPrevMonth = DateBoundaryUtil.getEndOfMonth(prevMonth,cal) ;
         Date weblogInitialDate = weblog.getDateCreated() != null ? weblog.getDateCreated() : new Date(0);
         if (endOfPrevMonth.before(weblogInitialDate)) {
             prevMonth = null;
@@ -102,8 +103,8 @@ public class WeblogEntriesMonthPager extends AbstractWeblogEntriesPager {
         cal.setTime(date);
         cal.add(Calendar.DATE, 1);
         date = cal.getTime();
-        Date startDate = DateUtil.getStartOfMonth(date, cal);
-        Date endDate = DateUtil.getEndOfMonth(date, cal);
+        Date startDate = DateBoundaryUtil.getStartOfMonth(date, cal);
+        Date endDate = DateBoundaryUtil.getEndOfMonth(date, cal);
         
         if (entries == null) {
             entries = new TreeMap<>(Collections.reverseOrder());
@@ -199,7 +200,7 @@ public class WeblogEntriesMonthPager extends AbstractWeblogEntriesPager {
     @Override
     public String getNextCollectionLink() {
         if (nextMonth != null) {
-            String next = DateUtil.format6chars(nextMonth, weblog.getTimeZoneInstance());
+            String next = DateFormatUtil.format6chars(nextMonth, weblog.getTimeZoneInstance());
             return createURL(0, 0, weblog, locale, pageLink, null, next, catName, tags);
         }
         return null;
@@ -218,7 +219,7 @@ public class WeblogEntriesMonthPager extends AbstractWeblogEntriesPager {
     @Override
     public String getPrevCollectionLink() {
         if (prevMonth != null) {
-            String prev = DateUtil.format6chars(prevMonth, weblog.getTimeZoneInstance());
+            String prev = DateFormatUtil.format6chars(prevMonth, weblog.getTimeZoneInstance());
             return createURL(0, 0, weblog, locale, pageLink, null, prev, catName, tags);
         }
         return null;

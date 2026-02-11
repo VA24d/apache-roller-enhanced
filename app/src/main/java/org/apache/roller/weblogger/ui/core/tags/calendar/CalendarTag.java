@@ -21,7 +21,7 @@ package org.apache.roller.weblogger.ui.core.tags.calendar;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -160,7 +160,7 @@ public class CalendarTag extends TagSupport {
             
             // go back to first day in month
             cal = model.getCalendar();
-            day = DateUtil.getNoonOfDay(day, cal);
+            day = DateBoundaryUtil.getNoonOfDay(day, cal);
             cal.set( Calendar.DAY_OF_MONTH, cal.getMinimum(Calendar.DAY_OF_MONTH) );
             
             // Go back to first day of week before that (Sunday in US, Monday in France, e.g.)

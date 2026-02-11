@@ -25,7 +25,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.runnable.ThreadManagerImpl;
 import org.apache.roller.weblogger.business.runnable.RollerTask;
@@ -91,13 +91,13 @@ public class JPAThreadManagerImpl extends ThreadManagerImpl {
                 Date runTime;
                 if("startOfDay".equals(task.getStartTimeDesc())) {
                     // start of today
-                    runTime = DateUtil.getStartOfDay(currentTime);
+                    runTime = DateBoundaryUtil.getStartOfDay(currentTime);
                 } else if("startOfHour".equals(task.getStartTimeDesc())) {
                     // start of this hour
-                    runTime = DateUtil.getStartOfHour(currentTime);
+                    runTime = DateBoundaryUtil.getStartOfHour(currentTime);
                 } else {
                     // start of this minute
-                    runTime = DateUtil.getStartOfMinute(currentTime);
+                    runTime = DateBoundaryUtil.getStartOfMinute(currentTime);
                 }
 
                 if(LOG.isDebugEnabled()) {

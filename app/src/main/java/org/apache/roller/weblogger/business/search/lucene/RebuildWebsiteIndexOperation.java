@@ -63,7 +63,7 @@ public class RebuildWebsiteIndexOperation extends WriteToIndexOperation {
      * @param website
      *            The website to rebuild the index for, or null for all users.
      */
-    public RebuildWebsiteIndexOperation(Weblogger roller, LuceneIndexManager mgr,
+    public RebuildWebsiteIndexOperation(Weblogger roller, IndexOperationContext mgr,
             Weblog website) {
         super(mgr);
         this.roller = roller;
@@ -103,13 +103,13 @@ public class RebuildWebsiteIndexOperation extends WriteToIndexOperation {
                 Term tWebsite = null;
                 if (website != null) {
                     tWebsite = IndexUtil.getTerm(FieldConstants.WEBSITE_HANDLE,
-                            website.getHandle());
+                            website.getHandle(), manager.getAnalyzer());
                 }
                 if (tWebsite != null) {
                     writer.deleteDocuments(tWebsite);
                 } else {
                     Term all = IndexUtil.getTerm(FieldConstants.CONSTANT,
-                            FieldConstants.CONSTANT_V);
+                            FieldConstants.CONSTANT_V, manager.getAnalyzer());
                     writer.deleteDocuments(all);
                 }
 
