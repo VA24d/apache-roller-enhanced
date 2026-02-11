@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
  * @author aim4min
  */
 public abstract class ReadFromIndexOperation extends IndexOperation {
-    public ReadFromIndexOperation(LuceneIndexManager mgr) {
+    public ReadFromIndexOperation(IndexOperationContext mgr) {
         super(mgr);
     }
     

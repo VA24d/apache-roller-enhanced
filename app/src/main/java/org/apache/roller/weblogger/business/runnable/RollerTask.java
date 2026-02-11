@@ -23,7 +23,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.config.WebloggerConfig;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
 
 
 /**
@@ -160,9 +160,9 @@ public abstract class RollerTask implements Runnable {
         Date adjustedTime = startTime;
         
         if("startOfDay".equals(changeFactor)) {
-            adjustedTime = DateUtil.getEndOfDay(startTime);
+            adjustedTime = DateBoundaryUtil.getEndOfDay(startTime);
         } else if("startOfHour".equals(changeFactor)) {
-            adjustedTime = DateUtil.getEndOfHour(startTime);
+            adjustedTime = DateBoundaryUtil.getEndOfHour(startTime);
         }
         
         return adjustedTime;

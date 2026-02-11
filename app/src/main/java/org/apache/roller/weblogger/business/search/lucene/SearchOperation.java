@@ -34,7 +34,6 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopFieldDocs;
-import org.apache.roller.weblogger.business.search.IndexManager;
 
 /**
  * An operation that searches the index.
@@ -76,10 +75,8 @@ public class SearchOperation extends ReadFromIndexOperation {
     /**
      * Create a new operation that searches the index.
      */
-    public SearchOperation(IndexManager mgr) {
-        // TODO: finish moving IndexManager to backend, so this cast is not
-        // needed
-        super((LuceneIndexManager) mgr);
+    public SearchOperation(IndexOperationContext mgr) {
+        super(mgr);
     }
 
     // ~ Methods
@@ -105,7 +102,7 @@ public class SearchOperation extends ReadFromIndexOperation {
             searcher = new IndexSearcher(reader);
 
             MultiFieldQueryParser multiParser = new MultiFieldQueryParser(
-                    SEARCH_FIELDS, LuceneIndexManager.getAnalyzer());
+                    SEARCH_FIELDS, manager.getAnalyzer());
 
             // Make it an AND by default. Comment this out for an or (default)
             multiParser.setDefaultOperator(MultiFieldQueryParser.Operator.AND);
@@ -113,7 +110,7 @@ public class SearchOperation extends ReadFromIndexOperation {
             // Create a query object out of our term
             Query query = multiParser.parse(term);
 
-            Term handleTerm = IndexUtil.getTerm(FieldConstants.WEBSITE_HANDLE, weblogHandle);
+            Term handleTerm = IndexUtil.getTerm(FieldConstants.WEBSITE_HANDLE, weblogHandle, manager.getAnalyzer());
             if (handleTerm != null) {
                 query = new BooleanQuery.Builder()
                     .add(query, BooleanClause.Occur.MUST)
@@ -129,7 +126,7 @@ public class SearchOperation extends ReadFromIndexOperation {
                     .build();
             }
 
-            Term localeTerm = IndexUtil.getTerm(FieldConstants.LOCALE, locale);
+            Term localeTerm = IndexUtil.getTerm(FieldConstants.LOCALE, locale, manager.getAnalyzer());
             if (localeTerm != null) {
                 query = new BooleanQuery.Builder()
                     .add(query, BooleanClause.Occur.MUST)

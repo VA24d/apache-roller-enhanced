@@ -12,6 +12,15 @@ Roller is made up of the following Maven projects:
 * _docs_:                   Roller documentation in ASCII Doc format
 * _it-selenium_:            Integrated browser tests for Roller using Selenium
 
+## Project Coursework Additions
+
+This repo includes a **Task 3C automated refactoring pipeline** under `task3-pipeline/`.
+It scans Designite outputs, generates LLM-based refactoring suggestions, and creates
+an auto-generated PR containing the report (without changing source code). See:
+
+- `task3-pipeline/README.md`
+- `task3-pipeline/docs/pipeline.md`
+
 ## Documentation
 
 The Roller Install, User and Template Guides are available in ODT format (for OpenOffice or LibraOffice):

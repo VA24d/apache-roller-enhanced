@@ -28,7 +28,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
 import org.apache.roller.weblogger.pojos.Weblog;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.util.I18nMessages;
 
@@ -188,8 +188,8 @@ public abstract class AbstractWeblogEntriesPager implements WeblogEntriesPager {
      */
     protected Date parseDate(String dateString) {
         Date ret = null;
-        SimpleDateFormat char8DateFormat = DateUtil.get8charDateFormat();
-        SimpleDateFormat char6DateFormat = DateUtil.get6charDateFormat();
+        SimpleDateFormat char8DateFormat = DateFormatUtil.get8charDateFormat();
+        SimpleDateFormat char6DateFormat = DateFormatUtil.get6charDateFormat();
         Calendar cal = Calendar.getInstance(
                 weblog.getTimeZoneInstance(), weblog.getLocaleInstance());
         if (   dateString!=null

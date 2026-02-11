@@ -68,7 +68,7 @@ import org.apache.roller.weblogger.pojos.wrapper.WeblogEntryWrapper;
  * @author mraible (formatting and making indexDir configurable)
  */
 @com.google.inject.Singleton
-public class LuceneIndexManager implements IndexManager {
+public class LuceneIndexManager implements IndexManager, IndexOperationContext {
 
     private IndexReader reader;
     private final Weblogger roller;
@@ -247,6 +247,7 @@ public class LuceneIndexManager implements IndexManager {
         throw new WebloggerException("Error executing search");
     }
 
+    @Override
     public ReadWriteLock getReadWriteLock() {
         return rwl;
     }
@@ -261,7 +262,8 @@ public class LuceneIndexManager implements IndexManager {
      * 
      * @return Analyzer to be used in manipulating the database.
      */
-    public static final Analyzer getAnalyzer() {
+    @Override
+    public Analyzer getAnalyzer() {
         return instantiateAnalyzer();
     }
 
@@ -311,10 +313,12 @@ public class LuceneIndexManager implements IndexManager {
         }
     }
 
+    @Override
     public synchronized void resetSharedReader() {
         reader = null;
     }
 
+    @Override
     public synchronized IndexReader getSharedIndexReader() {
         if (reader == null) {
             try {
@@ -333,6 +337,7 @@ public class LuceneIndexManager implements IndexManager {
      * 
      * @return Directory The directory containing the index, or null if error.
      */
+    @Override
     public Directory getIndexDirectory() {
 
         try {
@@ -374,7 +379,7 @@ public class LuceneIndexManager implements IndexManager {
 
             IndexWriterConfig config = new IndexWriterConfig(
                     new LimitTokenCountAnalyzer(
-                            LuceneIndexManager.getAnalyzer(), 128));
+                            getAnalyzer(), 128));
 
             writer = new IndexWriter(dir, config);
 

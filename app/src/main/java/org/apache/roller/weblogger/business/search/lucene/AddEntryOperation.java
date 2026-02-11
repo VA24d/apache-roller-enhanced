@@ -49,7 +49,7 @@ public class AddEntryOperation extends WriteToIndexOperation {
     /**
      * Adds a web log entry into the index.
      */
-    public AddEntryOperation(Weblogger roller, LuceneIndexManager mgr, WeblogEntry data) {
+    public AddEntryOperation(Weblogger roller, IndexOperationContext mgr, WeblogEntry data) {
         super(mgr);
         this.roller = roller;
         this.data = data;
