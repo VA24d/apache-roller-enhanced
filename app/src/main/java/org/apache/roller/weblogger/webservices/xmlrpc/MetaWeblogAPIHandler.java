@@ -456,7 +456,7 @@ public class MetaWeblogAPIHandler extends BloggerAPIHandler {
     private Hashtable<String, Object> createPostStruct(WeblogEntry entry, String userid) {
         
         String permalink =
-            WebloggerRuntimeConfig.getAbsoluteContextURL() + entry.getPermaLink();
+            WebloggerRuntimeConfig.getAbsoluteContextURL() + entry.getRelativePermalink();
         
         Hashtable<String, Object> struct = new Hashtable<>();
         struct.put("title", entry.getTitle());

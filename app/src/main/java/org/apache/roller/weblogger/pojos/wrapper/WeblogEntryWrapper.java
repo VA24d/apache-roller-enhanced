@@ -230,8 +230,8 @@ public final class WeblogEntryWrapper {
     }
     
     
-    public String getPermaLink() {
-        return this.pojo.getPermaLink();
+    public String getRelativePermalink() {
+        return this.pojo.getRelativePermalink();
     }
     
     
