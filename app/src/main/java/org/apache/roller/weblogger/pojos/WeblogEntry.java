@@ -817,14 +817,8 @@ public class WeblogEntry implements Serializable {
     @Deprecated
     public List<WeblogEntryComment> getComments(boolean ignoreSpam, boolean approvedOnly) {
         // LEGACY ADAPTER
-        try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
-            return getComments(wmgr, approvedOnly);
-        } catch (WebloggerException alreadyLogged) {
-            // Ignored, returning empty list
-        }
-        
-        return Collections.emptyList();
+        WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        return getComments(wmgr, approvedOnly);
     }
 
     /**
