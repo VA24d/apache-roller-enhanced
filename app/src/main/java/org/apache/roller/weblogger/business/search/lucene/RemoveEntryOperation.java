@@ -51,7 +51,7 @@ public class RemoveEntryOperation extends WriteToIndexOperation {
     // ~ Constructors
     // ===========================================================
 
-    public RemoveEntryOperation(Weblogger roller, LuceneIndexManager mgr,
+    public RemoveEntryOperation(Weblogger roller, IndexOperationContext mgr,
             WeblogEntry data) {
         super(mgr);
         this.roller = roller;

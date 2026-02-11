@@ -32,7 +32,6 @@ import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
 import org.apache.roller.weblogger.business.BookmarkManager;
 import org.apache.roller.weblogger.business.plugins.PluginManager;
 import org.apache.roller.weblogger.business.Weblogger;
-import org.apache.roller.weblogger.business.themes.ThemeManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.pojos.WeblogEntry.PubStatus;
 import org.apache.roller.util.UUIDGenerator;
@@ -55,36 +54,16 @@ public class Weblog implements Serializable {
     private static Log log = LogFactory.getLog(Weblog.class);
 
     private static final int MAX_ENTRIES = 100;
+    private static final String NIL = "nil";
     
     // Simple properties
     private String  id               = UUIDGenerator.generateUUID();
     private String  handle           = null;
     private String  name             = null;
     private String  tagline          = null;
-    private Boolean enableBloggerApi = Boolean.TRUE;
-    private String  editorPage       = null;
-    private String  bannedwordslist  = null;
-    private Boolean allowComments    = Boolean.TRUE;
-    private Boolean emailComments    = Boolean.FALSE;
-    private String  emailAddress     = null;
-    private String  editorTheme      = null;
-    private String  locale           = null;
-    private String  timeZone         = null;
-    private String  defaultPlugins   = null;
-    private Boolean visible          = Boolean.TRUE;
-    private Boolean active           = Boolean.TRUE;
-    private Date    dateCreated      = new java.util.Date();
-    private Boolean defaultAllowComments = Boolean.TRUE;
-    private int     defaultCommentDays = 0;
-    private Boolean moderateComments = Boolean.FALSE;
-    private int     entryDisplayCount = 15;
-    private Date    lastModified     = new Date();
-    private boolean enableMultiLang  = false;
-    private boolean showAllLangs     = true;
-    private String  iconPath         = null;
-    private String  about            = null;
-    private String  creator          = null;
-    private String  analyticsCode    = null;
+
+    private final WeblogSettings settings = new WeblogSettings();
+    private final WeblogThemeConfig themeConfig = new WeblogThemeConfig();
 
     // Associated objects
     private WeblogCategory bloggerCategory = null;
@@ -109,15 +88,15 @@ public class Weblog implements Serializable {
             String editorTheme,
             String locale,
             String timeZone) {
-        
-        this.handle = handle;
-        this.creator = creator;
-        this.name = name;
-        this.tagline = desc;
-        this.emailAddress = email;
-        this.editorTheme = editorTheme;
-        this.locale = locale;
-        this.timeZone = timeZone;
+
+        setHandle(handle);
+        setCreatorUserName(creator);
+        setName(name);
+        setTagline(desc);
+        setEmailAddress(email);
+        setEditorTheme(editorTheme);
+        setLocale(locale);
+        setTimeZone(timeZone);
     }
     
     //------------------------------------------------------- Good citizenship
@@ -154,16 +133,7 @@ public class Weblog implements Serializable {
      * Get the Theme object in use by this weblog, or null if no theme selected.
      */
     public WeblogTheme getTheme() {
-        try {
-            // let the ThemeManager handle it
-            ThemeManager themeMgr = WebloggerFactory.getWeblogger().getThemeManager();
-            return themeMgr.getTheme(this);
-        } catch (WebloggerException ex) {
-            log.error("Error getting theme for weblog - "+getHandle(), ex);
-        }
-        
-        // TODO: maybe we should return a default theme in this case?
-        return null;
+        return themeConfig.resolveTheme(this);
     }
 
     /**
@@ -174,7 +144,7 @@ public class Weblog implements Serializable {
     }
     
     public void setId(String id) {
-        this.id = id;
+        this.id = normalizeNullable(id);
     }
     
     /**
@@ -185,7 +155,7 @@ public class Weblog implements Serializable {
     }
     
     public void setHandle(String handle) {
-        this.handle = handle;
+        this.handle = normalizeNullable(handle);
     }
     
     /**
@@ -216,9 +186,9 @@ public class Weblog implements Serializable {
      */
     public org.apache.roller.weblogger.pojos.User getCreator() {
         try {
-            return WebloggerFactory.getWeblogger().getUserManager().getUserByUserName(creator);
+            return WebloggerFactory.getWeblogger().getUserManager().getUserByUserName(settings.getCreator());
         } catch (Exception e) {
-            log.error("ERROR fetching user object for username: " + creator, e);
+            log.error("ERROR fetching user object for username: " + settings.getCreator(), e);
         }
         return null;
     }
@@ -227,19 +197,19 @@ public class Weblog implements Serializable {
      * Username of original creator of website.
      */
     public String getCreatorUserName() {
-        return creator;
+        return settings.getCreator();
     }
     
     public void setCreatorUserName(String creatorUserName) {
-        creator = creatorUserName;
+        settings.setCreator(creatorUserName);
     }
 
     public Boolean getEnableBloggerApi() {
-        return this.enableBloggerApi;
+        return settings.getEnableBloggerApi();
     }
     
     public void setEnableBloggerApi(Boolean enableBloggerApi) {
-        this.enableBloggerApi = enableBloggerApi;
+        settings.setEnableBloggerApi(enableBloggerApi);
     }
     
     public WeblogCategory getBloggerCategory() { return bloggerCategory; }
@@ -249,127 +219,119 @@ public class Weblog implements Serializable {
     }
     
     public String getEditorPage() {
-        return this.editorPage;
+        return settings.getEditorPage();
     }
     
     public void setEditorPage(String editorPage) {
-        this.editorPage = editorPage;
+        settings.setEditorPage(editorPage);
     }
     
     public String getBannedwordslist() {
-        return this.bannedwordslist;
+        return settings.getBannedwordslist();
     }
     
     public void setBannedwordslist(String bannedwordslist) {
-        this.bannedwordslist = bannedwordslist;
+        settings.setBannedwordslist(bannedwordslist);
     }
     
     public Boolean getAllowComments() {
-        return this.allowComments;
+        return settings.getAllowComments();
     }
     
     public void setAllowComments(Boolean allowComments) {
-        this.allowComments = allowComments;
+        settings.setAllowComments(allowComments);
     }
     
     public Boolean getDefaultAllowComments() {
-        return defaultAllowComments;
+        return settings.getDefaultAllowComments();
     }
     
     public void setDefaultAllowComments(Boolean defaultAllowComments) {
-        this.defaultAllowComments = defaultAllowComments;
+        settings.setDefaultAllowComments(defaultAllowComments);
     }
     
     public int getDefaultCommentDays() {
-        return defaultCommentDays;
+        return settings.getDefaultCommentDays();
     }
     
     public void setDefaultCommentDays(int defaultCommentDays) {
-        this.defaultCommentDays = defaultCommentDays;
+        settings.setDefaultCommentDays(defaultCommentDays);
     }
     
     public Boolean getModerateComments() {
-        return moderateComments;
+        return settings.getModerateComments();
     }
     
     public void setModerateComments(Boolean moderateComments) {
-        this.moderateComments = moderateComments;
+        settings.setModerateComments(moderateComments);
     }
     
     public Boolean getEmailComments() {
-        return this.emailComments;
+        return settings.getEmailComments();
     }
     
     public void setEmailComments(Boolean emailComments) {
-        this.emailComments = emailComments;
+        settings.setEmailComments(emailComments);
     }
     
     public String getEmailAddress() {
-        return this.emailAddress;
+        return settings.getEmailAddress();
     }
     
     public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+        settings.setEmailAddress(emailAddress);
     }
     
     /**
      * EditorTheme of the Website.
      */
     public String getEditorTheme() {
-        return this.editorTheme;
+        return themeConfig.getEditorTheme();
     }
     
     public void setEditorTheme(String editorTheme) {
-        this.editorTheme = editorTheme;
+        themeConfig.setEditorTheme(editorTheme);
     }
     
     /**
      * Locale of the Website.
      */
     public String getLocale() {
-        return this.locale;
+        return settings.getLocale();
     }
     
     public void setLocale(String locale) {
-        this.locale = locale;
+        settings.setLocale(locale);
     }
     
     /**
      * Timezone of the Website.
      */
     public String getTimeZone() {
-        return this.timeZone;
+        return settings.getTimeZone();
     }
     
     public void setTimeZone(String timeZone) {
-        this.timeZone = timeZone;
+        settings.setTimeZone(timeZone);
     }
     
     public Date getDateCreated() {
-        if (dateCreated == null) {
-            return null;
-        } else {
-            return (Date)dateCreated.clone();
-        }
+        return settings.getDateCreated();
     }
 
     public void setDateCreated(final Date date) {
-        if (date != null) {
-            dateCreated = (Date)date.clone();
-        } else {
-            dateCreated = null;
-        }
+        settings.setDateCreated(date);
     }
 
     /**
      * Comma-delimited list of user's default Plugins.
      */
     public String getDefaultPlugins() {
-        return defaultPlugins;
+        return settings.getDefaultPlugins();
     }
 
     public void setDefaultPlugins(String string) {
-        defaultPlugins = string;
+        settings.setDefaultPlugins(string);
     }
 
     /**
@@ -450,22 +412,22 @@ public class Weblog implements Serializable {
     }
     
     public int getEntryDisplayCount() {
-        return entryDisplayCount;
+        return settings.getEntryDisplayCount();
     }
     
     public void setEntryDisplayCount(int entryDisplayCount) {
-        this.entryDisplayCount = entryDisplayCount;
+        settings.setEntryDisplayCount(entryDisplayCount);
     }
     
     /**
      * Set to FALSE to disable and hide this weblog from public view.
      */
     public Boolean getVisible() {
-        return this.visible;
+        return settings.getVisible();
     }
     
     public void setVisible(Boolean visible) {
-        this.visible = visible;
+        settings.setVisible(visible);
     }
     
     /**
@@ -473,11 +435,11 @@ public class Weblog implements Serializable {
      * front page and the planet page.
      */
     public Boolean getActive() {
-        return active;
+        return settings.getActive();
     }
     
     public void setActive(Boolean active) {
-        this.active = active;
+        settings.setActive(active);
     }
     
     /**
@@ -502,11 +464,11 @@ public class Weblog implements Serializable {
      *
      */
     public Date getLastModified() {
-        return lastModified;
+        return settings.getLastModified();
     }
 
     public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
+        settings.setLastModified(lastModified);
     }
   
     
@@ -516,11 +478,11 @@ public class Weblog implements Serializable {
      * If false then urls with various locale restrictions should fail.
      */
     public boolean isEnableMultiLang() {
-        return enableMultiLang;
+        return settings.isEnableMultiLang();
     }
 
     public void setEnableMultiLang(boolean enableMultiLang) {
-        this.enableMultiLang = enableMultiLang;
+        settings.setEnableMultiLang(enableMultiLang);
     }
     
     
@@ -531,11 +493,11 @@ public class Weblog implements Serializable {
      * default locale chosen for this weblog.
      */
     public boolean isShowAllLangs() {
-        return showAllLangs;
+        return settings.isShowAllLangs();
     }
 
     public void setShowAllLangs(boolean showAllLangs) {
-        this.showAllLangs = showAllLangs;
+        settings.setShowAllLangs(showAllLangs);
     }
     
     public String getURL() {
@@ -550,19 +512,19 @@ public class Weblog implements Serializable {
      * The path under the weblog's resources to an icon image.
      */
     public String getIconPath() {
-        return iconPath;
+        return settings.getIconPath();
     }
 
     public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
+        settings.setIconPath(iconPath);
     }
 
     public String getAnalyticsCode() {
-        return analyticsCode;
+        return settings.getAnalyticsCode();
     }
 
     public void setAnalyticsCode(String analyticsCode) {
-        this.analyticsCode = analyticsCode;
+        settings.setAnalyticsCode(analyticsCode);
     }
 
     /**
@@ -574,11 +536,11 @@ public class Weblog implements Serializable {
      *
      */
     public String getAbout() {
-        return about;
+        return settings.getAbout();
     }
 
     public void setAbout(String about) {
-        this.about = Utilities.removeHTML(about);
+        settings.setAbout(Utilities.removeHTML(about));
     }
     
     
@@ -620,7 +582,7 @@ public class Weblog implements Serializable {
         try {
             Weblogger roller = WebloggerFactory.getWeblogger();
             WeblogEntryManager wmgr = roller.getWeblogEntryManager();
-            if (categoryName != null && !categoryName.equals("nil")) {
+            if (categoryName != null && !categoryName.equals(NIL)) {
                 category = wmgr.getWeblogCategoryByName(this, categoryName);
             } else {
                 category = getWeblogCategories().iterator().next();
@@ -639,7 +601,7 @@ public class Weblog implements Serializable {
      * @return List of weblog entry objects.
      */
     public List<WeblogEntry> getRecentWeblogEntries(String cat, int length) {
-        if (cat != null && "nil".equals(cat)) {
+        if (cat != null && NIL.equals(cat)) {
             cat = null;
         }
         if (length > MAX_ENTRIES) {
@@ -669,7 +631,7 @@ public class Weblog implements Serializable {
      * @return List of weblog entry objects.
      */
     public List<WeblogEntry> getRecentWeblogEntriesByTag(String tag, int length) {
-        if (tag != null && "nil".equals(tag)) {
+        if (tag != null && NIL.equals(tag)) {
             tag = null;
         }
         if (length > MAX_ENTRIES) {
@@ -732,7 +694,7 @@ public class Weblog implements Serializable {
         try {
             Weblogger roller = WebloggerFactory.getWeblogger();
             BookmarkManager bmgr = roller.getBookmarkManager();
-            if (folderName == null || folderName.equals("nil") || folderName.trim().equals("/")) {
+            if (isDefaultBookmarkFolderName(folderName)) {
                 return bmgr.getDefaultFolder(this);
             } else {
                 return bmgr.getFolder(this, folderName);
@@ -920,6 +882,89 @@ public class Weblog implements Serializable {
             }
         }
         return null;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private static boolean isDefaultBookmarkFolderName(String folderName) {
+        if (folderName == null) {
+            return true;
+        }
+        return NIL.equals(folderName) || "/".equals(folderName.trim());
+    }
+
+    private static String normalizeNullable(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
+    }
+
+    public static final class Builder {
+        private String handle;
+        private String creator;
+        private String name;
+        private String tagline;
+        private String emailAddress;
+        private String editorTheme;
+        private String locale;
+        private String timeZone;
+
+        public Builder handle(String handle) {
+            this.handle = handle;
+            return this;
+        }
+
+        public Builder creator(String creator) {
+            this.creator = creator;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder tagline(String tagline) {
+            this.tagline = tagline;
+            return this;
+        }
+
+        public Builder emailAddress(String emailAddress) {
+            this.emailAddress = emailAddress;
+            return this;
+        }
+
+        public Builder editorTheme(String editorTheme) {
+            this.editorTheme = editorTheme;
+            return this;
+        }
+
+        public Builder locale(String locale) {
+            this.locale = locale;
+            return this;
+        }
+
+        public Builder timeZone(String timeZone) {
+            this.timeZone = timeZone;
+            return this;
+        }
+
+        public Weblog build() {
+            Weblog weblog = new Weblog();
+            weblog.setHandle(handle);
+            weblog.setCreatorUserName(creator);
+            weblog.setName(name);
+            weblog.setTagline(tagline);
+            weblog.setEmailAddress(emailAddress);
+            weblog.setEditorTheme(editorTheme);
+            weblog.setLocale(locale);
+            weblog.setTimeZone(timeZone);
+            return weblog;
+        }
     }
 
 }

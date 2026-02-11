@@ -32,7 +32,7 @@ import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.pojos.WeblogEntry;
 import org.apache.roller.weblogger.pojos.WeblogEntrySearchCriteria;
 import org.apache.roller.weblogger.ui.rendering.util.WeblogPageRequest;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateFormatUtil;
 
 
 /**
@@ -43,7 +43,7 @@ public class BigWeblogCalendarModel extends WeblogCalendarModel {
     private static final Log mLogger = LogFactory.getLog(BigWeblogCalendarModel.class);
 
     protected final SimpleDateFormat starDateFormat =
-            DateUtil.get8charDateFormat();
+            DateFormatUtil.get8charDateFormat();
 
     protected final SimpleDateFormat singleDayFormat =
             new SimpleDateFormat("dd");
@@ -153,9 +153,9 @@ public class BigWeblogCalendarModel extends WeblogCalendarModel {
             return null;
         }
         else if (dateString == null && !nextPrevMonthURL) {
-            dateString = DateUtil.format8chars(day);
+            dateString = DateFormatUtil.format8chars(day);
         } else if (dateString == null) {
-            dateString = DateUtil.format6chars(day);
+            dateString = DateFormatUtil.format6chars(day);
         }
         try {
             if (nextPrevMonthURL && pageLink != null) { 

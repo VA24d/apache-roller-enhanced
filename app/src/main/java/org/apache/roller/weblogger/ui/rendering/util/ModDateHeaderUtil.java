@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.util.RollerConstants;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.weblogger.ui.rendering.mobile.MobileDeviceRepository;
 
 /**
@@ -82,9 +82,9 @@ public final class ModDateHeaderUtil {
 			SimpleDateFormat dateFormat = new SimpleDateFormat(
 					"EEE MMM dd 'at' h:mm:ss a");
 			log.debug("since date = "
-					+ DateUtil.format(new Date(sinceDate), dateFormat));
+					+ DateFormatUtil.format(new Date(sinceDate), dateFormat));
 			log.debug("last mod date (trucated to seconds) = "
-					+ DateUtil.format(new Date(lastModifiedTimeMillis),
+					+ DateFormatUtil.format(new Date(lastModifiedTimeMillis),
 							dateFormat));
 		}
 

@@ -38,6 +38,10 @@ The weblog and content subsystem is responsible for managing blogs, blog entries
 - Only core content-related classes were modeled.
 - UI controllers and persistence details were abstracted.
 - Attributes shown are representative, not exhaustive.
+- Only architecturally significant attributes and public methods were modeled.
+Getters, setters, persistence helpers, and utility methods were omitted to
+maintain clarity and focus on design-level relationships.
+
 
 
 

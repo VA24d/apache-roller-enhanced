@@ -55,12 +55,12 @@ public abstract class IndexOperation implements Runnable {
 
     // ~ Instance fields
     // ========================================================
-    protected LuceneIndexManager manager;
+    protected IndexOperationContext manager;
     private IndexWriter writer;
 
     // ~ Constructors
     // ===========================================================
-    public IndexOperation(LuceneIndexManager manager) {
+    public IndexOperation(IndexOperationContext manager) {
         this.manager = manager;
     }
 
@@ -172,7 +172,7 @@ public abstract class IndexOperation implements Runnable {
         try {
 
             LimitTokenCountAnalyzer analyzer = new LimitTokenCountAnalyzer(
-                    LuceneIndexManager.getAnalyzer(),
+                    manager.getAnalyzer(),
                     WebloggerConfig.getIntProperty("lucene.analyzer.maxTokenCount"));
 
             IndexWriterConfig config = new IndexWriterConfig(analyzer);
