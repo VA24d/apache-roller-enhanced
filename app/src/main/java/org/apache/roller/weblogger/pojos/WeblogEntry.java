@@ -455,12 +455,12 @@ public class WeblogEntry implements Serializable {
     //-------------------------------------------------------------------------
 
     /**
-     * Returns an unmodifiable view of the entry attributes.
+     * Returns the entry attributes set.
      * Use {@link #putEntryAttribute(String, String)} and
      * {@link #removeEntryAttribute(String)} to modify.
      */
     public Set<WeblogEntryAttribute> getEntryAttributes() {
-        return Collections.unmodifiableSet(attSet);
+        return attSet;
     }
 
     /**
@@ -875,6 +875,15 @@ public class WeblogEntry implements Serializable {
         return urlStrategy.getWeblogEntryURL(getWebsite(), null, getAnchor(), true);
     }
     
+    /**
+     * Returns entry permalink, relative to Roller context.
+     * @deprecated Use getPermalink() instead.
+     */
+    @Deprecated
+    public String getPermaLink() {
+        return getRelativePermalink();
+    }
+
     /**
      * Returns entry permalink, relative to Roller context.
      * @deprecated Use getPermalink() instead.

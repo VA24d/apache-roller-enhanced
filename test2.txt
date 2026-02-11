@@ -1,0 +1,190 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.apache.roller:roller-webapp >-------------------
+[INFO] Building Roller webapp 6.1.5
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[WARNING] 1 problem was encountered while building the effective model for org.javassist:javassist:jar:3.20.0-GA during dependency collection step for project (use -X to see details)
+[INFO] 
+[INFO] --- resources:3.3.1:copy-resources (copy-main-resources) @ roller-webapp ---
+[INFO] Copying 94 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- buildnumber:3.2.1:create (default) @ roller-webapp ---
+[INFO] Executing: cmd.exe /X /C "git log -1 --no-merges "--format=format:%H %aI %aE %aN""
+[INFO] Working directory: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app
+[INFO] Storing buildNumber: 7be1af9c3fa4ef0f9c50fe691d928d759e3e8cfd at timestamp: 1770806958933
+[INFO] Executing: cmd.exe /X /C "git symbolic-ref HEAD"
+[INFO] Working directory: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app
+[INFO] Storing scmBranch: fix/issue-4-hub-like-object
+[INFO] 
+[INFO] --- resources:3.3.1:copy-resources (copy-dbscripts-resources) @ roller-webapp ---
+[INFO] Copying 24 resources from src\main\resources\sql to target\classes\dbscripts
+[INFO] 
+[INFO] --- antrun:3.1.0:run (gen-db-scripts) @ roller-webapp ---
+[INFO] Executing tasks
+[INFO]     [texen] Using contextProperties file: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app\src\main\resources\sql\dbscripts.properties
+C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app/src/main/resources/sql
+[INFO]     [texen] Generating to file C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app\target\classes\dbscripts\README.txt
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ roller-webapp ---
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources-filtered to target\classes
+[INFO] The encoding used to copy filtered properties files have not been set. This means that the same encoding will be used to copy filtered properties files as when copying other filtered resources. This might not be what you want! Run your build with --debug to see which files might be affected. Read more at https://maven.apache.org/plugins/maven-resources-plugin/examples/filtering-properties-files.html
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ roller-webapp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ roller-webapp ---
+[INFO] Copying 111 resources from src\main\webapp to target\test-classes
+[INFO] Copying 26 resources from src\test\resources to target\test-classes
+[INFO] The encoding used to copy filtered properties files have not been set. This means that the same encoding will be used to copy filtered properties files as when copying other filtered resources. This might not be what you want! Run your build with --debug to see which files might be affected. Read more at https://maven.apache.org/plugins/maven-resources-plugin/examples/filtering-properties-files.html
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ roller-webapp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ roller-webapp ---
+[WARNING]  Parameter 'systemProperties' is deprecated: Use systemPropertyVariables instead.
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.roller.weblogger.business.UserTest
+==============
+Starting Derby
+==============
+Wed Feb 11 16:19:22 IST 2026 : Apache Derby Network Server - 10.11.1.1 - (1616546) started and ready to accept connections on port 4224
+Runtime Info: --- Derby Network Server Runtime Information ---
+---------- Session Information ---------------
+Session # :1
+
+
+-------------------------------------------------------------
+# Connection Threads : 1
+# Active Sessions : 1
+# Waiting  Sessions : 0
+
+Total Memory : 83886080	Free Memory : 70379208
+
+
+Roller Weblogger: Successfully loaded custom properties file from classpath
+File path : /C:/Users/Aryan/WINDOWS%2011/IIIT%20HYDERABAD/6th%20SEM/Software%20Engineering/PROJECTS/PROJECT-1/project-1-team-33/app/target/test-classes/roller-custom.properties
+(To run eclipse junit local tests see docs/testing/roller-junit.properties)
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 8.052 s <<< FAILURE! -- in org.apache.roller.weblogger.business.UserTest
+[ERROR] org.apache.roller.weblogger.business.UserTest.testUserCRUD -- Time elapsed: 7.577 s <<< ERROR!
+com.google.inject.ProvisionException: 
+Unable to provision, see the following errors:
+
+1) [Guice/ErrorInjectingConstructor]: WebloggerException
+  at JPAPersistenceStrategy.<init>(JPAPersistenceStrategy.java:67)
+  at JPAWebloggerModule.configure(JPAWebloggerModule.java:67)
+  at JPAWebloggerImpl.<init>(JPAWebloggerImpl.java:70)
+      \_ for 1st parameter
+  at JPAWebloggerImpl.class(JPAWebloggerImpl.java:70)
+  while locating JPAWebloggerImpl
+  while locating Weblogger
+
+Learn more:
+  https://github.com/google/guice/wiki/ERROR_INJECTING_CONSTRUCTOR
+
+1 error
+
+======================
+Full classname legend:
+======================
+JPAPersistenceStrategy: "org.apache.roller.weblogger.business.jpa.JPAPersistenceStrategy"
+JPAWebloggerImpl:       "org.apache.roller.weblogger.business.jpa.JPAWebloggerImpl"
+JPAWebloggerModule:     "org.apache.roller.weblogger.business.jpa.JPAWebloggerModule"
+Weblogger:              "org.apache.roller.weblogger.business.Weblogger"
+WebloggerException:     "org.apache.roller.weblogger.WebloggerException"
+========================
+End of classname legend:
+========================
+
+	at com.google.inject.internal.InternalProvisionException.toProvisionException(InternalProvisionException.java:251)
+	at com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1151)
+	at com.google.inject.internal.InjectorImpl.getInstance(InjectorImpl.java:1186)
+	at org.apache.roller.weblogger.business.GuiceWebloggerProvider.bootstrap(GuiceWebloggerProvider.java:78)
+	at org.apache.roller.weblogger.business.WebloggerFactory.bootstrap(WebloggerFactory.java:132)
+	at org.apache.roller.weblogger.business.WebloggerFactory.bootstrap(WebloggerFactory.java:97)
+	at org.apache.roller.weblogger.TestUtils.setupWeblogger(TestUtils.java:86)
+	at org.apache.roller.weblogger.business.UserTest.setUp(UserTest.java:45)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: org.apache.roller.weblogger.WebloggerException
+	at org.apache.roller.weblogger.business.jpa.JPAPersistenceStrategy.<init>(JPAPersistenceStrategy.java:108)
+	at org.apache.roller.weblogger.business.jpa.JPAPersistenceStrategy$$FastClassByGuice$$153f74.GUICE$TRAMPOLINE(<generated>)
+	at org.apache.roller.weblogger.business.jpa.JPAPersistenceStrategy$$FastClassByGuice$$153f74.apply(<generated>)
+	at com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:82)
+	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:114)
+	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)
+	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:300)
+	at com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)
+	at com.google.inject.internal.SingletonScope$1.get(SingletonScope.java:169)
+	at com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:45)
+	at com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:40)
+	at com.google.inject.internal.SingleParameterInjector.getAll(SingleParameterInjector.java:60)
+	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:113)
+	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)
+	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:300)
+	at com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)
+	at com.google.inject.internal.SingletonScope$1.get(SingletonScope.java:169)
+	at com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:45)
+	at com.google.inject.internal.FactoryProxy.get(FactoryProxy.java:60)
+	at com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1148)
+	... 9 more
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   UserTest.setUp:45 ╗ Provision Unable to provision, see the following errors:
+
+1) [Guice/ErrorInjectingConstructor]: WebloggerException
+  at JPAPersistenceStrategy.<init>(JPAPersistenceStrategy.java:67)
+  at JPAWebloggerModule.configure(JPAWebloggerModule.java:67)
+  at JPAWebloggerImpl.<init>(JPAWebloggerImpl.java:70)
+      \_ for 1st parameter
+  at JPAWebloggerImpl.class(JPAWebloggerImpl.java:70)
+  while locating JPAWebloggerImpl
+  while locating Weblogger
+
+Learn more:
+  https://github.com/google/guice/wiki/ERROR_INJECTING_CONSTRUCTOR
+
+1 error
+
+======================
+Full classname legend:
+======================
+JPAPersistenceStrategy: "org.apache.roller.weblogger.business.jpa.JPAPersistenceStrategy"
+JPAWebloggerImpl:       "org.apache.roller.weblogger.business.jpa.JPAWebloggerImpl"
+JPAWebloggerModule:     "org.apache.roller.weblogger.business.jpa.JPAWebloggerModule"
+Weblogger:              "org.apache.roller.weblogger.business.Weblogger"
+WebloggerException:     "org.apache.roller.weblogger.WebloggerException"
+========================
+End of classname legend:
+========================
+
+[INFO] 
+[ERROR] Tests run: 1, Failures: 0, Errors: 1, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.027 s
+[INFO] Finished at: 2026-02-11T16:19:30+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.2:test (default-test) on project roller-webapp: 
+[ERROR] 
+[ERROR] See C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

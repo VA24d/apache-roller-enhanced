@@ -1,0 +1,248 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< org.apache.roller:roller-webapp >-------------------
+[INFO] Building Roller webapp 6.1.5
+[INFO]   from pom.xml
+[INFO] --------------------------------[ war ]---------------------------------
+[WARNING] 1 problem was encountered while building the effective model for org.javassist:javassist:jar:3.20.0-GA during dependency collection step for project (use -X to see details)
+[INFO] 
+[INFO] --- resources:3.3.1:copy-resources (copy-main-resources) @ roller-webapp ---
+[INFO] Copying 94 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- buildnumber:3.2.1:create (default) @ roller-webapp ---
+[INFO] Executing: cmd.exe /X /C "git log -1 --no-merges "--format=format:%H %aI %aE %aN""
+[INFO] Working directory: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app
+[INFO] Storing buildNumber: 7be1af9c3fa4ef0f9c50fe691d928d759e3e8cfd at timestamp: 1770807370110
+[INFO] Executing: cmd.exe /X /C "git symbolic-ref HEAD"
+[INFO] Working directory: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app
+[INFO] Storing scmBranch: fix/issue-4-hub-like-object
+[INFO] 
+[INFO] --- resources:3.3.1:copy-resources (copy-dbscripts-resources) @ roller-webapp ---
+[INFO] Copying 24 resources from src\main\resources\sql to target\classes\dbscripts
+[INFO] 
+[INFO] --- antrun:3.1.0:run (gen-db-scripts) @ roller-webapp ---
+[INFO] Executing tasks
+[INFO]     [texen] Using contextProperties file: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app\src\main\resources\sql\dbscripts.properties
+C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app/src/main/resources/sql
+[INFO]     [texen] Generating to file C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app\target\classes\dbscripts\README.txt
+[INFO] Executed tasks
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ roller-webapp ---
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources-filtered to target\classes
+[INFO] The encoding used to copy filtered properties files have not been set. This means that the same encoding will be used to copy filtered properties files as when copying other filtered resources. This might not be what you want! Run your build with --debug to see which files might be affected. Read more at https://maven.apache.org/plugins/maven-resources-plugin/examples/filtering-properties-files.html
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ roller-webapp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ roller-webapp ---
+[INFO] Copying 111 resources from src\main\webapp to target\test-classes
+[INFO] Copying 26 resources from src\test\resources to target\test-classes
+[INFO] The encoding used to copy filtered properties files have not been set. This means that the same encoding will be used to copy filtered properties files as when copying other filtered resources. This might not be what you want! Run your build with --debug to see which files might be affected. Read more at https://maven.apache.org/plugins/maven-resources-plugin/examples/filtering-properties-files.html
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ roller-webapp ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.2:test (default-test) @ roller-webapp ---
+[WARNING]  Parameter 'systemProperties' is deprecated: Use systemPropertyVariables instead.
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.apache.roller.planet.business.EntryBasicTests
+==============
+Starting Derby
+==============
+Wed Feb 11 16:26:15 IST 2026 : Apache Derby Network Server - 10.11.1.1 - (1616546) started and ready to accept connections on port 4224
+Runtime Info: --- Derby Network Server Runtime Information ---
+---------- Session Information ---------------
+Session # :1
+
+
+-------------------------------------------------------------
+# Connection Threads : 1
+# Active Sessions : 1
+# Waiting  Sessions : 0
+
+Total Memory : 100663296	Free Memory : 86830640
+
+
+Roller Weblogger: Successfully loaded custom properties file from classpath
+File path : /C:/Users/Aryan/WINDOWS%2011/IIIT%20HYDERABAD/6th%20SEM/Software%20Engineering/PROJECTS/PROJECT-1/project-1-team-33/app/target/test-classes/roller-custom.properties
+(To run eclipse junit local tests see docs/testing/roller-junit.properties)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.47 s -- in org.apache.roller.planet.business.EntryBasicTests
+[INFO] Running org.apache.roller.planet.business.EntryFunctionalTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.250 s -- in org.apache.roller.planet.business.EntryFunctionalTests
+[INFO] Running org.apache.roller.planet.business.GroupBasicTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in org.apache.roller.planet.business.GroupBasicTests
+[INFO] Running org.apache.roller.planet.business.GroupFunctionalTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in org.apache.roller.planet.business.GroupFunctionalTests
+[INFO] Running org.apache.roller.planet.business.PlanetBasicTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in org.apache.roller.planet.business.PlanetBasicTests
+[INFO] Running org.apache.roller.planet.business.PlanetFunctionalTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in org.apache.roller.planet.business.PlanetFunctionalTests
+[INFO] Running org.apache.roller.planet.business.PropertiesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 s -- in org.apache.roller.planet.business.PropertiesTest
+[INFO] Running org.apache.roller.planet.business.RomeFeedFetcherTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.588 s -- in org.apache.roller.planet.business.RomeFeedFetcherTest
+[INFO] Running org.apache.roller.planet.business.SingleThreadedFeedUpdaterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.810 s -- in org.apache.roller.planet.business.SingleThreadedFeedUpdaterTest
+[INFO] Running org.apache.roller.planet.business.SubscriptionBasicTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in org.apache.roller.planet.business.SubscriptionBasicTests
+[INFO] Running org.apache.roller.planet.business.SubscriptionFunctionalTests
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 s -- in org.apache.roller.planet.business.SubscriptionFunctionalTests
+[INFO] Running org.apache.roller.util.PropertyExpanderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in org.apache.roller.util.PropertyExpanderTest
+[INFO] Running org.apache.roller.util.RegexUtilTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in org.apache.roller.util.RegexUtilTest
+[INFO] Running org.apache.roller.weblogger.business.BookmarkTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.676 s -- in org.apache.roller.weblogger.business.BookmarkTest
+[INFO] Running org.apache.roller.weblogger.business.CustomTemplateRenditionTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.096 s -- in org.apache.roller.weblogger.business.CustomTemplateRenditionTest
+[INFO] Running org.apache.roller.weblogger.business.FileContentManagerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.240 s -- in org.apache.roller.weblogger.business.FileContentManagerTest
+[INFO] Running org.apache.roller.weblogger.business.FolderCRUDTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in org.apache.roller.weblogger.business.FolderCRUDTest
+[INFO] Running org.apache.roller.weblogger.business.FolderFunctionalityTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.381 s -- in org.apache.roller.weblogger.business.FolderFunctionalityTest
+[INFO] Running org.apache.roller.weblogger.business.HitCountTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.511 s -- in org.apache.roller.weblogger.business.HitCountTest
+[INFO] Running org.apache.roller.weblogger.business.jpa.JPAOAuthManagerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 s -- in org.apache.roller.weblogger.business.jpa.JPAOAuthManagerTest
+[INFO] Running org.apache.roller.weblogger.business.MediaFileTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.206 s -- in org.apache.roller.weblogger.business.MediaFileTest
+[INFO] Running org.apache.roller.weblogger.business.PermissionTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.313 s -- in org.apache.roller.weblogger.business.PermissionTest
+[INFO] Running org.apache.roller.weblogger.business.PingsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.303 s -- in org.apache.roller.weblogger.business.PingsTest
+[INFO] Running org.apache.roller.weblogger.business.PlanetManagerLocalTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.335 s -- in org.apache.roller.weblogger.business.PlanetManagerLocalTest
+[INFO] Running org.apache.roller.weblogger.business.plugins.CommentPluginsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in org.apache.roller.weblogger.business.plugins.CommentPluginsTest
+[INFO] Running org.apache.roller.weblogger.business.plugins.entry.EncodePreTagsPluginTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in org.apache.roller.weblogger.business.plugins.entry.EncodePreTagsPluginTest
+[INFO] Running org.apache.roller.weblogger.business.PropertiesTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in org.apache.roller.weblogger.business.PropertiesTest
+[INFO] Running org.apache.roller.weblogger.business.search.IndexManagerTest
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 8.245 s <<< FAILURE! -- in org.apache.roller.weblogger.business.search.IndexManagerTest
+[ERROR] org.apache.roller.weblogger.business.search.IndexManagerTest.testBasicOperation -- Time elapsed: 8.243 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2> but was: <0>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at org.apache.roller.weblogger.business.search.IndexManagerTest.testBasicOperation(IndexManagerTest.java:93)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] Running org.apache.roller.weblogger.business.SQLScriptRunnerTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.176 s -- in org.apache.roller.weblogger.business.SQLScriptRunnerTest
+[INFO] Running org.apache.roller.weblogger.business.TaskLockTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.041 s -- in org.apache.roller.weblogger.business.TaskLockTest
+[INFO] Running org.apache.roller.weblogger.business.ThemeManagerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 s -- in org.apache.roller.weblogger.business.ThemeManagerTest
+[INFO] Running org.apache.roller.weblogger.business.UserTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in org.apache.roller.weblogger.business.UserTest
+[INFO] Running org.apache.roller.weblogger.business.WeblogCategoryCRUDTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.138 s -- in org.apache.roller.weblogger.business.WeblogCategoryCRUDTest
+[INFO] Running org.apache.roller.weblogger.business.WeblogCategoryFunctionalityTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.242 s -- in org.apache.roller.weblogger.business.WeblogCategoryFunctionalityTest
+[INFO] Running org.apache.roller.weblogger.business.WeblogEntryTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.118 s -- in org.apache.roller.weblogger.business.WeblogEntryTest
+[INFO] Running org.apache.roller.weblogger.business.WeblogPageTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.082 s -- in org.apache.roller.weblogger.business.WeblogPageTest
+[INFO] Running org.apache.roller.weblogger.business.WeblogStatsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.318 s -- in org.apache.roller.weblogger.business.WeblogStatsTest
+[INFO] Running org.apache.roller.weblogger.business.WeblogTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s -- in org.apache.roller.weblogger.business.WeblogTest
+[INFO] Running org.apache.roller.weblogger.planet.business.WebloggerRomeFeedFetcherTest
+Local feed - weblogger:webloggerFetcherTestWeblog no longer exists in weblogger
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in org.apache.roller.weblogger.planet.business.WebloggerRomeFeedFetcherTest
+[INFO] Running org.apache.roller.weblogger.pojos.WeblogEntryTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.561 s -- in org.apache.roller.weblogger.pojos.WeblogEntryTest
+[INFO] Running org.apache.roller.weblogger.ui.core.filters.InitFilterTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in org.apache.roller.weblogger.ui.core.filters.InitFilterTest
+[INFO] Running org.apache.roller.weblogger.ui.core.filters.LoadSaltFilterTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.550 s -- in org.apache.roller.weblogger.ui.core.filters.LoadSaltFilterTest
+[INFO] Running org.apache.roller.weblogger.ui.core.filters.ValidateSaltFilterTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.138 s -- in org.apache.roller.weblogger.ui.core.filters.ValidateSaltFilterTest
+[INFO] Running org.apache.roller.weblogger.ui.core.RollerLoginSessionManagerTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.072 s -- in org.apache.roller.weblogger.ui.core.RollerLoginSessionManagerTest
+[INFO] Running org.apache.roller.weblogger.ui.core.RollerSessionTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.157 s -- in org.apache.roller.weblogger.ui.core.RollerSessionTest
+[INFO] Running org.apache.roller.weblogger.ui.rendering.model.SearchResultsFeedModelTest
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 9.186 s <<< FAILURE! -- in org.apache.roller.weblogger.ui.rendering.model.SearchResultsFeedModelTest
+[ERROR] org.apache.roller.weblogger.ui.rendering.model.SearchResultsFeedModelTest.testBasicOperation -- Time elapsed: 9.184 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <2> but was: <0>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at org.apache.roller.weblogger.ui.rendering.model.SearchResultsFeedModelTest.testBasicOperation(SearchResultsFeedModelTest.java:90)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] Running org.apache.roller.weblogger.ui.rendering.model.SearchResultsModelTest
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 7.725 s <<< FAILURE! -- in org.apache.roller.weblogger.ui.rendering.model.SearchResultsModelTest
+[ERROR] org.apache.roller.weblogger.ui.rendering.model.SearchResultsModelTest.testBasicOperation -- Time elapsed: 7.724 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <1> but was: <0>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:150)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:145)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:531)
+	at org.apache.roller.weblogger.ui.rendering.model.SearchResultsModelTest.testBasicOperation(SearchResultsModelTest.java:93)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] Running org.apache.roller.weblogger.ui.rendering.util.CommentValidatorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.220 s -- in org.apache.roller.weblogger.ui.rendering.util.CommentValidatorTest
+[INFO] Running org.apache.roller.weblogger.ui.struts2.util.UIActionTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in org.apache.roller.weblogger.ui.struts2.util.UIActionTest
+[INFO] Running org.apache.roller.weblogger.ui.UIPluginManagerTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in org.apache.roller.weblogger.ui.UIPluginManagerTest
+[INFO] Running org.apache.roller.weblogger.util.BannedwordslistTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in org.apache.roller.weblogger.util.BannedwordslistTest
+[INFO] Running org.apache.roller.weblogger.util.IPBanListTest
+[WARNING] Tests run: 6, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.564 s -- in org.apache.roller.weblogger.util.IPBanListTest
+[INFO] Running org.apache.roller.weblogger.util.LRUCache2Test
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.221 s -- in org.apache.roller.weblogger.util.LRUCache2Test
+[INFO] Running org.apache.roller.weblogger.util.UtilitiesTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in org.apache.roller.weblogger.util.UtilitiesTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   IndexManagerTest.testBasicOperation:93 expected: <2> but was: <0>
+[ERROR]   SearchResultsFeedModelTest.testBasicOperation:90 expected: <2> but was: <0>
+[ERROR]   SearchResultsModelTest.testBasicOperation:93 expected: <1> but was: <0>
+[INFO] 
+[ERROR] Tests run: 174, Failures: 3, Errors: 0, Skipped: 1
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:09 min
+[INFO] Finished at: 2026-02-11T16:27:17+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.2:test (default-test) on project roller-webapp: There are test failures.
+[ERROR] 
+[ERROR] See C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\PROJECT-1\project-1-team-33\app\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
