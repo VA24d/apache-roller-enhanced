@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0" xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+
+    <package>org.apache.roller.weblogger.pojos</package>
+    <entity metadata-complete="true" name="UserEntryStar" class="org.apache.roller.weblogger.pojos.UserEntryStar"
+            access="PROPERTY">
+        <table name="user_entry_star"/>
+
+        <named-query name="UserEntryStar.getByUserAndEntry">
+            <query>SELECT s FROM UserEntryStar s WHERE s.user = ?1 AND s.entry = ?2</query>
+        </named-query>
+
+        <named-query name="UserEntryStar.getStarredEntriesByUser">
+            <query>SELECT s FROM UserEntryStar s WHERE s.user = ?1 ORDER BY s.starredTime DESC</query>
+        </named-query>
+
+        <named-query name="UserEntryStar.getTrendingEntries">
+            <query>SELECT s.entry.id, COUNT(s) FROM UserEntryStar s GROUP BY s.entry.id ORDER BY COUNT(s) DESC</query>
+        </named-query>
+
+        <named-query name="UserEntryStar.getCountByEntry">
+            <query>SELECT COUNT(s) FROM UserEntryStar s WHERE s.entry = ?1</query>
+        </named-query>
+
+        <named-query name="UserEntryStar.removeByEntry">
+            <query>DELETE FROM UserEntryStar s WHERE s.entry = ?1</query>
+        </named-query>
+
+        <named-query name="UserEntryStar.removeByUser">
+            <query>DELETE FROM UserEntryStar s WHERE s.user = ?1</query>
+        </named-query>
+
+        <attributes>
+            <id name="id">
+                <column name="id"/>
+            </id>
+            <basic name="starredTime">
+                <column name="starred_time" insertable="true" updatable="true" nullable="false"/>
+            </basic>
+            <many-to-one name="user" target-entity="org.apache.roller.weblogger.pojos.User">
+                <join-column name="userid" insertable="true" updatable="true" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="entry" target-entity="org.apache.roller.weblogger.pojos.WeblogEntry">
+                <join-column name="entryid" insertable="true" updatable="true" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+</entity-mappings>
