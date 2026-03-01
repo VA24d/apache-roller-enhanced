@@ -71,6 +71,7 @@ public abstract class WebloggerImpl implements Weblogger {
     private final OAuthManager         oauthManager;
     private final FeedFetcher          feedFetcher;
     private final PlanetManager        planetManager;
+    private final StarManager          starManager;
     
     // url strategy
     private final URLStrategy          urlStrategy;
@@ -102,7 +103,8 @@ public abstract class WebloggerImpl implements Weblogger {
         FeedFetcher          feedFetcher,
         PlanetManager        planetManager,
         org.apache.roller.planet.business.PlanetURLStrategy planetUrlStrategy,
-        URLStrategy          urlStrategy) throws WebloggerException { 
+        URLStrategy          urlStrategy,
+        StarManager          starManager) throws WebloggerException { 
                 
         this.autoPingManager     = autoPingManager;
         this.bookmarkManager     = bookmarkManager;
@@ -123,6 +125,7 @@ public abstract class WebloggerImpl implements Weblogger {
         this.feedFetcher         = feedFetcher;
         this.planetManager       = planetManager;
         this.planetUrlStrategy   = planetUrlStrategy;
+        this.starManager         = starManager;
 
         Properties props = new Properties();
         try {
@@ -303,6 +306,15 @@ public abstract class WebloggerImpl implements Weblogger {
 
 
     /**
+     * @see org.apache.roller.weblogger.business.Weblogger#getStarManager()
+     */
+    @Override
+    public StarManager getStarManager() {
+        return starManager;
+    }
+
+
+    /**
      * @inheritDoc
      */
     @Override
@@ -341,6 +353,7 @@ public abstract class WebloggerImpl implements Weblogger {
             threadManager.release();
             userManager.release();
             weblogManager.release();
+            starManager.release();
         } catch(Exception e) {
             log.error("Error calling Roller.release()", e);
         }

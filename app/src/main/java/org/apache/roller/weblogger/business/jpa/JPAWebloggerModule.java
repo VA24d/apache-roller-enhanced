@@ -38,6 +38,7 @@ import org.apache.roller.weblogger.business.OAuthManager;
 import org.apache.roller.weblogger.business.PropertiesManager;
 import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.business.Weblogger;
+import org.apache.roller.weblogger.business.StarManager;
 import org.apache.roller.weblogger.business.UserManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WeblogManager;
@@ -84,6 +85,7 @@ public class JPAWebloggerModule implements Module {
         binder.bind(IndexManager.class).to(        LuceneIndexManager.class);
         binder.bind(PluginManager.class).to(       PluginManagerImpl.class);    
         binder.bind(ThemeManager.class).to(        ThemeManagerImpl.class);
+        binder.bind(StarManager.class).to(         JPAStarManagerImpl.class);
         
         binder.bind(URLStrategy.class).to(         MultiWeblogURLStrategy.class);
         binder.bind(PlanetURLStrategy.class).to(   MultiPlanetURLStrategy.class);

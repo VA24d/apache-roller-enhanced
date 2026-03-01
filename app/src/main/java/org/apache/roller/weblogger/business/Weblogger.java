@@ -129,6 +129,11 @@ public interface Weblogger {
     FileContentManager getFileContentManager();
 
     /**
+     * Get StarManager associated with this Weblogger instance.
+     */
+    StarManager getStarManager();
+
+    /**
      * Get the URLStrategy used to build all urls in the system.
      */
     URLStrategy getUrlStrategy();
