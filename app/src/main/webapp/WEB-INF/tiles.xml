@@ -136,6 +136,18 @@
         <put-attribute name="sidebar" value="/WEB-INF/jsps/core/MainMenuSidebar.jsp" />
         <put-attribute name="styles" value="/WEB-INF/jsps/tiles/empty.jsp" />
     </definition>
+
+    <definition name=".StarredWeblogs" extends=".tiles-simplepage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/core/StarredWeblogs.jsp" />
+    </definition>
+
+    <definition name=".StarredEntries" extends=".tiles-simplepage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/core/StarredEntries.jsp" />
+    </definition>
+
+    <definition name=".Trending" extends=".tiles-simplepage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/core/Trending.jsp" />
+    </definition>
     
     
         <!-- setup pages -->

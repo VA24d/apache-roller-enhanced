@@ -163,6 +163,38 @@
             <allowed-methods>accept,decline,execute</allowed-methods>
         </action>
 
+        <action name="starredWeblogs"
+                class="org.apache.roller.weblogger.ui.struts2.core.StarredWeblogsAction">
+            <result type="tiles">.StarredWeblogs</result>
+            <allowed-methods>execute</allowed-methods>
+        </action>
+
+        <action name="starredEntries"
+                class="org.apache.roller.weblogger.ui.struts2.core.StarredEntriesAction">
+            <result type="tiles">.StarredEntries</result>
+            <allowed-methods>execute</allowed-methods>
+        </action>
+
+        <action name="trending"
+                class="org.apache.roller.weblogger.ui.struts2.core.TrendingAction">
+            <result type="tiles">.Trending</result>
+            <allowed-methods>execute</allowed-methods>
+        </action>
+
+        <action name="starWeblog"
+                class="org.apache.roller.weblogger.ui.struts2.core.StarWeblogAction">
+            <result type="tiles">.StarredWeblogs</result>
+            <result name="error" type="tiles">.StarredWeblogs</result>
+            <allowed-methods>star,unstar</allowed-methods>
+        </action>
+
+        <action name="starEntry"
+                class="org.apache.roller.weblogger.ui.struts2.core.StarEntryAction">
+            <result type="tiles">.StarredEntries</result>
+            <result name="error" type="tiles">.StarredEntries</result>
+            <allowed-methods>star,unstar</allowed-methods>
+        </action>
+
     </package>
     
     
