@@ -37,7 +37,11 @@ public class StarWeblogAction extends UIAction {
 
     private static final Log LOG = LogFactory.getLog(StarWeblogAction.class);
 
+    /** UUID of the weblog (optional — use weblogHandle if not provided). */
     private String weblogId = null;
+
+    /** URL-friendly handle of the weblog (e.g. "speed"). */
+    private String weblogHandle = null;
 
 
     public StarWeblogAction() {
@@ -51,18 +55,39 @@ public class StarWeblogAction extends UIAction {
     }
 
 
+    /** Resolve the target weblog from weblogId or weblogHandle. */
+    private Weblog resolveWeblog() throws WebloggerException {
+        WeblogManager weblogMgr = WebloggerFactory.getWeblogger().getWeblogManager();
+        if (weblogId != null && !weblogId.isEmpty()) {
+            return weblogMgr.getWeblog(weblogId);
+        }
+        if (weblogHandle != null && !weblogHandle.isEmpty()) {
+            return weblogMgr.getWeblogByHandle(weblogHandle);
+        }
+        return null;
+    }
+
+
     public String star() {
         try {
             StarManager starMgr = WebloggerFactory.getWeblogger().getStarManager();
-            WeblogManager weblogMgr = WebloggerFactory.getWeblogger().getWeblogManager();
-            Weblog weblog = weblogMgr.getWeblog(weblogId);
+            Weblog weblog = resolveWeblog();
 
             if (weblog == null) {
                 addError("starWeblog.notFound");
                 return ERROR;
             }
 
-            // Check if already starred
+            // Set handle so redirect result can use ${weblogHandle}
+            weblogHandle = weblog.getHandle();
+
+            // Prevent authors from starring their own blog
+            if (weblog.getCreatorUserName().equals(getAuthenticatedUser().getUserName())) {
+                // silently redirect back — it makes no sense to star your own blog
+                return SUCCESS;
+            }
+
+            // Idempotent — save only if not already starred
             UserWeblogStar existing = starMgr.getWeblogStarByUserAndWeblog(
                     getAuthenticatedUser(), weblog);
             if (existing == null) {
@@ -74,11 +99,8 @@ public class StarWeblogAction extends UIAction {
                 WebloggerFactory.getWeblogger().flush();
             }
 
-            addMessage("starWeblog.starred", weblog.getName());
-
         } catch (WebloggerException e) {
-            LOG.error("Error starring weblog " + weblogId, e);
-            addError("starWeblog.error");
+            LOG.error("Error starring weblog " + weblogHandle, e);
         }
         return SUCCESS;
     }
@@ -87,13 +109,15 @@ public class StarWeblogAction extends UIAction {
     public String unstar() {
         try {
             StarManager starMgr = WebloggerFactory.getWeblogger().getStarManager();
-            WeblogManager weblogMgr = WebloggerFactory.getWeblogger().getWeblogManager();
-            Weblog weblog = weblogMgr.getWeblog(weblogId);
+            Weblog weblog = resolveWeblog();
 
             if (weblog == null) {
                 addError("starWeblog.notFound");
                 return ERROR;
             }
+
+            // Set handle so redirect result can use ${weblogHandle}
+            weblogHandle = weblog.getHandle();
 
             UserWeblogStar existing = starMgr.getWeblogStarByUserAndWeblog(
                     getAuthenticatedUser(), weblog);
@@ -102,21 +126,16 @@ public class StarWeblogAction extends UIAction {
                 WebloggerFactory.getWeblogger().flush();
             }
 
-            addMessage("starWeblog.unstarred", weblog.getName());
-
         } catch (WebloggerException e) {
-            LOG.error("Error unstarring weblog " + weblogId, e);
-            addError("starWeblog.error");
+            LOG.error("Error unstarring weblog " + weblogHandle, e);
         }
         return SUCCESS;
     }
 
 
-    public String getWeblogId() {
-        return weblogId;
-    }
+    public String getWeblogId() { return weblogId; }
+    public void setWeblogId(String weblogId) { this.weblogId = weblogId; }
 
-    public void setWeblogId(String weblogId) {
-        this.weblogId = weblogId;
-    }
+    public String getWeblogHandle() { return weblogHandle; }
+    public void setWeblogHandle(String weblogHandle) { this.weblogHandle = weblogHandle; }
 }

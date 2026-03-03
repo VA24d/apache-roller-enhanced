@@ -29,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
+import org.apache.roller.weblogger.business.StarManager;
+import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.pojos.wrapper.WeblogWrapper;
 import org.apache.roller.weblogger.ui.rendering.util.WeblogRequest;
 import org.apache.roller.util.DateFormatUtil;
@@ -110,7 +112,30 @@ public class UtilitiesModel implements Model {
         return parsedRequest.getAuthenticUser() != null 
                 ? UserWrapper.wrap(parsedRequest.getUser()) : null;
     }
-             
+
+    /**
+     * Returns true if the currently authenticated user has starred the given weblog.
+     * Safe to call from Velocity — returns false for anonymous users or on error.
+     */
+    public boolean isWeblogStarred(String weblogHandle) {
+        if (parsedRequest.getAuthenticUser() == null) {
+            return false;
+        }
+        try {
+            Weblog w = WebloggerFactory.getWeblogger()
+                    .getWeblogManager().getWeblogByHandle(weblogHandle);
+            if (w == null) {
+                return false;
+            }
+            StarManager starMgr = WebloggerFactory.getWeblogger().getStarManager();
+            return starMgr.getWeblogStarByUserAndWeblog(
+                    parsedRequest.getUser(), w) != null;
+        } catch (Exception e) {
+            log.warn("Error checking weblog star status for " + weblogHandle, e);
+            return false;
+        }
+    }
+
     //-------------------------------------------------------------- Date utils
     /**
      * Return date for current time.
