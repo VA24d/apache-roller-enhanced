@@ -64,6 +64,12 @@ Each menu or menu item is governed by four attributes:
                    weblogPerms="post"
                    subactions="mediaFileAdd,mediaFileSearch" />
 
+        <!-- globalPerms="login" -->
+        <menu-item action="bugReports"
+                   name="tabbedmenu.weblog.bugReports"
+                   weblogPerms="edit_draft"
+                   subactions="bugReportAdd,bugReportEdit" />
+
     </menu>
     
     <!--  if we already have checked weblogPerms="admin" globalPerms="login" we should -->

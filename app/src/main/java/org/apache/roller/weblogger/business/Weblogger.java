@@ -129,6 +129,11 @@ public interface Weblogger {
     FileContentManager getFileContentManager();
 
     /**
+     * Get BugReportManager associated with this Weblogger instance.
+     */
+    BugReportManager getBugReportManager();
+
+    /**
      * Get the URLStrategy used to build all urls in the system.
      */
     URLStrategy getUrlStrategy();

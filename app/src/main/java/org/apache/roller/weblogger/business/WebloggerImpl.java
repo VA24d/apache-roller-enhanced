@@ -59,6 +59,7 @@ public abstract class WebloggerImpl implements Weblogger {
     private final IndexManager         indexManager;
     private final MediaFileManager     mediaFileManager;
     private final FileContentManager   fileContentManager;
+    private final BugReportManager     bugReportManager;
     private final PingQueueManager     pingQueueManager;
     private final PingTargetManager    pingTargetManager;
     private final PluginManager        pluginManager;
@@ -89,6 +90,7 @@ public abstract class WebloggerImpl implements Weblogger {
         IndexManager         indexManager,
         MediaFileManager     mediaFileManager,
         FileContentManager   fileContentManager,
+        BugReportManager     bugReportManager,
         PingQueueManager     pingQueueManager,
         PingTargetManager    pingTargetManager,
         PluginManager        pluginManager,
@@ -109,6 +111,7 @@ public abstract class WebloggerImpl implements Weblogger {
         this.indexManager        = indexManager;
         this.mediaFileManager    = mediaFileManager;
         this.fileContentManager  = fileContentManager;
+        this.bugReportManager    = bugReportManager;
         this.pingQueueManager    = pingQueueManager;
         this.pingTargetManager   = pingTargetManager;
         this.pluginManager       = pluginManager;
@@ -211,6 +214,11 @@ public abstract class WebloggerImpl implements Weblogger {
     @Override
     public FileContentManager getFileContentManager() {
         return fileContentManager;
+    }
+
+    @Override
+    public BugReportManager getBugReportManager() {
+        return bugReportManager;
     }
     
     
@@ -335,6 +343,7 @@ public abstract class WebloggerImpl implements Weblogger {
             bookmarkManager.release();
             mediaFileManager.release();
             fileContentManager.release();
+            bugReportManager.release();
             pingTargetManager.release();
             pingQueueManager.release();
             pluginManager.release();

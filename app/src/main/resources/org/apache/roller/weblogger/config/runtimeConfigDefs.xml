@@ -261,6 +261,20 @@
          </property-def>
      </display-group>
 
+     <!-- Bug Report Settings Group -->
+     <display-group name="bugReportSettings" key="configForm.bugReportSettings" >
+
+        <property-def name="bugreport.notification.channels" key="configForm.bugReportNotificationChannels">
+           <type>string</type>
+           <default-value>email</default-value>
+        </property-def>
+        <property-def name="bugreport.notification.notifyReporterStatus" key="configForm.bugReportNotifyReporterStatus">
+           <type>boolean</type>
+           <default-value>true</default-value>
+        </property-def>
+
+     </display-group>
+
  </config-def>
  
 </runtime-configs>

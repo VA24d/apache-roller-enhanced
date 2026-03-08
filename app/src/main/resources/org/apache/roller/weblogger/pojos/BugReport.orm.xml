@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.0" xmlns="http://java.sun.com/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+
+    <package>org.apache.roller.weblogger.pojos</package>
+    <entity metadata-complete="true" name="BugReport"
+            class="org.apache.roller.weblogger.pojos.BugReport" access="PROPERTY">
+        <table name="roller_bugreport"/>
+
+        <named-query name="BugReport.getAllOrderByUpdatedDesc">
+            <query>SELECT b FROM BugReport b ORDER BY b.updatedAt DESC</query>
+        </named-query>
+        <named-query name="BugReport.getByReporterOrderByUpdatedDesc">
+            <query>SELECT b FROM BugReport b WHERE b.reporterUserName = ?1 ORDER BY b.updatedAt DESC</query>
+        </named-query>
+        <named-query name="BugReport.getByStatusOrderByUpdatedDesc">
+            <query>SELECT b FROM BugReport b WHERE b.status = ?1 ORDER BY b.updatedAt DESC</query>
+        </named-query>
+
+        <attributes>
+            <id name="id">
+                <column name="id"/>
+            </id>
+            <basic name="title">
+                <column name="title" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="description">
+                <column name="description" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="reportType">
+                <enumerated>STRING</enumerated>
+                <column name="report_type" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="severity">
+                <enumerated>STRING</enumerated>
+                <column name="severity" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="status">
+                <enumerated>STRING</enumerated>
+                <column name="status" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="pageUrl">
+                <column name="page_url" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="stepsToReproduce">
+                <column name="steps_to_reproduce" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="expectedBehavior">
+                <column name="expected_behavior" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="actualBehavior">
+                <column name="actual_behavior" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="adminNotes">
+                <column name="admin_notes" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="reporterUserName">
+                <column name="reporter_username" insertable="true" updatable="false"/>
+            </basic>
+            <basic name="lastModifiedBy">
+                <column name="last_modified_by" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="created_at" insertable="true" updatable="false"/>
+            </basic>
+            <basic name="updatedAt">
+                <column name="updated_at" insertable="true" updatable="true"/>
+            </basic>
+            <basic name="resolvedAt">
+                <column name="resolved_at" insertable="true" updatable="true"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

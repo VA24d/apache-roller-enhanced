@@ -31,6 +31,10 @@ See comments in editor-menu.xml for info about attributes.
         <!-- globalPerms="admin" -->
         <menu-item action="cacheInfo"
                    name="tabbedmenu.admin.cacheInfo" />
+        
+        <!-- globalPerms="admin" -->
+        <menu-item action="bugReportsAdmin"
+                   name="tabbedmenu.admin.bugReports" />
     </menu>
     
     <!--  if we already have checked globalPerms="admin" we should -->
