@@ -41,5 +41,7 @@
   </div>
 </div>
 
+<link rel="stylesheet" href="$url.site/theme/styles/translation.css">
+<script src="$url.site/theme/scripts/translation.js"></script>
 </body>
 </html>
