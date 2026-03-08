@@ -58,7 +58,7 @@ public class RemoveWebsiteIndexOperation extends WriteToIndexOperation {
      * @param website
      *            The website to rebuild the index for, or null for all sites.
      */
-    public RemoveWebsiteIndexOperation(Weblogger roller, LuceneIndexManager mgr,
+    public RemoveWebsiteIndexOperation(Weblogger roller, IndexOperationContext mgr,
             Weblog website) {
         super(mgr);
         this.roller = roller;
@@ -91,7 +91,7 @@ public class RemoveWebsiteIndexOperation extends WriteToIndexOperation {
                     handle = website.getHandle();
                 }
                 Term tHandle = IndexUtil.getTerm(FieldConstants.WEBSITE_HANDLE,
-                        handle);
+                        handle, manager.getAnalyzer());
 
                 if (tHandle != null) {
                     writer.deleteDocuments(tHandle);

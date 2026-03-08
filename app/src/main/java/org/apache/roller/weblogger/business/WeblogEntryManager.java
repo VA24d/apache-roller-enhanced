@@ -32,6 +32,7 @@ import org.apache.roller.weblogger.pojos.WeblogEntryComment;
 import org.apache.roller.weblogger.pojos.WeblogEntryComment.ApprovalStatus;
 import org.apache.roller.weblogger.pojos.WeblogEntrySearchCriteria;
 import org.apache.roller.weblogger.pojos.WeblogHitCount;
+import org.apache.roller.weblogger.business.jpa.search.CommentSearchParams;
 
 
 /**
@@ -199,24 +200,11 @@ public interface WeblogEntryManager {
     List<WeblogEntryComment> getComments(CommentSearchCriteria csc) throws WebloggerException;
 
     /**
-     * Deletes comments that match paramters.
-     * @param website    Website or null for all comments on site
-     * @param entry      Entry or null to include all comments
-     * @param startDate  Start date or null for no restriction
-     * @param endDate    End date or null for no restriction
-     * @param status     Status of comment
+     * Deletes comments that match parameters.
+     * @param searchParams CommentSearchParams containing search criteria
      * @return Number of comments deleted
      */
-    int removeMatchingComments(
-            
-            Weblog          website,
-            WeblogEntry     entry,
-            String          searchString,
-            Date            startDate,
-            Date            endDate,
-            ApprovalStatus  status
-            
-            ) throws WebloggerException;
+    int removeMatchingComments(CommentSearchParams searchParams) throws WebloggerException;
         
     /**
      * Create unique anchor for weblog entry.

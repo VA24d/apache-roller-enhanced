@@ -39,7 +39,8 @@ import org.apache.roller.weblogger.pojos.WeblogEntry.PubStatus;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogEntrySearchCriteria;
 import org.apache.roller.weblogger.ui.rendering.util.WeblogPageRequest;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
+import org.apache.roller.util.DateFormatUtil;
 
 
 /**
@@ -98,8 +99,8 @@ public class WeblogCalendarModel implements CalendarModel {
                 weblog.getLocaleInstance());
         
         Calendar cal = (Calendar)calendar.clone();
-        Date startDate = DateUtil.getStartOfMonth(month,cal);
-        Date endDate = DateUtil.getEndOfMonth(month,cal);
+        Date startDate = DateBoundaryUtil.getStartOfMonth(month,cal);
+        Date endDate = DateBoundaryUtil.getEndOfMonth(month,cal);
         
         // Determine previous non-empty month
         // Get entries before startDate, using category restriction limit 1
@@ -119,7 +120,7 @@ public class WeblogCalendarModel implements CalendarModel {
 
             if (!prevEntries.isEmpty()) {
                 WeblogEntry prevEntry = prevEntries.get(0);
-                prevMonth = DateUtil.getStartOfMonth(new Date(prevEntry.getPubTime().getTime()),getCalendar());
+                prevMonth = DateBoundaryUtil.getStartOfMonth(new Date(prevEntry.getPubTime().getTime()),getCalendar());
             }
         } catch (WebloggerException e) {
             log.error("ERROR determining previous non-empty month");
@@ -142,7 +143,7 @@ public class WeblogCalendarModel implements CalendarModel {
             List<WeblogEntry> nextEntries = mgr.getWeblogEntries(wesc);
             if (!nextEntries.isEmpty()) {
                 WeblogEntry nextEntry = nextEntries.get(0);
-                nextMonth = DateUtil.getStartOfMonth(new Date(nextEntry.getPubTime().getTime()),getCalendar());
+                nextMonth = DateBoundaryUtil.getStartOfMonth(new Date(nextEntry.getPubTime().getTime()),getCalendar());
             }
         } catch (WebloggerException e) {
             log.error("ERROR determining next non-empty month");
@@ -177,7 +178,7 @@ public class WeblogCalendarModel implements CalendarModel {
 
     @Override
     public void setDay(String month) throws Exception {
-        SimpleDateFormat fmt = DateUtil.get8charDateFormat();
+        SimpleDateFormat fmt = DateFormatUtil.get8charDateFormat();
         fmt.setCalendar(getCalendar());
         ParsePosition pos = new ParsePosition(0);
         initDay( fmt.parse( month, pos ) );
@@ -194,17 +195,17 @@ public class WeblogCalendarModel implements CalendarModel {
 
     // convenience method returns 8 char day stamp YYYYMMDD
     public static String format8chars(Date date, Calendar cal) {
-    	SimpleDateFormat format = DateUtil.get8charDateFormat();
+    	SimpleDateFormat format = DateFormatUtil.get8charDateFormat();
     	format.setCalendar(cal);
-    	return DateUtil.format(date,format);
+    	return DateFormatUtil.format(date,format);
     }
     
     
     // convenience method returns 6 char month stamp YYYYMM
     public static String format6chars(Date date, Calendar cal) {
-    	SimpleDateFormat format = DateUtil.get6charDateFormat();
+    	SimpleDateFormat format = DateFormatUtil.get6charDateFormat();
     	format.setCalendar(cal);
-    	return DateUtil.format(date,format);
+    	return DateFormatUtil.format(date,format);
     }
 
     /**
@@ -218,7 +219,7 @@ public class WeblogCalendarModel implements CalendarModel {
         if (dateString != null
                 && dateString.length()==8
                 && StringUtils.isNumeric(dateString) ) {
-            SimpleDateFormat char8DateFormat = DateUtil.get8charDateFormat();
+            SimpleDateFormat char8DateFormat = DateFormatUtil.get8charDateFormat();
             char8DateFormat.setCalendar(cal);
             ParsePosition pos = new ParsePosition(0);
             ret = char8DateFormat.parse(dateString, pos);
@@ -233,7 +234,7 @@ public class WeblogCalendarModel implements CalendarModel {
         } else if(dateString != null
                 && dateString.length()==6
                 && StringUtils.isNumeric(dateString)) {
-            SimpleDateFormat char6DateFormat = DateUtil.get6charDateFormat();
+            SimpleDateFormat char6DateFormat = DateFormatUtil.get6charDateFormat();
             char6DateFormat.setCalendar(cal);
             ParsePosition pos = new ParsePosition(0);
             ret = char6DateFormat.parse(dateString, pos);

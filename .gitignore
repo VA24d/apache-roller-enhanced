@@ -21,6 +21,9 @@ nbproject
 log/
 target/
 
+# Environment files
+.env
+
 velocity.log
 
 tomcat-base

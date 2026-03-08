@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.pojos.wrapper.WeblogWrapper;
 import org.apache.roller.weblogger.ui.rendering.util.WeblogRequest;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.util.RegexUtil;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
@@ -147,28 +147,28 @@ public class UtilitiesModel implements Model {
      * Format date in ISO-8601 format.
      */
     public String formatIso8601Date(Date d) {
-        return DateUtil.formatIso8601(d);
+        return DateFormatUtil.formatIso8601(d);
     }
     
     /**
      * Format date in ISO-8601 format.
      */
     public String formatIso8601Day(Date d) {
-        return DateUtil.formatIso8601Day(d);
+        return DateFormatUtil.formatIso8601Day(d);
     }
     
     /**
      * Return a date in RFC-822 format.
      */
     public String formatRfc822Date(Date date) {
-        return DateUtil.formatRfc822(date);
+        return DateFormatUtil.formatRfc822(date);
     }
     
     /**
      * Return a date in 8 character format YYYYMMDD.
      */
     public String format8charsDate(Date date) {
-        return DateUtil.format8chars(date);
+        return DateFormatUtil.format8chars(date);
     }
 
     

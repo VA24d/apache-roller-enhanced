@@ -1,0 +1,21 @@
+repository:
+  root: "../"
+  designite_smells_csv: "../../analysis/designite/designCodeSmells.csv"
+
+pipeline:
+  schedule: "manual" # placeholder for cron integration
+  max_smells: 25
+  output_dir: "output"
+
+llm:
+  model: "gpt-4o-mini"
+  max_context_tokens: 7000
+  max_file_chunk_lines: 200
+  summary_prompt: "Summarize design smell context and refactoring intent."
+
+pr:
+  title: "chore(task3): LLM refactoring suggestions"
+  body_template: "../docs/pr_body.md"
+  base_branch: "master"
+  head_branch: "vijay"
+  draft: true

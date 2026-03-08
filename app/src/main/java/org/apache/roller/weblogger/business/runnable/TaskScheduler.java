@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
 import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.pojos.TaskLock;
@@ -101,7 +101,7 @@ public class TaskScheduler implements Runnable {
                 // NOTE: we add 50ms of adjustment time to make sure we awaken
                 //       during the next minute, and not before.  awakening at
                 //       exactly the .000ms is not of any concern to us
-                Date endOfMinute = DateUtil.getEndOfMinute(now);
+                Date endOfMinute = DateBoundaryUtil.getEndOfMinute(now);
                 long sleepTime = (endOfMinute.getTime() + 50) - System.currentTimeMillis();
                 if(sleepTime > 0) {
                     log.debug("sleeping - "+sleepTime);
@@ -109,7 +109,7 @@ public class TaskScheduler implements Runnable {
                 } else {
                     // it's taken us more than 1 minute for the last loop
                     // so recalculate to sleep 'til the end of the current minute
-                    endOfMinute = DateUtil.getEndOfMinute(new Date());
+                    endOfMinute = DateBoundaryUtil.getEndOfMinute(new Date());
                     sleepTime = (endOfMinute.getTime() + 50) - System.currentTimeMillis();
                     log.debug("sleeping - "+sleepTime);
                     Thread.sleep(sleepTime);
@@ -166,7 +166,7 @@ public class TaskScheduler implements Runnable {
                     if ("startOfDay".equals(task.getStartTimeDesc())) {
                         // for daily tasks we only run during the first 
                         // couple minutes of the day
-                        Date startOfDay = DateUtil.getStartOfDay(currentTime);
+                        Date startOfDay = DateBoundaryUtil.getStartOfDay(currentTime);
                         if(currentTime.getTime() > startOfDay.getTime() + (2 * RollerConstants.MIN_IN_MS)) {
                             needToWait = true;
                             log.debug("WAITING for next reasonable run time");
@@ -174,7 +174,7 @@ public class TaskScheduler implements Runnable {
                     } else if("startOfHour".equals(task.getStartTimeDesc())) {
                         // for hourly tasks we only run during the first
                         // couple minutes of the hour
-                        Date startOfHour = DateUtil.getStartOfHour(currentTime);
+                        Date startOfHour = DateBoundaryUtil.getStartOfHour(currentTime);
                         if(currentTime.getTime() > startOfHour.getTime() + (2 * RollerConstants.MIN_IN_MS)) {
                             needToWait = true;
                             log.debug("WAITING for next reasonable run time");
