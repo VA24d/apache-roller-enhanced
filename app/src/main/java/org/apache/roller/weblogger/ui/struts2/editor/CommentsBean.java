@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
 import org.apache.roller.weblogger.pojos.WeblogEntryComment;
 import org.apache.roller.weblogger.pojos.WeblogEntryComment.ApprovalStatus;
 import org.apache.roller.weblogger.util.Utilities;
@@ -107,7 +107,7 @@ public class CommentsBean {
             try {
                 DateFormat df = new SimpleDateFormat("MM/dd/yy");
                 Date day = df.parse(getEndDateString());
-                return DateUtil.getEndOfDay(day);
+                return DateBoundaryUtil.getEndOfDay(day);
             } catch (Exception e) {}
         }
         return null;

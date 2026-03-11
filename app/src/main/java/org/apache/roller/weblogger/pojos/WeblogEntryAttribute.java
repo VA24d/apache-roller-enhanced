@@ -26,7 +26,9 @@ import org.apache.roller.util.UUIDGenerator;
 /**
  * Weblog entry attribute.
  */
-public class WeblogEntryAttribute implements Comparable<WeblogEntryAttribute> {
+public class WeblogEntryAttribute implements Comparable<WeblogEntryAttribute>, java.io.Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     private String id = UUIDGenerator.generateUUID();
     private WeblogEntry entry;

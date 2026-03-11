@@ -34,7 +34,8 @@ import org.apache.roller.weblogger.pojos.WeblogEntry;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogEntrySearchCriteria;
 import org.apache.roller.weblogger.pojos.wrapper.WeblogEntryWrapper;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateBoundaryUtil;
+import org.apache.roller.util.DateFormatUtil;
 import org.apache.roller.weblogger.business.URLStrategy;
 
 
@@ -100,7 +101,7 @@ public class WeblogEntriesDayPager extends AbstractWeblogEntriesPager {
         cal.set(Calendar.SECOND, 59);
         prevDay = cal.getTime();
         Date weblogInitialDate = weblog.getDateCreated() != null ? weblog.getDateCreated() : new Date(0);
-        if (DateUtil.getEndOfDay(prevDay,cal).before(weblogInitialDate)) {
+        if (DateBoundaryUtil.getEndOfDay(prevDay,cal).before(weblogInitialDate)) {
             prevDay = null;
         }
     }
@@ -112,8 +113,8 @@ public class WeblogEntriesDayPager extends AbstractWeblogEntriesPager {
         Calendar cal = Calendar.getInstance(weblog.getTimeZoneInstance());
         Date startDate;
         Date endDate = date;
-        startDate = DateUtil.getStartOfDay(endDate, cal);
-        endDate = DateUtil.getEndOfDay(endDate, cal);
+        startDate = DateBoundaryUtil.getStartOfDay(endDate, cal);
+        endDate = DateBoundaryUtil.getEndOfDay(endDate, cal);
         
         if (entries == null) {
             entries = new TreeMap<>(Collections.reverseOrder());
@@ -211,7 +212,7 @@ public class WeblogEntriesDayPager extends AbstractWeblogEntriesPager {
     @Override
     public String getNextCollectionLink() {
         if (nextDay != null) {
-            String next = DateUtil.format8chars(nextDay, weblog.getTimeZoneInstance());
+            String next = DateFormatUtil.format8chars(nextDay, weblog.getTimeZoneInstance());
             return createURL(0, 0, weblog, locale, pageLink, null, next, catName, tags);
         }
         return null;
@@ -230,7 +231,7 @@ public class WeblogEntriesDayPager extends AbstractWeblogEntriesPager {
     @Override
     public String getPrevCollectionLink() {
         if (prevDay != null) {
-            String prev = DateUtil.format8chars(prevDay, weblog.getTimeZoneInstance());
+            String prev = DateFormatUtil.format8chars(prevDay, weblog.getTimeZoneInstance());
             return createURL(0, 0, weblog, locale, pageLink, null, prev, catName, tags);
         }
         return null;

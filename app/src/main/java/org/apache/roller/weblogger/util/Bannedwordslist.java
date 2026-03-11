@@ -42,7 +42,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.roller.util.DateUtil;
+import org.apache.roller.util.DateFormatUtil;
 
 /**
  * Loads MT-Bannedwordslist style bannedwordslist from disk and allows callers to test
@@ -120,7 +120,7 @@ public final class Bannedwordslist {
             
             if (this.lastModified != null) {
                 connection.setRequestProperty("If-Modified-Since",
-                        DateUtil.formatRfc822(this.lastModified));
+                        DateFormatUtil.formatRfc822(this.lastModified));
             }
             
             int responseCode = connection.getResponseCode();
@@ -287,7 +287,7 @@ public final class Bannedwordslist {
             str = str.trim();
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                lastModified = DateUtil.parse(str, sdf);
+                lastModified = DateFormatUtil.parse(str, sdf);
             } catch (ParseException e) {
                 mLogger.debug("ParseException reading " + str);
             }

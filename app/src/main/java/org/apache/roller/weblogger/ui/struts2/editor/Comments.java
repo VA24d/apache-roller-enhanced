@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.jpa.search.CommentSearchParams;
 import org.apache.roller.weblogger.business.search.IndexManager;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.pojos.CommentSearchCriteria;
@@ -234,9 +235,14 @@ public class Comments extends UIAction {
                 }
             }
 
-            int deleted = wmgr.removeMatchingComments(getActionWeblog(), null,
-                    getBean().getSearchString(), getBean().getStartDate(),
-                    getBean().getEndDate(), getBean().getStatus());
+            CommentSearchParams searchParams = new CommentSearchParams(
+                    getActionWeblog(), 
+                    null,
+                    getBean().getSearchString(),
+                    getBean().getStartDate(),
+                    getBean().getEndDate(),
+                    getBean().getStatus());
+            int deleted = wmgr.removeMatchingComments(searchParams);
 
             // if we've got entries to reindex then do so
             if (!reindexEntries.isEmpty()) {
