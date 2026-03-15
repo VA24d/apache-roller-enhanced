@@ -13,7 +13,7 @@
         </named-query>
 
         <named-query name="UserWeblogStar.getStarredWeblogsByUser">
-            <query>SELECT s FROM UserWeblogStar s WHERE s.user = ?1 ORDER BY s.starredTime DESC</query>
+            <query>SELECT s FROM UserWeblogStar s WHERE s.user = ?1 ORDER BY s.weblog.lastModified DESC</query>
         </named-query>
 
         <named-query name="UserWeblogStar.getTrendingWeblogs">

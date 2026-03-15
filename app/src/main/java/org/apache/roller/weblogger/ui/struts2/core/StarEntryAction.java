@@ -38,6 +38,7 @@ public class StarEntryAction extends UIAction {
     private static final Log LOG = LogFactory.getLog(StarEntryAction.class);
 
     private String entryId = null;
+    private String entryPermalink = null;
 
 
     public StarEntryAction() {
@@ -62,6 +63,8 @@ public class StarEntryAction extends UIAction {
                 return ERROR;
             }
 
+            entryPermalink = entry.getPermalink();
+
             // Check if already starred
             UserEntryStar existing = starMgr.getEntryStarByUserAndEntry(
                     getAuthenticatedUser(), entry);
@@ -74,11 +77,8 @@ public class StarEntryAction extends UIAction {
                 WebloggerFactory.getWeblogger().flush();
             }
 
-            addMessage("starEntry.starred", entry.getTitle());
-
         } catch (WebloggerException e) {
             LOG.error("Error starring entry " + entryId, e);
-            addError("starEntry.error");
         }
         return SUCCESS;
     }
@@ -95,6 +95,8 @@ public class StarEntryAction extends UIAction {
                 return ERROR;
             }
 
+            entryPermalink = entry.getPermalink();
+
             UserEntryStar existing = starMgr.getEntryStarByUserAndEntry(
                     getAuthenticatedUser(), entry);
             if (existing != null) {
@@ -102,11 +104,8 @@ public class StarEntryAction extends UIAction {
                 WebloggerFactory.getWeblogger().flush();
             }
 
-            addMessage("starEntry.unstarred", entry.getTitle());
-
         } catch (WebloggerException e) {
             LOG.error("Error unstarring entry " + entryId, e);
-            addError("starEntry.error");
         }
         return SUCCESS;
     }
@@ -118,5 +117,9 @@ public class StarEntryAction extends UIAction {
 
     public void setEntryId(String entryId) {
         this.entryId = entryId;
+    }
+
+    public String getEntryPermalink() {
+        return entryPermalink;
     }
 }

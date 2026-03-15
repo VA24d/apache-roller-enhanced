@@ -191,7 +191,7 @@
 
         <action name="starEntry"
                 class="org.apache.roller.weblogger.ui.struts2.core.StarEntryAction">
-            <result type="tiles">.StarredEntries</result>
+            <result name="success" type="redirect">${entryPermalink}</result>
             <result name="error" type="tiles">.StarredEntries</result>
             <allowed-methods>star,unstar</allowed-methods>
         </action>

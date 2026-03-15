@@ -29,6 +29,28 @@
 			<div id="main_content" class="col-lg-8">
 				#set($pager = $model.getWeblogEntriesPager())
 				#showWeblogEntriesPager($pager)
+
+				## Star entry button — shown to any logged-in user
+				#if($utils.isUserAuthenticated() && $model.weblogEntry)
+				<div style="margin:10px 0;">
+				#if($utils.isEntryStarred($model.weblogEntry.id))
+					<form method="post" action="$url.site/roller-ui/starEntry!unstar" style="display:inline;">
+						<input type="hidden" name="entryId" value="$model.weblogEntry.id"/>
+						<button type="submit" class="btn btn-danger btn-sm">
+							&#9733; Unstar this post
+						</button>
+					</form>
+				#else
+					<form method="post" action="$url.site/roller-ui/starEntry!star" style="display:inline;">
+						<input type="hidden" name="entryId" value="$model.weblogEntry.id"/>
+						<button type="submit" class="btn btn-warning btn-sm">
+							&#9734; Star this post
+						</button>
+					</form>
+				#end
+				</div>
+				#end
+
 				<ul class="pager">
                 	#if($utils.isNotEmpty($pager.prevLink))<li class="previous"><a href="$pager.prevLink">← $pager.prevName</a></li>
 #end
