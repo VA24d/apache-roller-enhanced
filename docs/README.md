@@ -8,6 +8,7 @@ In this directory you'll find Roller docs in AsciiDoc format, various examples a
 * `examples/` - example configuration and script files
 * `testing/` - Various test scripts
 * `task1-search-indexing-subsystem.md` - Task 1 documentation for Search & Indexing (Lucene)
+* `task5-translation-system.md` - Task 5 documentation for translation, caching, provider switching, and Marathi support
 * `search_indexing_class_diagram.puml` - UML class diagram for Search & Indexing subsystem
 * `../task3-pipeline/docs/pipeline.md` - Task 3C automated refactoring pipeline details
 * `../task3-pipeline/docs/pipeline_flowchart.puml` - Task 3C pipeline flowchart
