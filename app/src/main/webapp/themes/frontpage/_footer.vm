@@ -7,5 +7,7 @@ Powered by <a href="http://roller.apache.org">Apache Roller</a> $config.rollerVe
 <div id="datetagdiv" 
    style="position:absolute;visibility:hidden;background-color:white;layer-background-color:white;">
 </div>
+<link rel="stylesheet" href="$url.site/theme/styles/translation.css">
+<script src="$url.site/theme/scripts/translation.js"></script>
 </body>
 </html>
