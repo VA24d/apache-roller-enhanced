@@ -19,6 +19,8 @@ package org.apache.roller.selenium;
 
 import java.time.Duration;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -70,15 +72,11 @@ public abstract class AbstractRollerPage {
     }
 
     protected void clickById(String buttonId) {
-        WebElement element = driver.findElement(By.id(buttonId));
-        System.out.println("clicking element " + element.getTagName() + " id:" + element.getAttribute("id"));
-        element.click();
+        click(By.id(buttonId));
     }
 
     protected void clickByLinkText(String buttonText) {
-        WebElement element = driver.findElement(By.linkText(buttonText));
-        System.out.println("clicking element " + element.getTagName() + " id:" + element.getAttribute("id"));
-        element.click();
+        click(By.linkText(buttonText));
     }
 
     protected String getTextByCSS(String cssSelector) {
@@ -92,5 +90,29 @@ public abstract class AbstractRollerPage {
     protected void selectOptionByVisibleText(String selectId, String visibleText) {
         Select select = new Select(driver.findElement(By.id(selectId)));
         select.selectByVisibleText(visibleText);
+    }
+
+    private void click(By locator) {
+        dismissTranslationWidget();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
+        System.out.println("clicking element " + element.getTagName() + " id:" + element.getAttribute("id"));
+
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            dismissTranslationWidget();
+            wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        }
+    }
+
+    private void dismissTranslationWidget() {
+        try {
+            WebElement widget = driver.findElement(By.id("roller-translation-widget"));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.display='none';", widget);
+        } catch (NoSuchElementException ignored) {
+            // Translation widget is not present on most pages.
+        }
     }
 }
