@@ -37,6 +37,8 @@ import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.plugins.PluginManager;
 import org.apache.roller.weblogger.business.plugins.entry.WeblogEntryPlugin;
+import org.apache.roller.weblogger.business.pipeline.EntryProcessingPipeline;
+import org.apache.roller.weblogger.business.pipeline.EntryProcessingPipelineFactory;
 import org.apache.roller.weblogger.business.search.IndexManager;
 import org.apache.roller.weblogger.pojos.GlobalPermission;
 import org.apache.roller.weblogger.pojos.WeblogCategory;
@@ -208,6 +210,12 @@ public final class EntryEdit extends UIAction {
 
                 // copy data to pojo
                 getBean().copyTo(weblogEntry);
+
+                // run admin-side entry processing pipeline (profanity filter,
+                // content summarizer, auto tag generator, etc.)
+                EntryProcessingPipeline pipeline =
+                        EntryProcessingPipelineFactory.createPipeline();
+                pipeline.execute(weblogEntry);
 
                 // handle pubtime auto set
                 if (weblogEntry.isPublished() && weblogEntry.getPubTime() == null) {
