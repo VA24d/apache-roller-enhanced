@@ -27,6 +27,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.BugReportManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
+import org.apache.roller.weblogger.business.bugreports.BugReportServiceFactory;
+import org.apache.roller.weblogger.business.bugreports.BugReportWorkflowService;
 import org.apache.roller.weblogger.pojos.BugReport;
 import org.apache.roller.weblogger.pojos.GlobalPermission;
 import org.apache.roller.weblogger.ui.struts2.util.UIAction;
@@ -52,6 +54,11 @@ public class BugReportsAdmin extends UIAction {
         this.actionName = "bugReportsAdmin";
         this.desiredMenu = "admin";
         this.pageTitle = "bugReportsAdmin.title";
+    }
+
+    @Override
+    public boolean isWeblogRequired() {
+        return false;
     }
 
     @Override
@@ -101,14 +108,13 @@ public class BugReportsAdmin extends UIAction {
                 return execute();
             }
 
-            BugReport.Status status = BugReport.Status.valueOf(newStatus);
-            report.markStatus(status, getAuthenticatedUser().getUserName());
-
             if (!StringUtils.isEmpty(adminNotes)) {
                 report.setAdminNotes(adminNotes);
             }
 
-            mgr.saveBugReport(report);
+            BugReport.Status status = BugReport.Status.valueOf(newStatus);
+            BugReportWorkflowService svc = BugReportServiceFactory.createWorkflowService();
+            svc.changeStatus(report, status, getAuthenticatedUser().getUserName());
             WebloggerFactory.getWeblogger().flush();
 
             addMessage("bugReportsAdmin.statusChanged");
@@ -137,7 +143,8 @@ public class BugReportsAdmin extends UIAction {
             if (report == null) {
                 addError("bugReportForm.error.notFound");
             } else {
-                mgr.removeBugReport(report);
+                BugReportWorkflowService svc = BugReportServiceFactory.createWorkflowService();
+                svc.delete(report, getAuthenticatedUser().getUserName(), true);
                 WebloggerFactory.getWeblogger().flush();
                 addMessage("bugReportsAdmin.deleted");
             }

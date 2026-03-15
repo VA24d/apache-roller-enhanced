@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
 import org.apache.roller.weblogger.util.MailUtil;
 
@@ -45,10 +46,18 @@ public class EmailBugNotificationChannel implements BugNotificationChannel {
             return;
         }
 
+        // site.adminemail is a DB-backed runtime property — set it via Admin -> Global Config.
+        // Fall back to mail.username (static/classpath property) so local dev works without
+        // touching the admin UI.
         String from = WebloggerRuntimeConfig.getProperty("site.adminemail");
+        if (from == null || from.isBlank()) {
+            from = WebloggerConfig.getProperty("mail.username");
+        }
         if (from == null || from.isBlank()) {
             from = "noreply@localhost";
         }
+        LOG.info("Bug notification email: from=" + from + ", recipients=" + recipients
+                + ", event=" + event.getEventType());
 
         List<String> valid = new ArrayList<>();
         for (String recipient : recipients) {

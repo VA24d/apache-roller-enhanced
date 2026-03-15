@@ -21,7 +21,9 @@
     <s:text name="bugReportForm.editSubtitle"/>
 </p>
 
-<s:form action="bugReportAdd!save" theme="bootstrap" cssClass="form-horizontal">
+<s:set var="saveAction" value="bean.id != null && bean.id.length() > 0 ? 'bugReportEdit!save' : 'bugReportAdd!save'"/>
+
+<s:form action="%{#saveAction}" theme="bootstrap" cssClass="form-horizontal">
     <s:hidden name="salt"/>
     <s:hidden name="weblog"/>
     <s:hidden name="bean.id"/>

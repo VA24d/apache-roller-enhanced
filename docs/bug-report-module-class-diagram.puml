@@ -1,0 +1,163 @@
+@startuml
+title Bug Report Module
+
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+package "UI Layer" {
+  class BugReports {
+    +save()
+    +delete()
+    +edit()
+    +execute()
+  }
+  class BugReportsAdmin {
+    +changeStatus()
+    +delete()
+    +execute()
+  }
+  class UIAction
+}
+
+package "Domain Model" {
+  class BugReport {
+    +id: String
+    +title: String
+    +description: String
+    +status: Status
+    +reporterUserName: String
+    +updatedAt: Date
+    +markStatus(newStatus, modifiedBy)
+    +touch(modifiedBy)
+    +isOwnedBy(userName)
+  }
+
+  enum Status {
+    OPEN
+    TRIAGED
+    RESOLVED
+  }
+}
+
+package "Data Access" {
+  interface BugReportManager {
+    +saveBugReport(report)
+    +removeBugReport(report)
+    +getBugReport(id)
+  }
+
+  class JPABugReportManagerImpl
+}
+
+package "Workflow / Commands" {
+  interface BugReportCommand {
+    +execute(manager): BugReport
+  }
+
+  class CreateBugReportCommand {
+    +execute(manager): BugReport
+  }
+  class ChangeStatusBugReportCommand {
+    +execute(manager): BugReport
+  }
+  class BugReportWorkflowService {
+    +create(report, actorUserName): BugReport
+    +update(report, actorUserName): BugReport
+    +changeStatus(report, status, actorUserName): BugReport
+    +delete(report, actorUserName, notifyReporter)
+  }
+}
+
+package "Notifications" {
+  class BugReportEvent {
+    +eventType: BugReportEventType
+    +actorUserName: String
+    +bugReport: BugReport
+  }
+
+  enum BugReportEventType {
+    CREATED
+    UPDATED
+    DELETED
+    STATUS_CHANGED
+  }
+
+  enum BugReportAudience {
+    ADMINS
+    REPORTER
+  }
+
+  interface BugNotificationChannel {
+    +id(): String
+    +notify(event, audience, recipients, message)
+  }
+
+  class EmailBugNotificationChannel
+  class BugNotificationChannelFactory
+
+  class BugNotificationMessage {
+    +subject: String
+    +body: String
+  }
+
+  interface BugNotificationMessageStrategy {
+    +supports(eventType, audience): boolean
+    +buildMessage(event, siteUrl): BugNotificationMessage
+  }
+
+  class AdminBugNotificationMessageStrategy {
+    +buildMessage(event, siteUrl): BugNotificationMessage
+  }
+  class BugReportEventPublisher {
+    +publish(event, audience, recipients, message)
+  }
+  class BugReportNotificationService {
+    +notifyAdmins(event)
+    +notifyReporter(event)
+  }
+}
+
+BugReports --|> UIAction
+BugReportsAdmin --|> UIAction
+
+BugReports ..> BugReportWorkflowService
+BugReportsAdmin ..> BugReportWorkflowService
+
+JPABugReportManagerImpl ..|> BugReportManager
+BugReportManager ..> BugReport
+
+BugReportWorkflowService ..> BugReportCommand
+BugReportWorkflowService ..> BugReportManager
+BugReportWorkflowService ..> BugReportNotificationService
+BugReportWorkflowService ..> BugReportEvent
+
+CreateBugReportCommand ..|> BugReportCommand
+ChangeStatusBugReportCommand ..|> BugReportCommand
+
+CreateBugReportCommand ..> BugReportManager
+ChangeStatusBugReportCommand ..> BugReportManager
+
+CreateBugReportCommand ..> BugReport
+ChangeStatusBugReportCommand ..> BugReport
+
+BugReportEvent ..> BugReport
+
+BugReportNotificationService ..> BugReportEventPublisher
+BugReportNotificationService ..> BugNotificationMessageStrategy
+BugReportNotificationService ..> BugNotificationMessage
+BugReportNotificationService ..> BugNotificationChannelFactory
+BugReportNotificationService ..> BugReportEvent
+
+BugReportEventPublisher ..> BugNotificationChannelFactory
+BugReportEventPublisher ..> BugNotificationChannel
+BugNotificationChannelFactory ..> BugNotificationChannel
+EmailBugNotificationChannel ..|> BugNotificationChannel
+
+AdminBugNotificationMessageStrategy ..|> BugNotificationMessageStrategy
+
+BugReportEvent ..> BugReportEventType
+BugReportEvent ..> BugReportAudience
+BugReport --> Status
+
+@enduml

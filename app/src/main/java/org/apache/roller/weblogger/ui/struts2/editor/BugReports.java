@@ -27,6 +27,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.BugReportManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
+import org.apache.roller.weblogger.business.bugreports.BugReportServiceFactory;
+import org.apache.roller.weblogger.business.bugreports.BugReportWorkflowService;
 import org.apache.roller.weblogger.pojos.BugReport;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
 import org.apache.roller.weblogger.ui.struts2.util.UIAction;
@@ -88,7 +90,15 @@ public class BugReports extends UIAction {
      * Show the add/edit form.
      */
     public String edit() {
-        if (bugReport != null && bugReport.isOwnedBy(getAuthenticatedUser().getUserName())) {
+        if (!StringUtils.isEmpty(getBean().getId())) {
+            if (bugReport == null) {
+                addError("bugReportForm.error.notFound");
+                return ERROR;
+            }
+            if (!bugReport.isOwnedBy(getAuthenticatedUser().getUserName())) {
+                addError("bugReportForm.error.notOwner");
+                return ERROR;
+            }
             getBean().copyFrom(bugReport);
         }
         return INPUT;
@@ -104,7 +114,6 @@ public class BugReports extends UIAction {
         }
 
         try {
-            BugReportManager mgr = WebloggerFactory.getWeblogger().getBugReportManager();
             boolean isNew = (bugReport == null);
 
             if (isNew) {
@@ -112,12 +121,16 @@ public class BugReports extends UIAction {
                 bugReport.setReporterUserName(getAuthenticatedUser().getUserName());
             } else if (!bugReport.isOwnedBy(getAuthenticatedUser().getUserName())) {
                 addError("bugReportForm.error.notOwner");
-                return LIST;
+                return ERROR;
             }
 
             getBean().copyTo(bugReport);
-            bugReport.touch(getAuthenticatedUser().getUserName());
-            mgr.saveBugReport(bugReport);
+            BugReportWorkflowService svc = BugReportServiceFactory.createWorkflowService();
+            if (isNew) {
+                svc.create(bugReport, getAuthenticatedUser().getUserName());
+            } else {
+                svc.update(bugReport, getAuthenticatedUser().getUserName());
+            }
             WebloggerFactory.getWeblogger().flush();
 
             addMessage(isNew ? "bugReportForm.created" : "bugReportForm.updated");
@@ -147,7 +160,8 @@ public class BugReports extends UIAction {
             } else if (!report.isOwnedBy(getAuthenticatedUser().getUserName())) {
                 addError("bugReportForm.error.notOwner");
             } else {
-                mgr.removeBugReport(report);
+                BugReportWorkflowService svc = BugReportServiceFactory.createWorkflowService();
+                svc.delete(report, getAuthenticatedUser().getUserName(), false);
                 WebloggerFactory.getWeblogger().flush();
                 addMessage("bugReportForm.deleted");
             }

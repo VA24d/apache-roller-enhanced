@@ -34,8 +34,13 @@ public class BugReportWorkflowService {
     private final BugReportNotificationService notificationService;
 
     public BugReportWorkflowService(BugReportManager bugReportManager, UserManager userManager) {
+        this(bugReportManager, new BugReportNotificationService(userManager, new BugNotificationChannelFactory()));
+    }
+
+    // Visible for tests: allows injecting a fake notification service.
+    BugReportWorkflowService(BugReportManager bugReportManager, BugReportNotificationService notificationService) {
         this.bugReportManager = bugReportManager;
-        this.notificationService = new BugReportNotificationService(userManager, new BugNotificationChannelFactory());
+        this.notificationService = notificationService;
     }
 
     public BugReport create(BugReport report, String actorUserName) throws WebloggerException {

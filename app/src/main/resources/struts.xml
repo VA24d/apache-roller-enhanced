@@ -641,7 +641,7 @@
         </action>
 
         <action name="bugReportAdd"
-                class="org.apache.roller.weblogger.ui.struts2.editor.BugReports">
+                    class="org.apache.roller.weblogger.ui.struts2.editor.BugReports" method="edit">
             <param name="actionName">bugReportAdd</param>
             <param name="pageTitle">bugReportForm.add.title</param>
             <result name="input" type="tiles">.BugReportEdit</result>
@@ -654,7 +654,7 @@
         </action>
 
         <action name="bugReportEdit"
-                class="org.apache.roller.weblogger.ui.struts2.editor.BugReports">
+                class="org.apache.roller.weblogger.ui.struts2.editor.BugReports" method="edit">
             <param name="actionName">bugReportEdit</param>
             <param name="pageTitle">bugReportForm.edit.title</param>
             <result name="input" type="tiles">.BugReportEdit</result>

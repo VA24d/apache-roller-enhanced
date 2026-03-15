@@ -84,12 +84,14 @@ public class MailProvider {
             Properties props = new Properties();
             props.setProperty("mail.smtp.host", mailHostname);
             if (mailUsername != null && mailPassword != null) {
-                props.setProperty("mail.smtp.auth", "true");   
+                props.setProperty("mail.smtp.auth", "true");
+                props.setProperty("mail.smtp.starttls.enable", "true");
+                props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
             }
             if (mailPort != -1) {
                 props.setProperty("mail.smtp.port", ""+mailPort);
             }
-            session = Session.getDefaultInstance(props, null);
+            session = Session.getInstance(props, null);
         }
         
         try {

@@ -23,8 +23,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.UserManager;
+import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
 import org.apache.roller.weblogger.pojos.BugReport;
 import org.apache.roller.weblogger.pojos.GlobalPermission;
@@ -34,6 +37,8 @@ import org.apache.roller.weblogger.pojos.User;
  * Coordinates recipient resolution + message strategy + channel dispatch.
  */
 public class BugReportNotificationService {
+
+    private static final Log LOG = LogFactory.getLog(BugReportNotificationService.class);
 
     private final UserManager userManager;
     private final BugReportEventPublisher publisher;
@@ -50,17 +55,28 @@ public class BugReportNotificationService {
     public void notifyAdmins(BugReportEvent event) throws WebloggerException {
         List<String> recipients = resolveAdminRecipients();
         BugNotificationMessage message = buildMessage(event, BugReportAudience.ADMINS);
-        if (message != null && !recipients.isEmpty()) {
-            publisher.publish(event, BugReportAudience.ADMINS, recipients, message);
+        if (message == null) {
+            LOG.warn("No message strategy found for ADMINS / " + event.getEventType());
+            return;
         }
+        if (recipients.isEmpty()) {
+            LOG.warn("Bug notification skipped: no admin recipients resolved. "
+                    + "Set an email on the admin user account, or set site.adminemail via "
+                    + "Admin -> Global Config in the Roller UI.");
+            return;
+        }
+        publisher.publish(event, BugReportAudience.ADMINS, recipients, message);
     }
 
     public void notifyReporter(BugReportEvent event) throws WebloggerException {
         List<String> recipients = resolveReporterRecipients(event.getBugReport());
         BugNotificationMessage message = buildMessage(event, BugReportAudience.REPORTER);
-        if (message != null && !recipients.isEmpty()) {
-            publisher.publish(event, BugReportAudience.REPORTER, recipients, message);
+        if (message == null || recipients.isEmpty()) {
+            LOG.info("Bug notification skipped for REPORTER (no recipients or no strategy): event="
+                    + event.getEventType());
+            return;
         }
+        publisher.publish(event, BugReportAudience.REPORTER, recipients, message);
     }
 
     private BugNotificationMessage buildMessage(BugReportEvent event, BugReportAudience audience) {
@@ -83,12 +99,22 @@ public class BugReportNotificationService {
         }
 
         if (recipients.isEmpty()) {
+            // Fallback 1: site.adminemail from DB (set via Admin -> Global Config in the Roller UI)
             String siteAdmin = WebloggerRuntimeConfig.getProperty("site.adminemail");
             if (!StringUtils.isBlank(siteAdmin)) {
                 recipients.add(siteAdmin);
             }
         }
 
+        if (recipients.isEmpty()) {
+            // Fallback 2: mail.username from roller-custom.properties (static classpath config)
+            String mailUser = WebloggerConfig.getProperty("mail.username");
+            if (!StringUtils.isBlank(mailUser)) {
+                recipients.add(mailUser);
+            }
+        }
+
+        LOG.info("Resolved admin notification recipients: " + recipients);
         return recipients;
     }
 
