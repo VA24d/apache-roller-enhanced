@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="$!model.weblog.locale">
 <head>
 	#includeTemplate($model.weblog "standard_head")
 	<title>$model.weblog.name: Archives</title>

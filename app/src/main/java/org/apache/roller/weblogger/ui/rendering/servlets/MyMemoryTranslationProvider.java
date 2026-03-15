@@ -22,7 +22,10 @@ public class MyMemoryTranslationProvider implements TranslationProvider {
 
     @Override
     public List<String> translate(List<String> texts, String sourceLang, String targetLang) throws Exception {
-        if (sourceLang.equals(targetLang)) {
+        String normalizedSource = TranslationLanguageSupport.normalizeLanguageCode(sourceLang, "en");
+        String normalizedTarget = TranslationLanguageSupport.normalizeLanguageCode(targetLang, "en");
+
+        if (normalizedSource.equals(normalizedTarget)) {
             return texts;
         }
 
@@ -32,7 +35,7 @@ public class MyMemoryTranslationProvider implements TranslationProvider {
                 if (text == null || text.trim().isEmpty()) {
                     return text;
                 }
-                return translateSingle(text, sourceLang, targetLang);
+                return translateSingle(text, normalizedSource, normalizedTarget);
             } catch (Exception e) {
                 log.error("Failed to translate text with MyMemory: " + text, e);
                 return text; // Fallback to original

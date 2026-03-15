@@ -10,7 +10,7 @@
     z-index: 10000;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
-    width: 250px;
+    width: 280px;
     color: #333;
     transition: all 0.3s ease;
 }
@@ -107,7 +107,8 @@
 #roller-translation-widget .status {
     margin-top: 10px;
     font-size: 12px;
-    text-align: center;
+    line-height: 1.4;
+    text-align: left;
     color: #888;
 }
 

@@ -63,8 +63,10 @@ public class SarvamTranslationProvider implements TranslationProvider {
             throw new Exception("Sarvam API key is missing. Please configure translation.sarvam.apiKey");
         }
 
-        String srcCode = mapLanguageCode(sourceLang);
-        String tgtCode = mapLanguageCode(targetLang);
+        String normalizedSource = TranslationLanguageSupport.normalizeLanguageCode(sourceLang, "en");
+        String normalizedTarget = TranslationLanguageSupport.normalizeLanguageCode(targetLang, "en");
+        String srcCode = TranslationLanguageSupport.mapSarvamLanguageCode(normalizedSource);
+        String tgtCode = TranslationLanguageSupport.mapSarvamLanguageCode(normalizedTarget);
 
         // Use parallel stream for faster batch processing
         return texts.parallelStream().map(text -> {
@@ -135,23 +137,5 @@ public class SarvamTranslationProvider implements TranslationProvider {
         }
 
         return text;
-    }
-
-    private String mapLanguageCode(String initialCode) {
-        String code = initialCode.toLowerCase();
-        if (code.startsWith("en"))
-            return "en-IN";
-        if (code.startsWith("hi"))
-            return "hi-IN";
-        if (code.startsWith("bn"))
-            return "bn-IN";
-        if (code.startsWith("ta"))
-            return "ta-IN";
-        if (code.startsWith("te"))
-            return "te-IN";
-        if (code.startsWith("kn"))
-            return "kn-IN";
-        // Default to English if unknown, or maybe auto if supported
-        return code + "-IN";
     }
 }

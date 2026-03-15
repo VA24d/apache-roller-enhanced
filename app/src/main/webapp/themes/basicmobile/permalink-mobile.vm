@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="#if($model.weblogEntry.locale)$model.weblogEntry.locale#else$!model.weblog.locale#end">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

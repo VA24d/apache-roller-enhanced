@@ -19,12 +19,11 @@
 package org.apache.roller.weblogger.ui.rendering.servlets;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -34,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.roller.weblogger.config.WebloggerConfig;
 
 /**
  * Handles translation requests from the frontend widget.
@@ -42,6 +42,7 @@ public class TranslationServlet extends HttpServlet {
 
     private static final Log log = LogFactory.getLog(TranslationServlet.class);
     private static final Gson gson = new Gson();
+    private static final TranslationCacheService CACHE_SERVICE = new TranslationCacheService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -52,10 +53,9 @@ public class TranslationServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try (PrintWriter out = response.getWriter()) {
-            Type mapType = new TypeToken<Map<String, Object>>() {
-            }.getType();
-            Map<String, Object> payload = gson.fromJson(new InputStreamReader(request.getInputStream(), "UTF-8"),
-                    mapType);
+            TranslationRequestPayload payload = gson.fromJson(
+                    new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8),
+                    TranslationRequestPayload.class);
 
             if (payload == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -63,23 +63,39 @@ public class TranslationServlet extends HttpServlet {
                 return;
             }
 
-            List<String> texts = (List<String>) payload.get("text");
-            String sourceLang = (String) payload.get("sourceLang");
-            String targetLang = (String) payload.get("targetLang");
-            String providerName = (String) payload.get("provider");
+            String sourceLang = TranslationLanguageSupport.normalizeLanguageCode(payload.sourceLang, "en");
+            String targetLang = TranslationLanguageSupport.normalizeLanguageCode(payload.targetLang);
+            String providerName = payload.provider == null ? "" : payload.provider.trim();
+            String resolvedProviderName = providerName.isEmpty()
+                    ? WebloggerConfig.getProperty("translation.default.provider", "mymemory")
+                    : providerName.toLowerCase();
 
-            if (texts == null || texts.isEmpty() || targetLang == null) {
+            if (targetLang == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.print("{\"error\":\"Missing required fields: text, targetLang\"}");
+                out.print("{\"error\":\"Unsupported or missing targetLang\"}");
                 return;
             }
 
             try {
-                TranslationProvider provider = TranslationProviderFactory.getProvider(providerName);
-                List<String> translations = provider.translate(texts, sourceLang, targetLang);
-
-                String jsonResponse = gson.toJson(Map.of("translations", translations));
-                out.print(jsonResponse);
+                TranslationProvider provider = TranslationProviderFactory.getProvider(resolvedProviderName);
+                if (payload.sections != null && !payload.sections.isEmpty()) {
+                    List<TranslationSectionResponse> sections = CACHE_SERVICE.translateSections(
+                            resolvedProviderName, provider, sourceLang, targetLang, payload.sections);
+                    long cachedSections = sections.stream().filter(TranslationSectionResponse::isCached).count();
+                    out.print(gson.toJson(Map.of(
+                            "sections", sections,
+                            "meta", Map.of(
+                                    "cachedSections", cachedSections,
+                                    "translatedSections", sections.size() - cachedSections))));
+                } else if (payload.text != null && !payload.text.isEmpty()) {
+                    List<TranslationSectionResponse> sections = CACHE_SERVICE.translateSections(
+                            resolvedProviderName, provider, sourceLang, targetLang,
+                            List.of(createLegacySection(payload.text)));
+                    out.print(gson.toJson(Map.of("translations", sections.get(0).getTranslations())));
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    out.print("{\"error\":\"Missing required fields: text or sections\"}");
+                }
 
             } catch (Exception e) {
                 log.error("Translation failed", e);
@@ -93,5 +109,20 @@ public class TranslationServlet extends HttpServlet {
         if (msg == null)
             return "Unknown error";
         return msg.replace("\"", "\\\"").replace("\n", "\\n");
+    }
+
+    private TranslationSectionRequest createLegacySection(List<String> texts) {
+        TranslationSectionRequest section = new TranslationSectionRequest();
+        section.setSectionId("legacy");
+        section.setTexts(texts);
+        return section;
+    }
+
+    private static final class TranslationRequestPayload {
+        private List<String> text;
+        private List<TranslationSectionRequest> sections;
+        private String sourceLang;
+        private String targetLang;
+        private String provider;
     }
 }

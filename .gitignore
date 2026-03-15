@@ -34,3 +34,7 @@ it-selenium/overlays/
 
 # Translation API Keys
 translation-api.properties
+
+.m2/
+target/
+app/target/
