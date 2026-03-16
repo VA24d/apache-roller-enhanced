@@ -213,7 +213,8 @@ def main():
     parser = argparse.ArgumentParser(
         description='Generate PlantUML class diagrams from Java source')
     parser.add_argument('--scope', default='pipeline',
-                        choices=['full', 'pipeline', 'stars', 'task2'],
+                        choices=['full', 'pipeline', 'stars', 'task2',
+                                 'pulse-before', 'pulse-after'],
                         help='Scope of diagram to generate')
     parser.add_argument('--output', default=None,
                         help='Output file path')
@@ -247,6 +248,23 @@ def main():
         title = 'Task 1 - User Highlights (Stars & Trending)'
         scope_desc = 'Star/favourite and trending classes'
         default_output = 'task1_user_highlights.puml'
+    elif args.scope == 'pulse-before':
+        packages = ['pojos.WeblogEntryComment', 'pojos.CommentSearchCriteria',
+                     'business.WeblogEntryManager',
+                     'business.jpa.JPAWeblogEntryManager',
+                     'struts2.editor.Comments', 'struts2.editor.CommentsBean']
+        title = 'Task 6 - Community Pulse Dashboard (BEFORE)'
+        scope_desc = 'Existing comment infrastructure before Community Pulse'
+        default_output = 'task6_community_pulse_before.puml'
+    elif args.scope == 'pulse-after':
+        packages = ['pojos.WeblogEntryComment', 'pojos.CommentSearchCriteria',
+                     'business.WeblogEntryManager',
+                     'business.jpa.JPAWeblogEntryManager',
+                     'struts2.editor.Comments', 'struts2.editor.CommentsBean',
+                     'business.pulse']
+        title = 'Task 6 - Community Pulse Dashboard (AFTER)'
+        scope_desc = 'Comment infrastructure with Community Pulse analytics'
+        default_output = 'task6_community_pulse_after.puml'
     else:  # full
         packages = None
         title = 'Full Domain Model'

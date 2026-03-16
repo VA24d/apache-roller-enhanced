@@ -304,6 +304,11 @@
         <put-attribute name="sidebar" value="/WEB-INF/jsps/editor/CommentsSidebar.jsp" />
         <put-attribute name="styles" value="/WEB-INF/jsps/tiles/empty.jsp" />
     </definition>
+
+    <definition name=".CommunityPulse" extends=".tiles-tabbedpage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/editor/CommunityPulse.jsp" />
+        <put-attribute name="styles" value="/WEB-INF/jsps/tiles/empty.jsp" />
+    </definition>
     
     <definition name=".Categories" extends=".tiles-tabbedpage" >
         <put-attribute name="content" value="/WEB-INF/jsps/editor/Categories.jsp" />

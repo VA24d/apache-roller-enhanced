@@ -453,6 +453,12 @@
             <allowed-methods>delete,execute,query,update</allowed-methods>
         </action>
 
+        <action name="communityPulse"
+                class="org.apache.roller.weblogger.ui.struts2.editor.CommunityPulse">
+            <result name="list" type="tiles">.CommunityPulse</result>
+            <allowed-methods>execute,analyze</allowed-methods>
+        </action>
+
         <action name="categories"
                 class="org.apache.roller.weblogger.ui.struts2.editor.Categories">
             <result name="list" type="tiles">.Categories</result>

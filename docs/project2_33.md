@@ -5,9 +5,10 @@
 1. [Task 1A: Stars](#task-1a-stars)
 2. [Task 1B: Trending Blogs](#task-1b-trending-blogs)
 3. [Task 2: Transforming Feeds](#task-2-transforming-feeds)
-4. [Design Patterns Summary](#design-patterns-summary)
-5. [UML Diagrams](#uml-diagrams)
-6. [Testing](#testing)
+4. [Task 6: Community Pulse Dashboard](#task-6-community-pulse-dashboard)
+5. [Design Patterns Summary](#design-patterns-summary)
+6. [UML Diagrams](#uml-diagrams)
+7. [Testing](#testing)
 
 ---
 
@@ -285,7 +286,11 @@ No existing steps or the pipeline orchestrator need to be modified.
 | 2 | Dependency Injection | Guice bindings for `StarManager` | 1A/1B | Loose coupling; interface-based dependency; singleton lifecycle management |
 | 3 | Chain of Responsibility | `EntryProcessingStep` / `EntryProcessingPipeline` | 2 | Sequential processing with independent, add/removable steps |
 | 4 | Factory | `EntryProcessingPipelineFactory` | 2 | Centralizes pipeline construction; reads config to conditionally enable steps |
-| 5 | Strategy | Each `EntryProcessingStep` implementation | 2 | Different algorithms behind the same interface; interchangeable steps |
+| 5 | Strategy (Pipeline) | Each `EntryProcessingStep` implementation | 2 | Different algorithms behind the same interface; interchangeable steps |
+| 6 | Strategy (Breakdown) | `BreakdownStrategy` / `TfIdfBreakdownStrategy` / `HybridLlmBreakdownStrategy` | 6 | Switchable insight-generation methods (classical vs LLM-enhanced) |
+| 7 | Factory (Dynamic) | `BreakdownStrategySelector` | 6 | Selects strategy at runtime based on comment count and LLM availability |
+| 8 | Facade | `CommunityPulseAnalyzer` | 6 | Single entry point coordinating 6A indicators and 6B breakdown subsystems |
+| 9 | Template Method | `DiscussionIndicator` with 5 implementations | 6 | Common contract for indicators; each computes independently; error isolation |
 
 ---
 
@@ -337,6 +342,24 @@ Run all Task 2 tests:
 mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pipeline.*"
 ```
 
+### Task 6 — Unit Tests (48 total, all passing)
+
+| Test Class | # Tests | What's Tested |
+|-----------|---------|---------------|
+| `ActivityLevelIndicatorTest` | 6 | Silent/Cold/Warm/Hot/On Fire levels, comments-per-day calculation, empty comments |
+| `ResponseTypeIndicatorTest` | 8 | Question/positive/debate/general detection, mixed types, null content, percentages |
+| `RecurringKeywordsIndicatorTest` | 6 | Keyword extraction, stop-word filtering, HTML stripping, max 5 keywords |
+| `TopContributorsIndicatorTest` | 4 | Top 3 ranking, anonymous handling, total contributor count |
+| `UniqueCommenterIndicatorTest` | 5 | Unique count, diversity ratio, case-insensitive names, high/low diversity labels |
+| `TfIdfBreakdownStrategyTest` | 7 | TF-IDF clustering, theme generation, representative comments, HTML handling, null/empty content |
+| `BreakdownStrategySelectorTest` | 8 | Dynamic selection by comment count, manual strategy override, fallback behavior, available strategies |
+| `DiscussionOverviewTest` | 4 | All 5 indicators registered, compute all, empty comments, error isolation |
+
+Run all Task 6 tests:
+```bash
+mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pulse.ActivityLevelIndicatorTest,org.apache.roller.weblogger.business.pulse.ResponseTypeIndicatorTest,org.apache.roller.weblogger.business.pulse.RecurringKeywordsIndicatorTest,org.apache.roller.weblogger.business.pulse.TopContributorsIndicatorTest,org.apache.roller.weblogger.business.pulse.UniqueCommenterIndicatorTest,org.apache.roller.weblogger.business.pulse.TfIdfBreakdownStrategyTest,org.apache.roller.weblogger.business.pulse.BreakdownStrategySelectorTest,org.apache.roller.weblogger.business.pulse.DiscussionOverviewTest"
+```
+
 ---
 
 ## How to Use
@@ -374,3 +397,190 @@ The pipeline runs automatically when any blog entry is saved. No user action is 
 - Profane words replaced with asterisks
 - Long posts truncated with "[...]" suffix
 - Auto-generated tags appended at the bottom
+
+---
+
+## Task 6: Community Pulse Dashboard
+
+### Overview
+
+A dashboard that helps weblog authors understand what their readers are talking about by summarizing and organizing comment discussions. Combines classical lightweight indicators (6A) with intelligent conversation breakdown using multiple methods (6B).
+
+### Requirements Addressed
+
+- **6A Discussion Overview:** 5 lightweight indicators computed using classical methods (no LLM)
+- **6B Conversation Breakdown:** Organized breakdown with themes, representative comments per theme, and overall recap
+- **6B Methods:** Two distinct methods — TF-IDF (classical) and Hybrid (local clustering + LLM labeling)
+- **6B Dynamic Selection:** Strategy is automatically selected based on comment count and LLM availability
+- **6B Representative Comments:** Each theme includes the top 2 most relevant comments
+- Design allows easily switching between insight-generation methods
+
+### Design Patterns Used
+
+#### 6. Strategy Pattern
+
+**Where:** `BreakdownStrategy` (interface), `TfIdfBreakdownStrategy`, `HybridLlmBreakdownStrategy`
+
+**Rationale:** The assignment requires "at least two distinct methods" that the system can "easily switch between... depending on available resources." The Strategy pattern encapsulates each breakdown algorithm behind a common `BreakdownStrategy` interface, allowing the system to swap methods at runtime without any code changes.
+
+**How it works:**
+- `TfIdfBreakdownStrategy` — fully classical TF-IDF keyword clustering with no external dependencies
+- `HybridLlmBreakdownStrategy` — uses TF-IDF locally for clustering, then sends a compact prompt to Gemini AI for polished labels and recap (minimizes API cost)
+- Both implement `analyze(CommentData)` and return a `ConversationBreakdown` with themes + representative comments + recap
+
+**Quality attribute improvement:**
+- *Extensibility* — New breakdown methods (e.g., a pure LLM strategy, or an embedding-based one) can be added by implementing `BreakdownStrategy`. Zero changes to existing code.
+- *Configurability* — The user can switch methods from the UI dashboard at runtime.
+- *Cost efficiency* — LLM is used selectively, not for every request.
+
+**Trade-off:** Each strategy maintains its own duplicate stop-word list. This could be extracted into a shared utility, but keeping strategies self-contained simplifies testing and reasoning.
+
+#### 7. Factory Pattern (Dynamic Strategy Selection)
+
+**Where:** `BreakdownStrategySelector`
+
+**Rationale:** The selector acts as a factory that dynamically chooses the right strategy based on two factors: (1) the number of comments (small sets don't benefit from LLM overhead) and (2) whether an LLM API key is configured.
+
+**Selection logic:**
+| Comment Count | LLM Available | Strategy Selected |
+|---------------|--------------|-------------------|
+| 0–5 | Any | TF-IDF (too few for meaningful clustering) |
+| 6–30 | No | TF-IDF |
+| 6–30 | Yes | Hybrid LLM |
+| 31+ | No | TF-IDF |
+| 31+ | Yes | Hybrid LLM (most benefit from polished labels) |
+
+**Quality attribute improvement:**
+- *Sustainability* — Avoids wasting API calls on trivial comment sets
+- *Fault tolerance* — Falls back to TF-IDF if LLM call fails
+
+**Trade-off:** Thresholds are hardcoded. Could be made configurable via `roller.properties`, but current values are reasonable defaults.
+
+#### 8. Facade Pattern
+
+**Where:** `CommunityPulseAnalyzer`
+
+**Rationale:** The facade provides a single entry point that coordinates two independent subsystems (6A indicators and 6B breakdown). The Struts action only needs to call `analyzer.analyze(entryId)` — it doesn't know about individual indicators, strategies, or comment fetching.
+
+**Quality attribute improvement:**
+- *Simplicity* — Complex multi-step analysis reduced to a single method call
+- *Maintainability* — Internal structure can change without affecting the action layer
+
+#### 9. Template Method Pattern (implicit)
+
+**Where:** `DiscussionIndicator` (interface) with 5 implementations
+
+**Rationale:** All indicators follow the same contract: `compute(CommentData) → Map<String, Object>`. The `DiscussionOverview` iterates over all registered indicators and calls `compute()` on each. Each implementation decides its own computation logic.
+
+**Quality attribute improvement:**
+- *Open/Closed Principle* — New indicators are added by creating a class that implements `DiscussionIndicator` and registering it in `DiscussionOverview`. No existing indicators are modified.
+- *Error isolation* — Each indicator's `compute()` is wrapped in try-catch; one failure doesn't break others.
+
+### 6A: Discussion Overview Indicators
+
+All 5 indicators are classical and computationally inexpensive (no LLM):
+
+| # | Indicator | What It Computes |
+|---|-----------|-----------------|
+| 1 | **Activity Level** | Classifies as Silent/Cold/Warm/Hot/On Fire based on count + comments-per-day rate |
+| 2 | **Response Type Breakdown** | % of comments classified as questions, positive feedback, debate, or general (regex/keyword matching) |
+| 3 | **Recurring Keywords** | Top 5 most frequent meaningful words (word frequency with stop-word filtering, HTML stripping) |
+| 4 | **Top Contributors** | Top 3 most active commenters by comment count |
+| 5 | **Unique Commenter Count** | Distinct names + diversity ratio (unique/total) → Highly Diverse / Moderate / Low / Dominated by Few |
+
+### 6B: Conversation Breakdown Methods
+
+#### Method 1: TF-IDF Keyword Clustering (Classical)
+
+Fully local, no external dependencies:
+
+1. **Tokenize** each comment (strip HTML, remove stop words)
+2. **Compute TF-IDF** scores per comment
+3. **Extract global top keywords** by cumulative TF-IDF score
+4. **Cluster** comments by their highest-scoring keyword
+5. **Label** each cluster from its primary keyword
+6. **Pick representative comments** — top 2 comments per cluster ranked by TF-IDF score for the cluster keyword
+7. **Generate recap** by summarizing cluster sizes and labels
+
+#### Method 2: Hybrid (Local Clustering + LLM Labeling)
+
+Minimizes LLM usage by doing heavy lifting locally:
+
+1. **Run TF-IDF clustering** locally (same as Method 1) — **free**
+2. **Build compact prompt** with only cluster keywords + 2 representative comments per cluster
+3. **Single LLM call** to Gemini AI for polished human-readable theme labels and an overall recap
+4. **Fallback** to TF-IDF labels if LLM call fails (network error, quota exceeded, etc.)
+
+**Why this is sustainable:** Only one API call per analysis, with a small payload (~500 tokens). The local clustering eliminates the need to send all comments to the LLM.
+
+### Changes to Existing Code
+
+| File | Change |
+|------|--------|
+| `struts.xml` | Added `communityPulse` action mapping |
+| `tiles.xml` | Added `.CommunityPulse` tile definition |
+| `editor-menu.xml` | Added "Community Pulse" menu item in editor tab |
+| `ApplicationResources.properties` | Added 16 i18n keys for Community Pulse UI |
+| `roller.properties` | Added 2 LLM configuration properties (`pulse.llm.apiKey`, `pulse.llm.apiUrl`) |
+
+### New Files Created
+
+| File | Purpose |
+|------|---------|
+| **Interfaces** | |
+| `business/pulse/DiscussionIndicator.java` | Interface for lightweight indicators: `compute(CommentData) → Map` |
+| `business/pulse/BreakdownStrategy.java` | Interface for breakdown methods: `analyze(CommentData) → ConversationBreakdown` |
+| **Data classes** | |
+| `business/pulse/CommentData.java` | Immutable snapshot of comments for a single entry |
+| `business/pulse/ConversationTheme.java` | A theme with label, keywords, representative comments, count |
+| `business/pulse/ConversationBreakdown.java` | Breakdown result: themes + recap + method used |
+| `business/pulse/PulseResult.java` | Full analysis result combining indicators + breakdown |
+| **6A Indicators (5)** | |
+| `business/pulse/ActivityLevelIndicator.java` | Cold/Warm/Hot/On Fire classification |
+| `business/pulse/ResponseTypeIndicator.java` | Question/Positive/Debate/General breakdown |
+| `business/pulse/RecurringKeywordsIndicator.java` | Top 5 keywords by frequency |
+| `business/pulse/TopContributorsIndicator.java` | Top 3 commenters by count |
+| `business/pulse/UniqueCommenterIndicator.java` | Unique count + diversity ratio |
+| **6A Aggregator** | |
+| `business/pulse/DiscussionOverview.java` | Runs all 5 indicators, collects results |
+| **6B Strategies (2)** | |
+| `business/pulse/TfIdfBreakdownStrategy.java` | Classical TF-IDF clustering with local recap |
+| `business/pulse/HybridLlmBreakdownStrategy.java` | Local TF-IDF + one LLM call for polish |
+| **6B/6C Selector** | |
+| `business/pulse/BreakdownStrategySelector.java` | Dynamic factory choosing strategy by comment count + config |
+| **Facade** | |
+| `business/pulse/CommunityPulseAnalyzer.java` | Single entry point coordinating indicators + breakdown |
+| **UI** | |
+| `ui/struts2/editor/CommunityPulse.java` | Struts action with entry selector + analysis |
+| `WEB-INF/jsps/editor/CommunityPulse.jsp` | Dashboard JSP with indicator cards + theme panels |
+
+### Configuration
+
+In `roller.properties`:
+```properties
+# Leave empty for TF-IDF only (no LLM calls)
+pulse.llm.apiKey=
+pulse.llm.apiUrl=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+```
+
+To enable the Hybrid method, set `pulse.llm.apiKey` to a valid Gemini API key. The system automatically selects the best method based on comment count and API availability.
+
+### How to Use
+
+1. Log in to Apache Roller and navigate to your weblog
+2. Click **"Community Pulse"** in the editor menu tab
+3. Select an entry from the dropdown (shows entries with comments)
+4. Click **"Analyze"**
+5. View the 5 discussion indicators (activity level, response types, keywords, contributors, commenter diversity)
+6. View the conversation breakdown with themes, representative comments, and recap
+7. If LLM is configured, use the **"Switch Method"** buttons to compare TF-IDF vs Hybrid results
+
+### UML Diagrams
+
+**Before** — Existing comment infrastructure with no analytics:
+
+![Task 6 Before](task6_community_pulse_before.puml)
+
+**After** — Full Community Pulse system with indicators, strategies, and dashboard:
+
+![Task 6 After](task6_community_pulse_after.puml)
