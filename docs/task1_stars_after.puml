@@ -1,0 +1,214 @@
+@startuml task1_stars_after
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+title Task 1A/1B – User Highlights (AFTER)\nStar weblogs/entries, view starred content, trending page
+
+package "business" {
+  interface Weblogger {
+    +getUserManager(): UserManager
+    +getWeblogManager(): WeblogManager
+    +getWeblogEntryManager(): WeblogEntryManager
+    +**getStarManager(): StarManager**
+    +flush(): void
+    +release(): void
+  }
+
+  abstract class WebloggerImpl {
+    -userManager: UserManager
+    -weblogManager: WeblogManager
+    -weblogEntryManager: WeblogEntryManager
+    -**starManager: StarManager**
+    +**getStarManager(): StarManager**
+    +release(): void
+  }
+
+  interface UserManager {
+    +getUserByUserName(userName, enabled): User
+    +getWeblogPermissions(user): List
+  }
+
+  interface WeblogEntryManager {
+    +getWeblogEntry(id): WeblogEntry
+    +saveWeblogEntry(entry): void
+    +getHotWeblogs(sinceDays, offset, length): List
+  }
+
+  interface WeblogManager {
+    +getWeblog(id): Weblog
+    +getWeblogByHandle(handle): Weblog
+  }
+
+  interface StarManager #LightGreen {
+    +saveWeblogStar(star): void
+    +removeWeblogStar(star): void
+    +getWeblogStarByUserAndWeblog(user, weblog): UserWeblogStar
+    +getStarredWeblogs(user, offset, length): List
+    +saveEntryStar(star): void
+    +removeEntryStar(star): void
+    +getEntryStarByUserAndEntry(user, entry): UserEntryStar
+    +getStarredEntries(user, offset, length): List
+    +getTrendingWeblogs(limit): List<Object[]>
+    +getTrendingEntries(limit): List<Object[]>
+    +getWeblogStarCount(weblog): long
+    +getEntryStarCount(entry): long
+    +release(): void
+  }
+}
+
+package "business.jpa" {
+  class JPAWebloggerImpl {
+    -strategy: JPAPersistenceStrategy
+    +flush(): void
+  }
+
+  class JPAStarManagerImpl #LightGreen {
+    -strategy: JPAPersistenceStrategy
+    +saveWeblogStar(star): void
+    +removeWeblogStar(star): void
+    +getWeblogStarByUserAndWeblog(user, weblog): UserWeblogStar
+    +getStarredWeblogs(user, offset, length): List
+    +saveEntryStar(star): void
+    +removeEntryStar(star): void
+    +getEntryStarByUserAndEntry(user, entry): UserEntryStar
+    +getStarredEntries(user, offset, length): List
+    +getTrendingWeblogs(limit): List<Object[]>
+    +getTrendingEntries(limit): List<Object[]>
+    +getWeblogStarCount(weblog): long
+    +getEntryStarCount(entry): long
+    +release(): void
+  }
+}
+
+package "pojos" {
+  class User {
+    -id: String
+    -userName: String
+    -screenName: String
+    -enabled: Boolean
+  }
+
+  class Weblog {
+    -id: String
+    -handle: String
+    -name: String
+    -lastModified: Date
+  }
+
+  class WeblogEntry {
+    -id: String
+    -title: String
+    -anchor: String
+    -pubTime: Timestamp
+    -status: PubStatus
+  }
+
+  class WeblogHitCount {
+    -id: String
+    -dailyHits: int
+  }
+
+  class UserWeblogStar #LightGreen {
+    -id: String
+    -user: User
+    -weblog: Weblog
+    -starredTime: Timestamp
+  }
+
+  class UserEntryStar #LightGreen {
+    -id: String
+    -user: User
+    -entry: WeblogEntry
+    -starredTime: Timestamp
+  }
+}
+
+package "ui.struts2.core" {
+  class MainMenu {
+    +execute(): String
+    +getExistingPermissions(): List
+  }
+
+  class StarWeblogAction #LightGreen {
+    -weblogId: String
+    -weblogHandle: String
+    +star(): String
+    +unstar(): String
+  }
+
+  class StarEntryAction #LightGreen {
+    -entryId: String
+    -entryPermalink: String
+    +star(): String
+    +unstar(): String
+  }
+
+  class StarredWeblogsAction #LightGreen {
+    -starredWeblogs: List<UserWeblogStar>
+    +execute(): String
+  }
+
+  class StarredEntriesAction #LightGreen {
+    -pager: StarredEntriesPager
+    -page: int
+    +execute(): String
+  }
+
+  class TrendingAction #LightGreen {
+    -trendingWeblogs: List<Object[]>
+    -trendingEntries: List<Object[]>
+    +execute(): String
+  }
+}
+
+package "ui.struts2.pagers" {
+  class StarredEntriesPager #LightGreen {
+    -items: List<UserEntryStar>
+    -baseUrl: String
+    -pageNum: int
+    -moreItems: boolean
+    +getNextLink(): String
+    +getPrevLink(): String
+  }
+}
+
+package "ui.rendering.model" {
+  class UtilitiesModel {
+    +isUserAuthenticated(): boolean
+    +**isWeblogStarred(weblogId): boolean**
+    +**isEntryStarred(entryId): boolean**
+  }
+}
+
+' Inheritance / Implementation
+Weblogger <|.. WebloggerImpl
+WebloggerImpl <|-- JPAWebloggerImpl
+StarManager <|.. JPAStarManagerImpl
+
+' POJO associations
+WeblogHitCount --> Weblog : weblog
+WeblogEntry --> Weblog : website
+UserWeblogStar --> User : user
+UserWeblogStar --> Weblog : weblog
+UserEntryStar --> User : user
+UserEntryStar --> WeblogEntry : entry
+
+' Action dependencies
+MainMenu ..> Weblogger : uses
+StarWeblogAction ..> StarManager : uses
+StarEntryAction ..> StarManager : uses
+StarredWeblogsAction ..> StarManager : uses
+StarredEntriesAction ..> StarManager : uses
+TrendingAction ..> StarManager : uses
+StarredEntriesAction ..> StarredEntriesPager : creates
+UtilitiesModel ..> StarManager : uses
+
+legend right
+  |= Color |= Meaning |
+  | <#LightGreen> | New class/interface added |
+  | **bold** | New method added to existing class |
+endlegend
+
+@enduml

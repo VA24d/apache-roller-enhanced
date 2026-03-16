@@ -1,0 +1,144 @@
+@startuml task2_pipeline_after
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+title Task 2 – Transforming Feeds (AFTER)\nAdmin-side entry processing pipeline with Chain of Responsibility pattern
+
+package "business.plugins.entry" {
+  interface WeblogEntryPlugin {
+    +getName(): String
+    +getDescription(): String
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class ConvertLineBreaksPlugin {
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class EncodePreTagsPlugin {
+    +init(weblog: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class ObfuscateEmailPlugin {
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class SmileysPlugin {
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, text: String): String
+  }
+}
+
+package "business.pipeline" #LightYellow {
+  interface EntryProcessingStep #LightGreen {
+    +getName(): String
+    +getDescription(): String
+    +process(entry: WeblogEntry): void
+  }
+
+  class EntryProcessingPipeline #LightGreen {
+    -steps: List<EntryProcessingStep>
+    +addStep(step: EntryProcessingStep): void
+    +removeStep(stepName: String): boolean
+    +getSteps(): List<EntryProcessingStep>
+    +execute(entry: WeblogEntry): void
+  }
+
+  class EntryProcessingPipelineFactory #LightGreen {
+    +{static} createPipeline(): EntryProcessingPipeline
+    -{static} isStepEnabled(propertyName: String): boolean
+    -{static} getIntConfig(propertyName: String, defaultValue: int): int
+  }
+
+  class ProfanityFilterStep #LightGreen {
+    -patterns: List<Pattern>
+    +getName(): String
+    +getDescription(): String
+    +process(entry: WeblogEntry): void
+  }
+
+  class ContentSummarizerStep #LightGreen {
+    -maxWords: int
+    +getName(): String
+    +getDescription(): String
+    +process(entry: WeblogEntry): void
+    +{static} truncateToWordLimit(html: String, maxWords: int): String
+  }
+
+  class AutoTagGeneratorStep #LightGreen {
+    -maxTags: int
+    -STOP_WORDS: Set<String>
+    +getName(): String
+    +getDescription(): String
+    +process(entry: WeblogEntry): void
+    +extractTags(text: String, maxTags: int): List<String>
+  }
+}
+
+package "ui.struts2.editor" {
+  class EntryEdit {
+    -bean: EntryBean
+    -entry: WeblogEntry
+    +execute(): String
+    +saveDraft(): String
+    +publish(): String
+    -save(): String
+  }
+}
+
+package "pojos" {
+  class WeblogEntry {
+    -id: String
+    -title: String
+    -text: String
+    -summary: String
+    -status: PubStatus
+    +setText(text: String): void
+    +setTitle(title: String): void
+    +setSummary(summary: String): void
+  }
+}
+
+package "config" {
+  class WebloggerConfig <<utility>> {
+    +{static} getProperty(key: String): String
+  }
+}
+
+' Existing render-time plugins (unchanged)
+WeblogEntryPlugin <|.. ConvertLineBreaksPlugin
+WeblogEntryPlugin <|.. EncodePreTagsPlugin
+WeblogEntryPlugin <|.. ObfuscateEmailPlugin
+WeblogEntryPlugin <|.. SmileysPlugin
+
+' New pipeline relationships
+EntryProcessingStep <|.. ProfanityFilterStep
+EntryProcessingStep <|.. ContentSummarizerStep
+EntryProcessingStep <|.. AutoTagGeneratorStep
+
+EntryProcessingPipeline o-- EntryProcessingStep : steps (ordered)
+EntryProcessingPipelineFactory ..> EntryProcessingPipeline : creates
+EntryProcessingPipelineFactory ..> WebloggerConfig : reads config
+
+' Integration point
+EntryEdit ..> EntryProcessingPipelineFactory : uses
+EntryEdit ..> WeblogEntry : saves
+
+' Pipeline processes entries
+EntryProcessingPipeline ..> WeblogEntry : processes
+
+legend right
+  |= Color |= Meaning |
+  | <#LightGreen> | New class/interface added |
+  | <#LightYellow> | New package |
+  Existing render-time plugins (left) are unchanged.
+  New save-time pipeline (right) runs in EntryEdit.save().
+endlegend
+
+@enduml

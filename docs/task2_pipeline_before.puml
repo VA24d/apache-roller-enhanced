@@ -1,0 +1,79 @@
+@startuml task2_pipeline_before
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+title Task 2 – Transforming Feeds (BEFORE)\nOnly render-time plugins exist; no admin-side content processing pipeline
+
+package "business.plugins.entry" {
+  interface WeblogEntryPlugin {
+    +getName(): String
+    +getDescription(): String
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class ConvertLineBreaksPlugin {
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class EncodePreTagsPlugin {
+    +init(weblog: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class ObfuscateEmailPlugin {
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, str: String): String
+  }
+
+  class SmileysPlugin {
+    +init(website: Weblog): void
+    +render(entry: WeblogEntry, text: String): String
+  }
+}
+
+package "ui.struts2.editor" {
+  class EntryEdit {
+    -bean: EntryBean
+    -entry: WeblogEntry
+    +execute(): String
+    +saveDraft(): String
+    +publish(): String
+    -save(): String
+  }
+}
+
+package "pojos" {
+  class WeblogEntry {
+    -id: String
+    -title: String
+    -text: String
+    -summary: String
+    -status: PubStatus
+    +setText(text: String): void
+    +setTitle(title: String): void
+    +setSummary(summary: String): void
+  }
+}
+
+note as N1
+  <b>Existing plugins are render-time only.</b>
+  They transform text when a page is viewed,
+  NOT when an entry is saved.
+  No admin-side content filtering, profanity
+  checking, summarization, or auto-tagging.
+  No way to add/remove save-time processing
+  steps without modifying EntryEdit directly.
+end note
+
+WeblogEntryPlugin <|.. ConvertLineBreaksPlugin
+WeblogEntryPlugin <|.. EncodePreTagsPlugin
+WeblogEntryPlugin <|.. ObfuscateEmailPlugin
+WeblogEntryPlugin <|.. SmileysPlugin
+
+EntryEdit ..> WeblogEntry : saves
+
+@enduml
