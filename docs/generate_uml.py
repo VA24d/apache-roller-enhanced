@@ -214,7 +214,8 @@ def main():
         description='Generate PlantUML class diagrams from Java source')
     parser.add_argument('--scope', default='pipeline',
                         choices=['full', 'pipeline', 'stars', 'task2',
-                                 'pulse-before', 'pulse-after'],
+                                 'pulse-before', 'pulse-after',
+                                 'dashboard-before', 'dashboard-after'],
                         help='Scope of diagram to generate')
     parser.add_argument('--output', default=None,
                         help='Output file path')
@@ -265,6 +266,24 @@ def main():
         title = 'Task 6 - Community Pulse Dashboard (AFTER)'
         scope_desc = 'Comment infrastructure with Community Pulse analytics'
         default_output = 'task6_community_pulse_after.puml'
+    elif args.scope == 'dashboard-before':
+        packages = ['struts2.admin.GlobalConfig', 'struts2.admin.UserAdmin',
+                     'struts2.admin.CacheInfo',
+                     'struts2.admin.GlobalCommentManagement',
+                     'struts2.util.UIAction']
+        title = 'Task 4 - Admin Dashboard (BEFORE)'
+        scope_desc = 'Existing admin actions before Site Summary Dashboard'
+        default_output = 'task4_dashboard_before.puml'
+    elif args.scope == 'dashboard-after':
+        packages = ['struts2.admin.GlobalConfig', 'struts2.admin.UserAdmin',
+                     'struts2.admin.CacheInfo',
+                     'struts2.admin.GlobalCommentManagement',
+                     'struts2.admin.SiteSummary',
+                     'struts2.util.UIAction',
+                     'business.dashboard']
+        title = 'Task 4 - Admin Dashboard (AFTER)'
+        scope_desc = 'Admin actions with Site Summary Dashboard using Builder pattern'
+        default_output = 'task4_dashboard_after.puml'
     else:  # full
         packages = None
         title = 'Full Domain Model'

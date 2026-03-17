@@ -306,6 +306,12 @@
             <allowed-methods>execute</allowed-methods>
         </action>
         
+        <action name="siteSummary"
+                class="org.apache.roller.weblogger.ui.struts2.admin.SiteSummary">
+            <result name="success" type="tiles">.SiteSummary</result>
+            <allowed-methods>execute</allowed-methods>
+        </action>
+
         <action name="cacheInfo"
                 class="org.apache.roller.weblogger.ui.struts2.admin.CacheInfo">
             <result name="success" type="tiles">.CacheInfo</result>

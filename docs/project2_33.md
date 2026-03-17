@@ -5,10 +5,11 @@
 1. [Task 1A: Stars](#task-1a-stars)
 2. [Task 1B: Trending Blogs](#task-1b-trending-blogs)
 3. [Task 2: Transforming Feeds](#task-2-transforming-feeds)
-4. [Task 6: Community Pulse Dashboard](#task-6-community-pulse-dashboard)
-5. [Design Patterns Summary](#design-patterns-summary)
-6. [UML Diagrams](#uml-diagrams)
-7. [Testing](#testing)
+4. [Task 4: Admin Dashboard](#task-4-admin-dashboard)
+5. [Task 6: Community Pulse Dashboard](#task-6-community-pulse-dashboard)
+6. [Design Patterns Summary](#design-patterns-summary)
+7. [UML Diagrams](#uml-diagrams)
+8. [Testing](#testing)
 
 ---
 
@@ -314,6 +315,133 @@ No existing steps or the pipeline orchestrator need to be modified.
 
 ---
 
+## Task 4: Admin Dashboard
+
+### Overview
+
+A Site Summary Dashboard accessible to admin users that provides a high-level overview of key site metrics. Supports two view modes — **Minimalist** (3 metrics) and **Full** (8 metrics) — toggled via buttons. Uses the Builder pattern to separate view definition (which metrics to include) from data-fetching logic (how each metric computes its value).
+
+### Requirements Addressed
+
+- Admin-only dashboard showing at least 5 site-wide metrics (Full view shows 8)
+- Two distinct view modes: Minimalist and Full
+- View definition is decoupled from data-fetching logic (Builder pattern)
+- Each metric computes independently; one failure does not break others
+- Accessible via the admin navigation menu
+
+### Design Patterns Used
+
+#### 10. Builder Pattern
+
+**Where:** `DashboardReportBuilder` (builder), `DashboardReport` (product), `DashboardMetric` (component interface)
+
+**Rationale:** The assignment states *"definition of each view shouldn't be described with the logic to fetch data."* The Builder pattern directly addresses this: the `DashboardReportBuilder.buildMinimalistReport()` and `buildFullReport()` static methods define **which** metrics each view includes (view definition), while each `DashboardMetric` implementation encapsulates **how** its data is fetched (data-fetching logic). These two concerns are in completely separate classes.
+
+**How it works:**
+```java
+// VIEW DEFINITION — which metrics to include (in DashboardReportBuilder)
+public static DashboardReport buildMinimalistReport() {
+    return new DashboardReportBuilder()
+            .setViewName("Minimalist")
+            .addMetric(new TotalUsersMetric())
+            .addMetric(new TotalWeblogsMetric())
+            .addMetric(new TopCategoryMetric())
+            .build();
+}
+
+// DATA-FETCHING LOGIC — how each metric computes its value (in TotalUsersMetric)
+public MetricResult compute() {
+    UserManager umgr = WebloggerFactory.getWeblogger().getUserManager();
+    long count = umgr.getUserCount();
+    return new MetricResult(getName(), getLabel(), String.valueOf(count));
+}
+```
+
+**Quality attribute improvement:**
+- *Extensibility* — New metrics are added by implementing `DashboardMetric`; new views by calling different `addMetric()` combinations. Neither change affects the other.
+- *Fault tolerance* — `build()` wraps each `metric.compute()` in try-catch; a failing metric returns an "Error" result without blocking others.
+- *Maintainability* — Each metric is a separate, testable class with a single responsibility.
+
+**Trade-off:** Each metric makes its own database call. For 8 metrics, this means 8 queries per page load. Acceptable for an admin-only page, but could be optimized with caching if needed.
+
+#### 11. Strategy Pattern (Metrics)
+
+**Where:** `DashboardMetric` (interface) with 8 implementations
+
+**Rationale:** Each metric implementation encapsulates a different data-fetching algorithm (user count query, trending query, aggregate comment query, etc.) behind the same `DashboardMetric` interface. The builder treats all metrics uniformly — it doesn't know or care how each one fetches its data.
+
+**Quality attribute improvement:**
+- *Open/Closed Principle* — New metrics (e.g., "Average Posts Per User", "Most Active Day of Week") can be added without modifying existing code.
+- *Interchangeability* — Any metric can be swapped for a different implementation (e.g., a cached version).
+
+### Metrics
+
+| # | Metric | Data Source | What It Shows |
+|---|--------|------------|---------------|
+| 1 | **Total Users** | `UserManager.getUserCount()` | Total registered user count |
+| 2 | **Total Weblogs** | `WeblogManager.getWeblogCount()` | Total weblog count |
+| 3 | **Total Entries** | `WeblogEntryManager.getEntryCount()` | Total blog entries across all weblogs |
+| 4 | **Total Comments** | `WeblogEntryManager.getCommentCount()` | Total comments across all entries |
+| 5 | **Top Category** | `WeblogManager.getMostCommentedWeblogs()` | Most-commented weblog (proxy for engagement) |
+| 6 | **Most Starred Blog** | `StarManager.getTrendingWeblogs(1)` | Weblog with the most stars |
+| 7 | **Top Active Users** | `UserManager` + `WeblogManager` | Top 3 users by weblog count |
+| 8 | **Most Commented Weblog** | `WeblogManager.getMostCommentedWeblogs()` | Weblog with highest comment count |
+
+**View composition:**
+- **Minimalist View** (3 metrics): Total Users, Total Weblogs, Top Category
+- **Full View** (8 metrics): All of the above
+
+### Changes to Existing Code
+
+| File | Change |
+|------|--------|
+| `struts.xml` | Added `siteSummary` action mapping in `weblogger-admin` package |
+| `tiles.xml` | Added `.SiteSummary` tile definition |
+| `admin-menu.xml` | Added `siteSummary` menu item with `tabbedmenu.admin.siteSummary` label |
+| `ApplicationResources.properties` | Added 4 i18n keys: `siteSummary.title`, `siteSummary.subtitle`, `siteSummary.prompt`, `tabbedmenu.admin.siteSummary` |
+
+### New Files Created
+
+| File | Purpose |
+|------|---------|
+| **Interface & Data Classes** | |
+| `business/dashboard/DashboardMetric.java` | Interface: `getName()`, `getLabel()`, `compute()` → `MetricResult` |
+| `business/dashboard/MetricResult.java` | Immutable result: name, label, value, optional details list |
+| `business/dashboard/DashboardReport.java` | Assembled report: viewName + unmodifiable list of `MetricResult` |
+| **Builder** | |
+| `business/dashboard/DashboardReportBuilder.java` | Builder with `addMetric()`, `build()`, and static `buildMinimalistReport()` / `buildFullReport()` |
+| **Metric Implementations (8)** | |
+| `business/dashboard/TotalUsersMetric.java` | Fetches user count from `UserManager` |
+| `business/dashboard/TotalWeblogsMetric.java` | Fetches weblog count from `WeblogManager` |
+| `business/dashboard/TotalEntriesMetric.java` | Fetches entry count from `WeblogEntryManager` |
+| `business/dashboard/TotalCommentsMetric.java` | Fetches comment count from `WeblogEntryManager` |
+| `business/dashboard/TopCategoryMetric.java` | Finds top weblog by comment count |
+| `business/dashboard/MostStarredBlogMetric.java` | Finds weblog with most stars via `StarManager` |
+| `business/dashboard/TopActiveUsersMetric.java` | Ranks users by weblog count (top 3) |
+| `business/dashboard/MostCommentedWeblogMetric.java` | Finds weblog with most comments |
+| **Struts Action** | |
+| `ui/struts2/admin/SiteSummary.java` | Admin action with `view` parameter; delegates to builder |
+| **JSP** | |
+| `WEB-INF/jsps/admin/SiteSummary.jsp` | Bootstrap panel cards with view toggle buttons |
+
+### Key Implementation Details
+
+- **View toggle:** The `view` parameter ("full" or "minimalist") is passed as a URL parameter. The action delegates to the appropriate builder method. Active view is highlighted with `btn-primary`.
+- **Error isolation:** If any metric's `compute()` throws, the builder catches the exception, logs it, and inserts an "Error" result — other metrics still display normally.
+- **Admin-only access:** `SiteSummary.requiredGlobalPermissionActions()` returns `GlobalPermission.ADMIN`; non-admins cannot access the page.
+- **Consistent with Roller patterns:** Follows the same action → tiles → JSP pattern as `CacheInfo`, `GlobalConfig`, and other existing admin pages.
+- **Responsive layout:** Cards are displayed in a 3-column Bootstrap grid that wraps on smaller screens.
+
+### How to Use
+
+1. Log in to Apache Roller as an **admin** user
+2. Click **"Site Summary"** in the admin navigation tabs
+3. The Full view is shown by default with all 8 metrics
+4. Click **"Minimalist View"** to see only 3 key metrics
+5. Click **"Full View"** to return to the comprehensive view
+
+---
+
 ## Design Patterns Summary
 
 | # | Pattern | Location | Task | Justification |
@@ -327,6 +455,8 @@ No existing steps or the pipeline orchestrator need to be modified.
 | 7 | Factory (Dynamic) | `BreakdownStrategySelector` | 6 | Selects strategy at runtime based on comment count and LLM availability |
 | 8 | Facade | `CommunityPulseAnalyzer` | 6 | Single entry point coordinating 6A indicators and 6B breakdown subsystems |
 | 9 | Template Method | `DiscussionIndicator` with 5 implementations | 6 | Common contract for indicators; each computes independently; error isolation |
+| 10 | Builder | `DashboardReportBuilder` / `DashboardReport` / `DashboardMetric` | 4 | Separates view definition from data-fetching logic; flexible view composition |
+| 11 | Strategy (Metrics) | 8 `DashboardMetric` implementations | 4 | Different data-fetching algorithms behind uniform interface; extensible |
 
 ---
 
@@ -351,6 +481,16 @@ No existing steps or the pipeline orchestrator need to be modified.
 **After** — New admin-side `EntryProcessingPipeline` with Chain of Responsibility pattern:
 
 ![Task 2 After](task2_pipeline_after.png)
+
+### Task 4 — Admin Dashboard
+
+**Before** — Admin pages are isolated management tools with no centralized site summary. Data access methods (`getUserCount`, `getWeblogCount`, etc.) exist but are unused by the admin UI:
+
+![Task 4 Before](task4_dashboard_before.puml)
+
+**After** — New `SiteSummary` action uses `DashboardReportBuilder` (Builder pattern) to assemble metric-based reports. Each `DashboardMetric` implementation encapsulates its own data-fetching logic. Two predefined views (Minimalist: 3 metrics, Full: 8 metrics) are composed by calling different combinations of `addMetric()`:
+
+![Task 4 After](task4_dashboard_after.puml)
 
 ---
 
@@ -390,6 +530,20 @@ mvn test -pl app -Dtest="org.apache.roller.weblogger.business.StarManagerTest"
 Run all Task 2 tests:
 ```bash
 mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pipeline.ProfanityFilterStepTest,org.apache.roller.weblogger.business.pipeline.ContentSummarizerStepTest,org.apache.roller.weblogger.business.pipeline.SentimentAnalysisStepTest,org.apache.roller.weblogger.business.pipeline.ReadingTimeEstimatorStepTest,org.apache.roller.weblogger.business.pipeline.AutoTagGeneratorStepTest,org.apache.roller.weblogger.business.pipeline.EntryProcessingPipelineTest"
+```
+
+### Task 4 — Unit Tests (22 total, all passing)
+
+| Test Class | # Tests | What's Tested |
+|-----------|---------|---------------|
+| `MetricResultTest` | 5 | Constructors, null details handling, immutability, empty values |
+| `DashboardReportTest` | 4 | View name, results list, null results, immutability, order preservation |
+| `DashboardReportBuilderTest` | 8 | Empty build, single/multiple metrics, failing metrics, chaining, order preservation |
+| `SiteSummaryActionTest` | 5 | Default view, view setter, admin permission, weblog not required, null report before execute |
+
+Run all Task 4 tests:
+```bash
+mvn test -pl app -Dtest="MetricResultTest,DashboardReportTest,DashboardReportBuilderTest,SiteSummaryActionTest"
 ```
 
 ### Task 6 — Unit Tests (48 total, all passing)

@@ -29,6 +29,10 @@ See comments in editor-menu.xml for info about attributes.
                    subactions="commonPingTargetAdd,commonPingTargetEdit" />
         
         <!-- globalPerms="admin" -->
+        <menu-item action="siteSummary"
+                   name="tabbedmenu.admin.siteSummary" />
+
+        <!-- globalPerms="admin" -->
         <menu-item action="cacheInfo"
                    name="tabbedmenu.admin.cacheInfo" />
     </menu>

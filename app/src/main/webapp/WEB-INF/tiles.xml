@@ -208,6 +208,10 @@
         <put-attribute name="content" value="/WEB-INF/jsps/tiles/empty.jsp" />
     </definition>
     
+    <definition name=".SiteSummary" extends=".tiles-tabbedpage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/admin/SiteSummary.jsp" />
+    </definition>
+
     <definition name=".CacheInfo" extends=".tiles-tabbedpage" >
         <put-attribute name="content" value="/WEB-INF/jsps/admin/CacheInfo.jsp" />
     </definition>
