@@ -105,6 +105,14 @@ Click the link below to subscribe via your favorite feed reader:</p>
    </div>
 #end
 
+#if($utils.isUserAuthenticated())
+    <h3>My Starred</h3>
+    <p class="details">
+    <a href="$url.site/roller-ui/starredWeblogs.rol">Starred Blogs</a> |
+    <a href="$url.site/roller-ui/starredEntries.rol">Starred Posts</a>
+    </p>
+#end
+
 ## Star button — shown to any logged-in user who is NOT the blog creator
 #set($blogHandle = $model.weblog.handle)
 #if($utils.isUserAuthenticated() && $utils.authenticatedUser.userName != $model.weblog.creatorUserName)

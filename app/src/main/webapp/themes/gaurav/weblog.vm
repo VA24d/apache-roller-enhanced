@@ -79,6 +79,13 @@
                            </div>
 				</div>
 				#end
+				#if($utils.isUserAuthenticated())
+				<div class="well">
+					<h3>My Starred</h3>
+					<a href="$url.site/roller-ui/starredWeblogs.rol">Starred Blogs</a> |
+					<a href="$url.site/roller-ui/starredEntries.rol">Starred Posts</a>
+				</div>
+				#end
 				## Star button — shown to any logged-in user who is NOT the blog creator
 				#set($blogHandle = $model.weblog.handle)
 				#if($utils.isUserAuthenticated() && $utils.authenticatedUser.userName != $model.weblog.creatorUserName)

@@ -25,6 +25,10 @@
     <div class="sidebar">
     #showPageMenu($model.weblog)
     #showAuthorMenu(true)
+    #if($utils.isUserAuthenticated())
+    <a href="$url.site/roller-ui/starredWeblogs.rol">Starred Blogs</a>
+    <a href="$url.site/roller-ui/starredEntries.rol">Starred Posts</a>
+    #end
     </div>
 
     ## Star button — shown to any logged-in user who is NOT the blog creator
