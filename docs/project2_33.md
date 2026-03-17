@@ -323,7 +323,7 @@ A Site Summary Dashboard accessible to admin users that provides a high-level ov
 
 ### Requirements Addressed
 
-- Admin-only dashboard showing at least 5 site-wide metrics (Full view shows 8)
+- Admin-only dashboard showing at least 5 site-wide metrics (Full view shows 9)
 - Two distinct view modes: Minimalist and Full
 - View definition is decoupled from data-fetching logic (Builder pattern)
 - Each metric computes independently; one failure does not break others
@@ -382,14 +382,15 @@ public MetricResult compute() {
 | 2 | **Total Weblogs** | `WeblogManager.getWeblogCount()` | Total weblog count |
 | 3 | **Total Entries** | `WeblogEntryManager.getEntryCount()` | Total blog entries across all weblogs |
 | 4 | **Total Comments** | `WeblogEntryManager.getCommentCount()` | Total comments across all entries |
-| 5 | **Top Category** | `WeblogManager.getMostCommentedWeblogs()` | Most-commented weblog (proxy for engagement) |
-| 6 | **Most Starred Blog** | `StarManager.getTrendingWeblogs(1)` | Weblog with the most stars |
-| 7 | **Top Active Users** | `UserManager` + `WeblogManager` | Top 3 users by weblog count |
-| 8 | **Most Commented Weblog** | `WeblogManager.getMostCommentedWeblogs()` | Weblog with highest comment count |
+| 5 | **Top Category** | `WeblogCategory.retrieveWeblogEntries()` | Category with the most blog entries across all weblogs |
+| 6 | **Most Commented Category** | `WeblogCategory` + `WeblogEntry.getCommentCount()` | Category with the most comments across all weblogs |
+| 7 | **Most Starred Blog** | `StarManager.getTrendingWeblogs(1)` | Weblog with the most stars |
+| 8 | **Top Active Users** | `UserManager` + `WeblogManager` | Top 3 users by weblog count |
+| 9 | **Most Commented Weblog** | `WeblogManager.getMostCommentedWeblogs()` | Weblog with highest comment count |
 
 **View composition:**
 - **Minimalist View** (3 metrics): Total Users, Total Weblogs, Top Category
-- **Full View** (8 metrics): All of the above
+- **Full View** (9 metrics): All of the above
 
 ### Changes to Existing Code
 
@@ -410,12 +411,13 @@ public MetricResult compute() {
 | `business/dashboard/DashboardReport.java` | Assembled report: viewName + unmodifiable list of `MetricResult` |
 | **Builder** | |
 | `business/dashboard/DashboardReportBuilder.java` | Builder with `addMetric()`, `build()`, and static `buildMinimalistReport()` / `buildFullReport()` |
-| **Metric Implementations (8)** | |
+| **Metric Implementations (9)** | |
 | `business/dashboard/TotalUsersMetric.java` | Fetches user count from `UserManager` |
 | `business/dashboard/TotalWeblogsMetric.java` | Fetches weblog count from `WeblogManager` |
 | `business/dashboard/TotalEntriesMetric.java` | Fetches entry count from `WeblogEntryManager` |
 | `business/dashboard/TotalCommentsMetric.java` | Fetches comment count from `WeblogEntryManager` |
-| `business/dashboard/TopCategoryMetric.java` | Finds top weblog by comment count |
+| `business/dashboard/TopCategoryMetric.java` | Finds category with most entries across all weblogs |
+| `business/dashboard/MostCommentedCategoryMetric.java` | Finds category with most comments across all weblogs |
 | `business/dashboard/MostStarredBlogMetric.java` | Finds weblog with most stars via `StarManager` |
 | `business/dashboard/TopActiveUsersMetric.java` | Ranks users by weblog count (top 3) |
 | `business/dashboard/MostCommentedWeblogMetric.java` | Finds weblog with most comments |
@@ -456,7 +458,7 @@ public MetricResult compute() {
 | 8 | Facade | `CommunityPulseAnalyzer` | 6 | Single entry point coordinating 6A indicators and 6B breakdown subsystems |
 | 9 | Template Method | `DiscussionIndicator` with 5 implementations | 6 | Common contract for indicators; each computes independently; error isolation |
 | 10 | Builder | `DashboardReportBuilder` / `DashboardReport` / `DashboardMetric` | 4 | Separates view definition from data-fetching logic; flexible view composition |
-| 11 | Strategy (Metrics) | 8 `DashboardMetric` implementations | 4 | Different data-fetching algorithms behind uniform interface; extensible |
+| 11 | Strategy (Metrics) | 9 `DashboardMetric` implementations | 4 | Different data-fetching algorithms behind uniform interface; extensible |
 
 ---
 
@@ -488,7 +490,7 @@ public MetricResult compute() {
 
 ![Task 4 Before](task4_dashboard_before.puml)
 
-**After** — New `SiteSummary` action uses `DashboardReportBuilder` (Builder pattern) to assemble metric-based reports. Each `DashboardMetric` implementation encapsulates its own data-fetching logic. Two predefined views (Minimalist: 3 metrics, Full: 8 metrics) are composed by calling different combinations of `addMetric()`:
+**After** — New `SiteSummary` action uses `DashboardReportBuilder` (Builder pattern) to assemble metric-based reports. Each `DashboardMetric` implementation encapsulates its own data-fetching logic. Two predefined views (Minimalist: 3 metrics, Full: 9 metrics) are composed by calling different combinations of `addMetric()`:
 
 ![Task 4 After](task4_dashboard_after.puml)
 

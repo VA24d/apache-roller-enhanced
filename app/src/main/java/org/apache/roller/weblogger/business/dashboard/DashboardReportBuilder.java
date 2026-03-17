@@ -77,7 +77,7 @@ public class DashboardReportBuilder {
     }
 
     /**
-     * Full View: all 7 metrics for comprehensive site overview.
+     * Full View: all 9 metrics for comprehensive site overview.
      */
     public static DashboardReport buildFullReport() {
         return new DashboardReportBuilder()
@@ -87,6 +87,7 @@ public class DashboardReportBuilder {
                 .addMetric(new TotalEntriesMetric())
                 .addMetric(new TotalCommentsMetric())
                 .addMetric(new TopCategoryMetric())
+                .addMetric(new MostCommentedCategoryMetric())
                 .addMetric(new MostStarredBlogMetric())
                 .addMetric(new TopActiveUsersMetric())
                 .addMetric(new MostCommentedWeblogMetric())

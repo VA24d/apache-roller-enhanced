@@ -14,17 +14,18 @@ import org.apache.roller.weblogger.business.WeblogManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogCategory;
+import org.apache.roller.weblogger.pojos.WeblogEntry;
 
 /**
- * Finds the category with the most blog entries across all weblogs.
- * Iterates weblogs → categories → entry count per category name.
+ * Finds the category with the most comments across all weblogs.
+ * Iterates weblogs → categories → entries, summing comment counts per category name.
  */
-public class TopCategoryMetric implements DashboardMetric {
+public class MostCommentedCategoryMetric implements DashboardMetric {
 
-    private static final Log LOG = LogFactory.getLog(TopCategoryMetric.class);
+    private static final Log LOG = LogFactory.getLog(MostCommentedCategoryMetric.class);
 
-    @Override public String getName() { return "topCategory"; }
-    @Override public String getLabel() { return "Top Category"; }
+    @Override public String getName() { return "mostCommentedCategory"; }
+    @Override public String getLabel() { return "Most Commented Category"; }
 
     @Override
     public MetricResult compute() {
@@ -35,33 +36,35 @@ public class TopCategoryMetric implements DashboardMetric {
             List<Weblog> weblogs = wmgr.getWeblogs(Boolean.TRUE, null,
                     null, null, 0, 200);
 
-            // Aggregate entry counts by category name across all weblogs
-            Map<String, Integer> catCounts = new HashMap<>();
+            Map<String, Long> catComments = new HashMap<>();
             for (Weblog weblog : weblogs) {
                 List<WeblogCategory> cats = emgr.getWeblogCategories(weblog);
                 for (WeblogCategory cat : cats) {
-                    int entryCount = cat.retrieveWeblogEntries(true).size();
-                    if (entryCount > 0) {
-                        catCounts.merge(cat.getName(), entryCount, Integer::sum);
+                    List<WeblogEntry> entries = cat.retrieveWeblogEntries(true);
+                    long commentTotal = 0;
+                    for (WeblogEntry entry : entries) {
+                        commentTotal += entry.getCommentCount();
+                    }
+                    if (commentTotal > 0) {
+                        catComments.merge(cat.getName(), commentTotal, Long::sum);
                     }
                 }
             }
 
-            if (catCounts.isEmpty()) {
-                return new MetricResult(getName(), getLabel(), "No data yet");
+            if (catComments.isEmpty()) {
+                return new MetricResult(getName(), getLabel(), "No comments yet");
             }
 
-            // Find category with most entries
-            Map.Entry<String, Integer> top = catCounts.entrySet().stream()
+            Map.Entry<String, Long> top = catComments.entrySet().stream()
                     .max(Map.Entry.comparingByValue())
                     .orElse(null);
 
             return new MetricResult(getName(), getLabel(),
                     top.getKey(),
-                    List.of(top.getValue() + " entries"));
+                    List.of(top.getValue() + " comments"));
 
         } catch (Exception e) {
-            LOG.error("Failed to compute top category", e);
+            LOG.error("Failed to compute most commented category", e);
             return new MetricResult(getName(), getLabel(), "N/A");
         }
     }
