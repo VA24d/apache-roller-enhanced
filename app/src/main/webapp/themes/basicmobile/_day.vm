@@ -11,6 +11,27 @@
       <div class="entryBox">
         <a name="$utils.encode($entry.anchor)" id="$utils.encode($entry.anchor)"></a>
         <p class="entryTitle">$entry.title</p>
+        ## Render pipeline metadata badges (sentiment + reading time) from searchDescription
+        #set($entryMeta = $entry.searchDescription)
+        #if($entryMeta && $entryMeta != "")
+        <div class="entry-badges" style="margin-bottom:8px;">
+            #if($entryMeta.contains("Sentiment: Positive"))
+                <span class="sentiment-badge" style="display:inline-block;padding:2px 10px;border-radius:4px;font-size:0.85em;background-color:#dff0d8;color:#3c763d;margin-right:6px;">Sentiment: Positive</span>
+            #elseif($entryMeta.contains("Sentiment: Negative"))
+                <span class="sentiment-badge" style="display:inline-block;padding:2px 10px;border-radius:4px;font-size:0.85em;background-color:#f2dede;color:#a94442;margin-right:6px;">Sentiment: Negative</span>
+            #elseif($entryMeta.contains("Sentiment: Neutral"))
+                <span class="sentiment-badge" style="display:inline-block;padding:2px 10px;border-radius:4px;font-size:0.85em;background-color:#f5f5f5;color:#777;margin-right:6px;">Sentiment: Neutral</span>
+            #end
+            #if($entryMeta.contains("min read"))
+                #foreach($metaPart in $entryMeta.split('\|'))
+                    #set($trimmedPart = $metaPart.trim())
+                    #if($trimmedPart.endsWith("min read"))
+                        <span class="reading-time" style="display:inline-block;padding:2px 10px;border-radius:4px;font-size:0.85em;background-color:#d9edf7;color:#31708f;margin-right:6px;">&#128337; $trimmedPart</span>
+                    #end
+                #end
+            #end
+        </div>
+        #end
         <p class="entryContent">
             #if($model.permalink)
                 $entry.displayContent

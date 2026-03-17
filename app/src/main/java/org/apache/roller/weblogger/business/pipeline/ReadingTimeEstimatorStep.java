@@ -73,13 +73,14 @@ public class ReadingTimeEstimatorStep implements EntryProcessingStep {
         String plainText = ContentSummarizerStep.stripHtml(text);
         int minutes = calculateReadingTime(plainText);
 
-        String badge = "<p class=\"reading-time\" style=\"display:inline-block;"
-                + "padding:2px 10px;border-radius:4px;font-size:0.85em;"
-                + "background-color:#d9edf7;color:#31708f;"
-                + "margin-bottom:8px;margin-right:6px;\">"
-                + "&#128337; " + minutes + " min read</p>\n";
-
-        entry.setText(badge + text);
+        // Store reading time in searchDescription for display via template
+        String existing = entry.getSearchDescription();
+        String readingTimePart = minutes + " min read";
+        if (existing != null && !existing.isBlank()) {
+            entry.setSearchDescription(existing + " | " + readingTimePart);
+        } else {
+            entry.setSearchDescription(readingTimePart);
+        }
 
         LOG.debug("Reading time for entry '" + entry.getTitle()
                 + "': " + minutes + " min");

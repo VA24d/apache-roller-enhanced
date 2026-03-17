@@ -63,7 +63,7 @@ class ReadingTimeEstimatorStepTest {
     }
 
     @Test
-    void testBadgePrependedToText() {
+    void testReadingTimeStoredInSearchDescription() {
         ReadingTimeEstimatorStep step = new ReadingTimeEstimatorStep();
         WeblogEntry entry = new WeblogEntry();
         String originalText = "Some blog post content here.";
@@ -71,10 +71,11 @@ class ReadingTimeEstimatorStepTest {
 
         step.process(entry);
 
-        assertTrue(entry.getText().contains("reading-time"));
-        assertTrue(entry.getText().contains("min read"));
-        // Original text should still be present
-        assertTrue(entry.getText().contains(originalText));
+        // Reading time stored in searchDescription for template rendering
+        assertNotNull(entry.getSearchDescription());
+        assertTrue(entry.getSearchDescription().contains("min read"));
+        // Original text must be unchanged (no badge prepended)
+        assertEquals(originalText, entry.getText());
     }
 
     @Test
@@ -118,14 +119,16 @@ class ReadingTimeEstimatorStepTest {
     }
 
     @Test
-    void testBadgeContainsCorrectStyling() {
+    void testReadingTimeValueIsPositive() {
         ReadingTimeEstimatorStep step = new ReadingTimeEstimatorStep();
         WeblogEntry entry = new WeblogEntry();
         entry.setText("Some content for the blog post.");
 
         step.process(entry);
 
-        assertTrue(entry.getText().contains("#d9edf7")); // blue background
-        assertTrue(entry.getText().contains("reading-time"));
+        // searchDescription should contain a valid reading time
+        String desc = entry.getSearchDescription();
+        assertNotNull(desc);
+        assertTrue(desc.contains("min read"));
     }
 }

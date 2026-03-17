@@ -90,11 +90,7 @@ public class SentimentAnalysisStep implements EntryProcessingStep {
         String plainText = ContentSummarizerStep.stripHtml(text);
         String sentiment = analyzeSentiment(plainText);
 
-        // Prepend sentiment badge to entry text
-        String badgeHtml = buildBadgeHtml(sentiment);
-        entry.setText(badgeHtml + text);
-
-        // Also store sentiment in searchDescription for SEO/meta tags
+        // Store sentiment in searchDescription for display via template
         String existing = entry.getSearchDescription();
         String prefix = "Sentiment: " + sentiment;
         if (existing != null && !existing.isBlank()) {
@@ -139,23 +135,4 @@ public class SentimentAnalysisStep implements EntryProcessingStep {
         }
     }
 
-    private static String buildBadgeHtml(String sentiment) {
-        String colorStyle;
-        switch (sentiment) {
-            case "Positive":
-                colorStyle = "background-color:#dff0d8;color:#3c763d;";
-                break;
-            case "Negative":
-                colorStyle = "background-color:#f2dede;color:#a94442;";
-                break;
-            default:
-                colorStyle = "background-color:#f5f5f5;color:#777;";
-                break;
-        }
-
-        return "<p class=\"sentiment-badge\" style=\"display:inline-block;"
-                + "padding:2px 10px;border-radius:4px;font-size:0.85em;"
-                + colorStyle + "margin-bottom:8px;\">"
-                + "Sentiment: " + sentiment + "</p>\n";
-    }
 }

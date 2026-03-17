@@ -55,7 +55,7 @@ class SentimentAnalysisStepTest {
     }
 
     @Test
-    void testBadgePrependedToText() {
+    void testSentimentStoredInSearchDescription() {
         SentimentAnalysisStep step = new SentimentAnalysisStep();
         WeblogEntry entry = new WeblogEntry();
         String originalText = "This is an amazing wonderful fantastic post!";
@@ -63,11 +63,11 @@ class SentimentAnalysisStepTest {
 
         step.process(entry);
 
-        // Badge should be prepended
-        assertTrue(entry.getText().contains("sentiment-badge"));
-        assertTrue(entry.getText().contains("Sentiment:"));
-        // Original text should still be present
-        assertTrue(entry.getText().contains(originalText));
+        // Sentiment stored in searchDescription for template rendering
+        assertNotNull(entry.getSearchDescription());
+        assertTrue(entry.getSearchDescription().contains("Sentiment:"));
+        // Original text must be unchanged (no badge prepended)
+        assertEquals(originalText, entry.getText());
     }
 
     @Test
@@ -111,27 +111,25 @@ class SentimentAnalysisStepTest {
     }
 
     @Test
-    void testPositiveBadgeHasGreenStyling() {
+    void testPositiveSentimentStoredInDescription() {
         SentimentAnalysisStep step = new SentimentAnalysisStep();
         WeblogEntry entry = new WeblogEntry();
         entry.setText("Amazing wonderful excellent brilliant fantastic great love!");
 
         step.process(entry);
 
-        assertTrue(entry.getText().contains("#dff0d8"));
-        assertTrue(entry.getText().contains("Positive"));
+        assertTrue(entry.getSearchDescription().contains("Positive"));
     }
 
     @Test
-    void testNegativeBadgeHasRedStyling() {
+    void testNegativeSentimentStoredInDescription() {
         SentimentAnalysisStep step = new SentimentAnalysisStep();
         WeblogEntry entry = new WeblogEntry();
         entry.setText("Terrible awful horrible hate frustrating broken useless disaster!");
 
         step.process(entry);
 
-        assertTrue(entry.getText().contains("#f2dede"));
-        assertTrue(entry.getText().contains("Negative"));
+        assertTrue(entry.getSearchDescription().contains("Negative"));
     }
 
     @Test

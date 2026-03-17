@@ -59,8 +59,8 @@ class EntryProcessingPipelineTest {
 
         // Profanity should be filtered
         assertFalse(entry.getTitle().contains("damn"));
-        // Sentiment badge should be prepended
-        assertTrue(entry.getText().contains("sentiment-badge"));
+        // Sentiment stored in searchDescription
+        assertTrue(entry.getSearchDescription().contains("Sentiment:"));
     }
 
     @Test
@@ -113,12 +113,11 @@ class EntryProcessingPipelineTest {
         assertNotNull(entry.getSummary());
         assertTrue(entry.getSummary().contains("<p>"));
 
-        // Step 3: Sentiment badge prepended
-        assertTrue(entry.getText().contains("sentiment-badge"));
+        // Step 3: Sentiment stored in searchDescription
+        assertTrue(entry.getSearchDescription().contains("Sentiment:"));
 
-        // Step 4: Reading time badge prepended
-        assertTrue(entry.getText().contains("reading-time"));
-        assertTrue(entry.getText().contains("min read"));
+        // Step 4: Reading time stored in searchDescription
+        assertTrue(entry.getSearchDescription().contains("min read"));
 
         // Step 5: Tags generated (appended to body)
         assertTrue(entry.getText().contains("auto-tags"));
@@ -140,10 +139,11 @@ class EntryProcessingPipelineTest {
 
         pipeline.execute(entry);
 
-        assertTrue(entry.getText().contains("reading-time"));
+        assertTrue(entry.getSearchDescription().contains("min read"));
         assertTrue(entry.getText().contains("auto-tags"));
-        // No sentiment badge since that step wasn't added
-        assertFalse(entry.getText().contains("sentiment-badge"));
+        // No sentiment since that step wasn't added
+        String desc = entry.getSearchDescription();
+        assertFalse(desc != null && desc.contains("Sentiment:"));
     }
 
     @Test
