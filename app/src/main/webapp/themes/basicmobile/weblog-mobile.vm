@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="#if($model.permalink && $model.weblogEntry.locale)$model.weblogEntry.locale#else$!model.weblog.locale#end">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -87,5 +87,7 @@
 
   </div>
 
+<link rel="stylesheet" href="$url.site/theme/styles/translation.css">
+<script src="$url.site/theme/scripts/translation.js"></script>
 </body>
 </html>

@@ -291,6 +291,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>TranslationServlet</servlet-name>
+        <servlet-class>org.apache.roller.weblogger.ui.rendering.servlets.TranslationServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>XmlRpcServlet</servlet-name>
         <servlet-class>org.apache.xmlrpc.webserver.XmlRpcServlet</servlet-class>
         <init-param>
@@ -435,6 +440,11 @@
     <servlet-mapping>
         <servlet-name>TagDataServlet</servlet-name>
         <url-pattern>/roller-services/tagdata/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TranslationServlet</servlet-name>
+        <url-pattern>/roller-services/translate/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

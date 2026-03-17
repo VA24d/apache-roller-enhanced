@@ -208,9 +208,16 @@
         <put-attribute name="content" value="/WEB-INF/jsps/tiles/empty.jsp" />
     </definition>
     
+<!-- <<<<<<< project-2-admin-dashboard -->
     <definition name=".SiteSummary" extends=".tiles-tabbedpage" >
         <put-attribute name="content" value="/WEB-INF/jsps/admin/SiteSummary.jsp" />
     </definition>
+<!-- ======= -->
+
+    <definition name=".BugReportsAdmin" extends=".tiles-tabbedpage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/admin/BugReportsAdmin.jsp" />
+    </definition>
+<!-- >>>>>>> master -->
 
     <definition name=".CacheInfo" extends=".tiles-tabbedpage" >
         <put-attribute name="content" value="/WEB-INF/jsps/admin/CacheInfo.jsp" />
@@ -403,6 +410,14 @@
 
     <definition name=".Maintenance" extends=".tiles-tabbedpage" >
         <put-attribute name="content" value="/WEB-INF/jsps/editor/Maintenance.jsp" />
+    </definition>
+
+    <definition name=".BugReports" extends=".tiles-tabbedpage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/editor/BugReports.jsp" />
+    </definition>
+
+    <definition name=".BugReportEdit" extends=".tiles-tabbedpage" >
+        <put-attribute name="content" value="/WEB-INF/jsps/editor/BugReportEdit.jsp" />
     </definition>
     
 </tiles-definitions>

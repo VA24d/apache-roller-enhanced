@@ -1,0 +1,205 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "User & Role Management Subsystem" {
+
+  class User {
+    - id : String
+    - userName : String
+    - password : String
+    - openIdUrl : String
+    - screenName : String
+    - fullName : String
+    - emailAddress : String
+    - dateCreated : Date
+    - locale : String
+    - timeZone : String
+    - enabled : Boolean
+    - activationCode : String
+
+    + getId()
+    + getUserName() / setUserName()
+    + getPassword() / setPassword()
+    + getEmailAddress() / setEmailAddress()
+    + getEnabled() / setEnabled()
+    + getActivationCode() / setActivationCode()
+    + resetPassword(String)
+    + hasGlobalPermission(String) / hasGlobalPermissions(List<String>)
+  }
+
+  class UserRole {
+    - id : String
+    - userName : String
+    - role : String
+
+    + getId()
+    + getUserName() / setUserName()
+    + getRole() / setRole()
+  }
+
+  abstract class RollerPermission {
+    - name : String
+
+    {abstract} + setActions(String)
+    {abstract} + getActions() : String
+    + getActionsAsList() : List<String>
+    + setActionsAsList(List<String>)
+    + addActions(ObjectPermission)
+    + addActions(List<String>)
+    + removeActions(List<String>)
+    + isEmpty() : boolean
+    + hasAction(String) : boolean
+    + hasActions(List<String>) : boolean
+    {abstract} + implies(Permission) : boolean
+  }
+
+  abstract class ObjectPermission {
+    - id : String
+    - userName : String
+    - objectType : String
+    - objectId : String
+    - pending : boolean
+    - dateCreated : Date
+    - actions : String
+
+    + getId()
+    + getUserName() / setUserName()
+    + getObjectId() / setObjectId()
+    + isPending() / setPending()
+    + getDateCreated()
+    + getActions() / setActions()
+  }
+
+  class GlobalPermission {
+    - actions : String
+    + LOGIN = "login"
+    + WEBLOG = "weblog"
+    + ADMIN = "admin"
+
+    + GlobalPermission(User)
+    + GlobalPermission(List<String> actions)
+    + GlobalPermission(User, List<String> actions)
+    + implies(Permission) : boolean
+  }
+
+  class WeblogPermission {
+    + EDIT_DRAFT = "edit_draft"
+    + POST = "post"
+    + ADMIN = "admin"
+    + ALL_ACTIONS : List<String>
+
+    + WeblogPermission(Weblog, User, String actions)
+    + WeblogPermission(Weblog, User, List<String> actions)
+    + WeblogPermission(Weblog, List<String> actions)
+    + getWeblog() : Weblog
+    + getUser() : User
+    + implies(Permission) : boolean
+  }
+
+  interface UserManager {
+    {method} + addUser(User)
+    {method} + saveUser(User)
+    {method} + removeUser(User)
+    {method} + getUserCount() : long
+    {method} + getUser(String id) : User
+    {method} + getUserByUserName(String) : User
+    {method} + getUserByUserName(String, Boolean) : User
+    {method} + getUserByOpenIdUrl(String) : User
+    {method} + getUsers(...) : List<User>
+    {method} + getUsersStartingWith(...) : List<User>
+    {method} + getRoles(User) : List<String>
+    {method} + checkPermission(RollerPermission, User) : boolean
+    {method} + grantWeblogPermission(Weblog, User, List<String>)
+    {method} + grantWeblogPermissionPending(Weblog, User, List<String>)
+    {method} + confirmWeblogPermission(Weblog, User)
+    {method} + declineWeblogPermission(Weblog, User)
+    {method} + revokeWeblogPermission(Weblog, User, List<String>)
+    {method} + getPendingWeblogPermissions(User) : List<WeblogPermission>
+    {method} + getWeblogPermissionsIncludingPending(Weblog) : List<WeblogPermission>
+    {method} + getWeblogPermissionIncludingPending(Weblog, User) : WeblogPermission
+    {method} + getWeblogPermissions(User) : List<WeblogPermission>
+  }
+
+  class JPAUserManagerImpl {
+    - strategy : JPAPersistenceStrategy
+    - userNameToIdMap : Map<String, String>
+
+    + JPAUserManagerImpl(JPAPersistenceStrategy)
+    + addUser(User)
+    + saveUser(User)
+    + removeUser(User)
+    + getUserCount() : long
+    + getUser(String) : User
+    + getUserByUserName(String) : User
+    + getUserByUserName(String, Boolean) : User
+    + getUserByOpenIdUrl(String) : User
+    + getUsers(...) : List<User>
+    + getUsersStartingWith(...) : List<User>
+    + getRoles(User) : List<String>
+    + checkPermission(RollerPermission, User) : boolean
+    + grantWeblogPermission(Weblog, User, List<String>)
+    + grantWeblogPermissionPending(Weblog, User, List<String>)
+    + confirmWeblogPermission(Weblog, User)
+    + declineWeblogPermission(Weblog, User)
+    + revokeWeblogPermission(Weblog, User, List<String>)
+    + getWeblogPermissions(User) : List<WeblogPermission>
+  }
+
+  class Weblog {
+    - id : String
+    - handle : String
+    - name : String
+    - ..
+  }
+
+  class Register {
+    + execute() : Result
+  }
+
+  class Members {
+    + addMember(userName, role)
+    + removeMember(userName)
+  }
+
+  class MembersInvite {
+    + invite(email, roles)
+  }
+
+  class WebloggerFactory {
+    + getWeblogger() : Weblogger
+  }
+
+  RollerPermission <|-- ObjectPermission
+  RollerPermission <|-- GlobalPermission
+  ObjectPermission <|-- WeblogPermission
+
+  UserManager <|.. JPAUserManagerImpl
+
+  User "1" -- "many" UserRole
+  User "1" -- "many" GlobalPermission
+  User "1" -- "many" WeblogPermission
+
+  WeblogPermission --> Weblog
+  Register ..> UserManager : uses
+  Members ..> UserManager : uses
+  MembersInvite ..> UserManager : uses
+  Members ..> WebloggerFactory : uses
+  WeblogPermission ..> WebloggerFactory : uses
+  GlobalPermission --> User
+  WeblogPermission --> User
+
+  UserManager ..> User
+  UserManager ..> UserRole
+  UserManager ..> RollerPermission
+  UserManager ..> WeblogPermission
+  UserManager ..> GlobalPermission
+
+  JPAUserManagerImpl --> User
+  JPAUserManagerImpl --> UserRole
+  JPAUserManagerImpl --> WeblogPermission
+  JPAUserManagerImpl --> GlobalPermission
+}
+
+
+
+@enduml

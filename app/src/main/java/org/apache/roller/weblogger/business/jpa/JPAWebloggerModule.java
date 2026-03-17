@@ -30,6 +30,7 @@ import org.apache.roller.planet.business.fetcher.FeedFetcher;
 import org.apache.roller.planet.business.jpa.JPAPlanetImpl;
 import org.apache.roller.planet.business.jpa.JPAPlanetManagerImpl;
 import org.apache.roller.weblogger.business.BookmarkManager;
+import org.apache.roller.weblogger.business.BugReportManager;
 import org.apache.roller.weblogger.business.FileContentManager;
 import org.apache.roller.weblogger.business.FileContentManagerImpl;
 import org.apache.roller.weblogger.business.MediaFileManager;
@@ -81,6 +82,7 @@ public class JPAWebloggerModule implements Module {
         binder.bind(OAuthValidator.class).to(      SimpleOAuthValidator.class);
                 
         binder.bind(MediaFileManager.class).to(    JPAMediaFileManagerImpl.class);
+        binder.bind(BugReportManager.class).to(    JPABugReportManagerImpl.class);
         binder.bind(FileContentManager.class).to(  FileContentManagerImpl.class);
         binder.bind(IndexManager.class).to(        LuceneIndexManager.class);
         binder.bind(PluginManager.class).to(       PluginManagerImpl.class);    

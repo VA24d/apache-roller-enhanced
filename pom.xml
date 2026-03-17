@@ -65,7 +65,7 @@ limitations under the License.
                     <version>3.13.0</version>
                     <configuration>
                         <release>11</release>
-                        <fork>true</fork>
+                        <!-- <fork>true</fork> -->
                         <compilerArgs>
                             <arg>-Xlint:all</arg>
                             <!--

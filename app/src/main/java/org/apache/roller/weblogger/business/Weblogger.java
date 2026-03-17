@@ -128,10 +128,19 @@ public interface Weblogger {
      */
     FileContentManager getFileContentManager();
 
+
+// <<<<<<< project-2-admin-dashboard
     /**
      * Get StarManager associated with this Weblogger instance.
      */
     StarManager getStarManager();
+// =======
+  
+    /**
+     * Get BugReportManager associated with this Weblogger instance.
+     */
+    BugReportManager getBugReportManager();
+// >>>>>>> master
 
     /**
      * Get the URLStrategy used to build all urls in the system.
