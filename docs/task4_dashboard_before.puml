@@ -1,0 +1,80 @@
+@startuml task4_dashboard_before
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontSize 11
+
+title Task 4 – Admin Dashboard (BEFORE)\nNo centralized site summary; admin pages are isolated management tools
+
+package "ui.struts2.admin" {
+  class GlobalConfig {
+    +execute(): String
+    +save(): String
+  }
+
+  class UserAdmin {
+    +execute(): String
+    +edit(): String
+  }
+
+  class CacheInfo {
+    -stats: Map
+    +execute(): String
+    +clear(): String
+  }
+
+  class GlobalCommentManagement {
+    +execute(): String
+    +query(): String
+    +delete(): String
+  }
+}
+
+package "ui.struts2.util" {
+  abstract class UIAction {
+    #actionName: String
+    #desiredMenu: String
+    #pageTitle: String
+    +myPrepare(): void
+    +execute(): String
+    +requiredGlobalPermissionActions(): List<String>
+    +isWeblogRequired(): boolean
+  }
+}
+
+package "business" {
+  interface UserManager {
+    +getUserCount(): long
+  }
+
+  interface WeblogManager {
+    +getWeblogCount(): long
+    +getMostCommentedWeblogs(...): List<StatCount>
+  }
+
+  interface WeblogEntryManager {
+    +getEntryCount(): long
+    +getCommentCount(): long
+  }
+
+  interface StarManager {
+    +getTrendingWeblogs(limit: int): List<Object[]>
+    +getTrendingEntries(limit: int): List<Object[]>
+  }
+}
+
+UIAction <|-- GlobalConfig
+UIAction <|-- UserAdmin
+UIAction <|-- CacheInfo
+UIAction <|-- GlobalCommentManagement
+
+note as N1
+  <b>No centralized dashboard exists.</b>
+  Admin pages are isolated management tools.
+  No site-wide metrics, no summary view,
+  no way to see engagement at a glance.
+  Data access methods (getUserCount, getWeblogCount,
+  getEntryCount, etc.) exist but are unused by admin UI.
+end note
+
+@enduml

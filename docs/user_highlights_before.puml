@@ -1,0 +1,94 @@
+@startuml user_highlights_before
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title User Highlights – Affected Subsystem (BEFORE)
+
+package "business" {
+  interface Weblogger {
+    +getUserManager(): UserManager
+    +getWeblogManager(): WeblogManager
+    +getWeblogEntryManager(): WeblogEntryManager
+    +flush(): void
+    +release(): void
+  }
+  
+  abstract class WebloggerImpl {
+    -userManager: UserManager
+    -weblogManager: WeblogManager
+    -weblogEntryManager: WeblogEntryManager
+    +getUserManager(): UserManager
+    +getWeblogManager(): WeblogManager
+    +getWeblogEntryManager(): WeblogEntryManager
+    +release(): void
+  }
+  
+  interface UserManager {
+    +getUserByUserName(userName, enabled): User
+    +getWeblogPermissions(user): List
+  }
+  
+  interface WeblogEntryManager {
+    +getWeblogEntry(id): WeblogEntry
+    +saveWeblogEntry(entry): void
+    +getHotWeblogs(sinceDays, offset, length): List
+  }
+  
+  interface WeblogManager {
+    +getWeblog(id): Weblog
+    +getWeblogByHandle(handle): Weblog
+  }
+}
+
+package "business.jpa" {
+  class JPAWebloggerImpl {
+    -strategy: JPAPersistenceStrategy
+    +flush(): void
+  }
+}
+
+package "pojos" {
+  class User {
+    -id: String
+    -userName: String
+    -screenName: String
+    -enabled: Boolean
+  }
+  
+  class Weblog {
+    -id: String
+    -handle: String
+    -name: String
+    -lastModified: Date
+  }
+  
+  class WeblogEntry {
+    -id: String
+    -title: String
+    -anchor: String
+    -pubTime: Timestamp
+    -status: PubStatus
+  }
+  
+  class WeblogHitCount {
+    -id: String
+    -dailyHits: int
+  }
+}
+
+package "ui.struts2.core" {
+  class MainMenu {
+    +execute(): String
+    +getExistingPermissions(): List
+  }
+}
+
+Weblogger <|.. WebloggerImpl
+WebloggerImpl <|-- JPAWebloggerImpl
+
+WeblogHitCount --> Weblog : weblog
+WeblogEntry --> Weblog : website
+MainMenu ..> Weblogger : uses
+
+@enduml

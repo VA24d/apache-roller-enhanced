@@ -50,6 +50,24 @@
                     <p><s:text name="yourWebsites.createWeblog.desc" /></p>
                 </s:if>
 
+                <%-- Starred Weblogs --%>
+
+                <h4><span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <a href="<s:url action="starredWeblogs" />"><s:text name="starredWeblogs.title" /></a></h4>
+                <p><s:text name="starredWeblogs.sidebar.desc" /></p>
+
+                <%-- Starred Entries --%>
+
+                <h4><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <a href="<s:url action="starredEntries" />"><s:text name="starredEntries.title" /></a></h4>
+                <p><s:text name="starredEntries.sidebar.desc" /></p>
+
+                <%-- Trending --%>
+
+                <h4><span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+                <a href="<s:url action="trending" />"><s:text name="trending.title" /></a></h4>
+                <p><s:text name="trending.sidebar.desc" /></p>
+
                 <s:if test="userIsAdmin">
 
                     <%-- Roller settings --%>

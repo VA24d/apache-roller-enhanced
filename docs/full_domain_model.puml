@@ -1,0 +1,922 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 40
+
+' Full Domain Model - Generated from source code by generate_uml.py
+' Generated on: 2026-03-01 01:01:54
+' Source: app/src/main/java/org/apache/roller/weblogger/
+
+package "org.apache.roller.weblogger.pojos" <<pojos>> {
+  class AutoPing {
+    -id : String
+    -pingTarget : PingTarget
+    -website : Weblog
+    -serialVersionUID : long
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class CommentSearchCriteria {
+    -weblog : Weblog
+    -entry : WeblogEntry
+    -searchText : String
+    -startDate : Date
+    -endDate : Date
+    -status : ApprovalStatus
+    -reverseChrono : boolean
+    -offset : int
+    -maxResults : int
+  }
+
+  class CustomTemplateRendition {
+    -serialVersionUID : long
+    -id : String
+    -weblogTemplate : WeblogTemplate
+    -template : String
+    -type : RenditionType
+    -templateLanguage : TemplateLanguage
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class FileContent {
+    -resourceFile : File
+    -fileId : String
+    -weblog : Weblog
+  }
+
+  class GlobalPermission {
+    -actions : String
+    +implies(Permission perm) : boolean
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class MediaFile {
+    -serialVersionUID : long
+    -log : Log
+    -id : String
+    -name : String
+    -description : String
+    -copyrightText : String
+    -isSharedForGallery : Boolean
+    -length : long
+    -width : int
+    -height : int
+    ' ... more fields omitted
+    +addTag(String name) : void
+    +onRemoveTag(String name) : void
+    +updateTags(List updatedTags) : void
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class MediaFileComparator {
+    +compare(MediaFile file1, MediaFile file2) : int
+  }
+
+  class MediaFileDirectory {
+    -id : String
+    +hasMediaFile(String name) : boolean
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class MediaFileDirectoryComparator {
+    +compare(MediaFileDirectory dir1, MediaFileDirectory dir2) : int
+  }
+
+  class MediaFileFilter {
+  }
+
+  class MediaFileTag {
+    -serialVersionUID : long
+    -id : String
+    -name : String
+    -mediaFile : MediaFile
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  enum MediaFileType {
+  }
+
+  class OAuthAccessorRecord {
+    -consumerKey : String
+    -requestToken : String
+    -accessToken : String
+    -tokenSecret : String
+    -created : Timestamp
+    -updated : Timestamp
+    -authorized : Boolean
+    -userName : String
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class OAuthConsumerRecord {
+    -consumerKey : String
+    -consumerSecret : String
+    -userName : String
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  abstract class ObjectPermission {
+    -id : String
+    -userName : String
+    -objectType : String
+    -objectId : String
+    -pending : boolean
+    -dateCreated : Date
+    -actions : String
+  }
+
+  class PingQueueEntry {
+    -id : String
+    -entryTime : Timestamp
+    -pingTarget : PingTarget
+    -website : Weblog
+    -attempts : int
+    -serialVersionUID : long
+    +incrementAttempts() : int
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class PingTarget {
+    -serialVersionUID : long
+    -id : String
+    -name : String
+    -pingUrl : String
+    -conditionCode : int
+    -lastSuccess : Timestamp
+    -autoEnabled : boolean
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  interface Resource {
+  }
+
+  class RuntimeConfigProperty {
+    -serialVersionUID : long
+    -name : String
+    -value : String
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class StatCount {
+    -subjectId : String
+    -subjectNameShort : String
+    -subjectNameLong : String
+    -typeKey : String
+    -count : long
+    -weblogHandle : String
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class StaticTemplate {
+    -id : String
+    -name : String
+    -description : String
+    -lastModified : Date
+    -outputContentType : String
+    -templateRendition : TemplateRendition
+  }
+
+  class StaticThemeTemplate {
+    -id : String
+    -name : String
+    -description : String
+    -action : ComponentType
+    -link : String
+    -contents : String
+    -hidden : boolean
+    -navbar : boolean
+    -lastModified : Date
+    -templateLanguage : TemplateLanguage
+    ' ... more fields omitted
+  }
+
+  class TagManifest {
+    -serialVersionUID : long
+    -tags : Set
+    -removedTags : Set
+    -addedTags : Set
+    +addTag(String name, String creatorUserName, Weblog weblog, WeblogEntry entry, Locale locale, java.sql.Timestamp updateTime) : void
+    +toSortedString() : String
+  }
+
+  class TagStatComparator {
+    -serialVersionUID : long
+    +compare(TagStat ts1, TagStat ts2) : int
+  }
+
+  class TagStatCountComparator {
+    -serialVersionUID : long
+    -instance : TagStatCountComparator
+    +compare(TagStat st1, TagStat st2) : int
+  }
+
+  class TaskLock {
+    -id : String
+    -name : String
+    -timeAcquired : Date
+    -timeLeased : int
+    -lastRun : Date
+    -clientId : String
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  interface Template {
+  }
+
+  interface TemplateRendition {
+    -readableName : String
+    +getReadableName() : String
+  }
+
+  interface Theme {
+  }
+
+  interface ThemeResource {
+  }
+
+  interface ThemeTemplate {
+    -readableName : String
+    +getReadableName() : String
+  }
+
+  class User {
+    -serialVersionUID : long
+    -id : String
+    -userName : String
+    -password : String
+    -openIdUrl : String
+    -screenName : String
+    -fullName : String
+    -emailAddress : String
+    -dateCreated : Date
+    -locale : String
+    ' ... more fields omitted
+    +resetPassword(String newPassword) : void
+    +hasGlobalPermission(String action) : boolean
+    +hasGlobalPermissions(List actions) : boolean
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class UserRole {
+    -serialVersionUID : long
+    -id : String
+    -userName : String
+    -role : String
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class Weblog {
+    -serialVersionUID : long
+    -log : Log
+    -id : String
+    -handle : String
+    -name : String
+    -tagline : String
+    -settings : WeblogSettings
+    -themeConfig : WeblogThemeConfig
+    -bloggerCategory : WeblogCategory
+    -initializedPlugins : Map
+    ' ... more fields omitted
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+    +hasUserPermission(User user, String action) : boolean
+    +hasUserPermissions(User user, List actions) : boolean
+    +addCategory(WeblogCategory category) : void
+    +hasCategory(String name) : boolean
+    +addBookmarkFolder(WeblogBookmarkFolder folder) : void
+    +hasBookmarkFolder(String name) : boolean
+    +hasMediaFileDirectory(String name) : boolean
+    +builder() : Builder
+    +handle(String handle) : Builder
+    ' ... more methods omitted
+  }
+
+  class WeblogBookmark {
+    -serialVersionUID : long
+    -folder : WeblogBookmarkFolder
+    -id : String
+    -name : String
+    -description : String
+    -url : String
+    -priority : Integer
+    -image : String
+    -feedUrl : String
+    +calculatePriority() : void
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+    +compareTo(WeblogBookmark o) : int
+  }
+
+  class WeblogBookmarkFolder {
+    -serialVersionUID : long
+    -id : String
+    -name : String
+    -weblog : Weblog
+    -bookmarks : List
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+    +compareTo(WeblogBookmarkFolder other) : int
+    +addBookmark(WeblogBookmark bookmark) : void
+    +hasBookmarkOfName(String bookmarkName) : boolean
+    +retrieveBookmarks() : List
+  }
+
+  class WeblogCategory {
+    -serialVersionUID : long
+    -id : String
+    -name : String
+    -description : String
+    -image : String
+    -position : int
+    -weblog : Weblog
+    +calculatePosition() : void
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+    +compareTo(WeblogCategory other) : int
+    +retrieveWeblogEntries(boolean publishedOnly) : List
+  }
+
+  class WeblogEntry {
+    -mLogger : Log
+    -serialVersionUID : long
+    -id : String
+    -title : String
+    -link : String
+    -summary : String
+    -text : String
+    -contentType : String
+    -contentSrc : String
+    -anchor : String
+    ' ... more fields omitted
+    +id(String id) : Builder
+    +category(WeblogCategory category) : Builder
+    +website(Weblog website) : Builder
+    +creator(User creator) : Builder
+    +title(String title) : Builder
+    +link(String link) : Builder
+    +text(String text) : Builder
+    +anchor(String anchor) : Builder
+    +pubTime(Timestamp pubTime) : Builder
+    +updateTime(Timestamp updateTime) : Builder
+    +status(PubStatus status) : Builder
+    +locale(String locale) : Builder
+    ' ... more methods omitted
+  }
+
+  class WeblogEntryComment {
+    -serialVersionUID : long
+    -id : String
+    -name : String
+    -email : String
+    -url : String
+    -content : String
+    -postTime : Timestamp
+    -status : ApprovalStatus
+    -notify : Boolean
+    -remoteHost : String
+    ' ... more fields omitted
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class WeblogEntryPresenter {
+    -entry : WeblogEntry
+    +formatPubTime(String pattern) : String
+    +formatUpdateTime(String pattern) : String
+    +displayContent(String readMoreLink) : String
+  }
+
+  class WeblogEntrySearchCriteria {
+    -weblog : Weblog
+    -user : User
+    -startDate : Date
+    -endDate : Date
+    -catName : String
+    -tags : List
+    -status : PubStatus
+    -text : String
+    -sortBy : SortBy
+    -sortOrder : SortOrder
+    ' ... more fields omitted
+  }
+
+  class WeblogEntryTag {
+    -log : Log
+    -serialVersionUID : long
+    -id : String
+    -website : Weblog
+    -weblogEntry : WeblogEntry
+    -userName : String
+    -name : String
+    -time : Timestamp
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class WeblogEntryTagAggregate {
+    -serialVersionUID : long
+    -id : String
+    -name : String
+    -website : Weblog
+    -lastUsed : Timestamp
+    -total : int
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class WeblogEntryTagComparator {
+    -serialVersionUID : long
+    +compare(WeblogEntryTag o1, WeblogEntryTag o2) : int
+  }
+
+  class WeblogEntryWrapperComparator {
+    +compare(WeblogEntryWrapper entry1, WeblogEntryWrapper entry2) : int
+  }
+
+  class WeblogHitCount {
+    -id : String
+    -weblog : Weblog
+    -dailyHits : int
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class WeblogPermission {
+    +implies(Permission perm) : boolean
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  class WeblogSettings {
+    -serialVersionUID : long
+    -enableBloggerApi : Boolean
+    -editorPage : String
+    -bannedwordslist : String
+    -allowComments : Boolean
+    -emailComments : Boolean
+    -emailAddress : String
+    -locale : String
+    -timeZone : String
+    -defaultPlugins : String
+    ' ... more fields omitted
+  }
+
+  class WeblogTemplate {
+    -serialVersionUID : long
+    -requiredTemplates : Set
+    -id : String
+    -action : ComponentType
+    -name : String
+    -description : String
+    -link : String
+    -lastModified : Date
+    -hidden : boolean
+    -navbar : boolean
+    ' ... more fields omitted
+    +addTemplateRendition(CustomTemplateRendition newRendition) : void
+    +hasTemplateRendition(CustomTemplateRendition proposed) : boolean
+    +toString() : String
+    +equals(Object other) : boolean
+    +hashCode() : int
+  }
+
+  abstract class WeblogTheme {
+    -weblog : Weblog
+  }
+
+  class WeblogThemeConfig {
+    -serialVersionUID : long
+    -log : Log
+    -editorTheme : String
+    +resolveTheme(Weblog weblog) : WeblogTheme
+  }
+
+}
+
+package "org.apache.roller.weblogger.business" <<business>> {
+  abstract class AbstractURLStrategy {
+  }
+
+  interface BookmarkManager {
+  }
+
+  class BootstrapException {
+  }
+
+  class DatabaseProvider {
+    -log : Log
+    -type : ConfigurationType
+    -startupLog : List
+    -dataSource : DataSource
+    -jndiName : String
+    -jdbcDriverClass : String
+    -jdbcConnectionURL : String
+    -jdbcPassword : String
+    -jdbcUsername : String
+    -props : Properties
+  }
+
+  interface FileContentManager {
+  }
+
+  class FileContentManagerImpl {
+    -log : Log
+    -storageDir : String
+    +initialize() : void
+    +saveFileContent(Weblog weblog, String fileId, InputStream is) : void
+    +deleteFile(Weblog weblog, String fileId) : void
+    +deleteAllFiles(Weblog weblog) : void
+    +overQuota(Weblog weblog) : boolean
+    +release() : void
+    +canSave(Weblog weblog, String fileName, String contentType, long size, RollerMessages messages) : boolean
+  }
+
+  class FileIOException {
+  }
+
+  class FileNotFoundException {
+  }
+
+  class FilePathException {
+  }
+
+  class GuiceWebloggerProvider {
+    -injector : Injector
+    -webloggerInstance : Weblogger
+    +bootstrap() : void
+  }
+
+  class InitializationException {
+  }
+
+  class MailProvider {
+    -session : Session
+    -type : ConfigurationType
+    -mailHostname : String
+    -mailPort : int
+    -mailUsername : String
+    -mailPassword : String
+  }
+
+  interface MediaFileManager {
+  }
+
+  class MultiWeblogURLStrategy {
+  }
+
+  interface OAuthManager {
+  }
+
+  class PreviewURLStrategy {
+    -previewTheme : String
+  }
+
+  interface PropertiesManager {
+  }
+
+  class TestTask {
+    +init() : void
+    +runTask() : void
+  }
+
+  interface URLStrategy {
+  }
+
+  interface UserManager {
+  }
+
+  interface WeblogEntryManager {
+  }
+
+  interface WeblogManager {
+  }
+
+  interface Weblogger {
+  }
+
+  abstract class WebloggerImpl {
+    -log : Log
+    -autoPingManager : AutoPingManager
+    -bookmarkManager : BookmarkManager
+    -indexManager : IndexManager
+    -mediaFileManager : MediaFileManager
+    -fileContentManager : FileContentManager
+    -pingQueueManager : PingQueueManager
+    -pingTargetManager : PingTargetManager
+    -pluginManager : PluginManager
+    -propertiesManager : PropertiesManager
+    ' ... more fields omitted
+    +release() : void
+    +initialize() : void
+    +shutdown() : void
+  }
+
+  interface WebloggerProvider {
+  }
+
+}
+
+package "org.apache.roller.weblogger.business.jpa" <<business.jpa>> {
+  class JPAAutoPingManagerImpl {
+    -roller : Weblogger
+    -strategy : JPAPersistenceStrategy
+    -logger : Log
+    +saveAutoPing(AutoPing autoPing) : void
+    +removeAutoPing(AutoPing autoPing) : void
+    +removeAutoPings(Collection autopings) : void
+    +removeAllAutoPings() : void
+    +queueApplicableAutoPings(WeblogEntry changedWeblogEntry) : void
+    +release() : void
+  }
+
+  class JPABookmarkManagerImpl {
+    -roller : Weblogger
+    -strategy : JPAPersistenceStrategy
+    -log : Log
+    +saveBookmark(WeblogBookmark bookmark) : void
+    +removeBookmark(WeblogBookmark bookmark) : void
+    +saveFolder(WeblogBookmarkFolder folder) : void
+    +removeFolder(WeblogBookmarkFolder folder) : void
+    +importBookmarks(Weblog website, String folderName, String opml) : void
+    +release() : void
+  }
+
+  class JPAMediaFileManagerImpl {
+    -roller : Weblogger
+    -strategy : JPAPersistenceStrategy
+    -log : Log
+    +initialize() : void
+    +release() : void
+    +moveMediaFiles(Collection mediaFiles, MediaFileDirectory targetDirectory) : void
+    +moveMediaFile(MediaFile mediaFile, MediaFileDirectory targetDirectory) : void
+    +createMediaFileDirectory(MediaFileDirectory directory) : void
+    +createDefaultMediaFileDirectory(Weblog weblog) : MediaFileDirectory
+    +createMediaFile(Weblog weblog, MediaFile mediaFile, RollerMessages errors) : void
+    +createThemeMediaFile(Weblog weblog, MediaFile mediaFile, RollerMessages errors) : void
+    +updateMediaFile(Weblog weblog, MediaFile mediaFile) : void
+    +removeMediaFile(Weblog weblog, MediaFile mediaFile) : void
+    +fetchRecentPublicMediaFiles(int length) : List
+    +searchMediaFiles(Weblog weblog, MediaFileFilter filter) : List
+    ' ... more methods omitted
+  }
+
+  class JPAOAuthManagerImpl {
+    -roller : Weblogger
+    -strategy : JPAPersistenceStrategy
+    -validator : OAuthValidator
+    -log : Log
+    +markAsAuthorized(OAuthAccessor accessor, String userId) : void
+    +generateRequestToken(OAuthAccessor accessor) : void
+    +generateAccessToken(OAuthAccessor accessor) : void
+    +addConsumer(String username, String consumerKey) : OAuthConsumer
+  }
+
+  class JPAPersistenceStrategy {
+    -logger : Log
+    -threadLocalEntityManager : ThreadLocal
+    -emf : EntityManagerFactory
+    +refresh(Object clazz) : void
+    +flush() : void
+    +release() : void
+    +store(Object obj) : Object
+    +remove(Class clazz, String id) : void
+    +removeAll(Collection pos) : void
+    +load(Class clazz, String id) : Object
+    +shutdown() : void
+  }
+
+  class JPAPingQueueManagerImpl {
+    -log : Log
+    -strategy : JPAPersistenceStrategy
+    +saveQueueEntry(PingQueueEntry pingQueueEntry) : void
+    +removeQueueEntry(PingQueueEntry pingQueueEntry) : void
+    +addQueueEntry(AutoPing autoPing) : void
+    +release() : void
+  }
+
+  class JPAPingTargetManagerImpl {
+    -strategy : JPAPersistenceStrategy
+    +removePingTarget(PingTarget pingTarget) : void
+    +savePingTarget(PingTarget pingTarget) : void
+    +targetNameExists(String pingTargetName) : boolean
+    +release() : void
+  }
+
+  class JPAPropertiesManagerImpl {
+    -log : Log
+    -strategy : JPAPersistenceStrategy
+    +initialize() : void
+    +saveProperty(RuntimeConfigProperty property) : void
+    +saveProperties(RuntimeConfigProperty> properties) : void
+    +release() : void
+  }
+
+  class JPAThreadManagerImpl {
+    -strategy : JPAPersistenceStrategy
+    +registerLease(RollerTask task) : boolean
+    +unregisterLease(RollerTask task) : boolean
+    +saveTaskLock(TaskLock data) : void
+  }
+
+  class JPAUserManagerImpl {
+    -log : Log
+    -strategy : JPAPersistenceStrategy
+    -userNameToIdMap : Map
+    +release() : void
+    +saveUser(User user) : void
+    +removeUser(User user) : void
+    +addUser(User newUser) : void
+    +checkPermission(RollerPermission perm, User user) : boolean
+    +grantWeblogPermission(Weblog weblog, User user, List actions) : void
+    +grantWeblogPermissionPending(Weblog weblog, User user, List actions) : void
+    +confirmWeblogPermission(Weblog weblog, User user) : void
+    +declineWeblogPermission(Weblog weblog, User user) : void
+    +revokeWeblogPermission(Weblog weblog, User user, List actions) : void
+    +hasRole(String roleName, User user) : boolean
+    +grantRole(String roleName, User user) : void
+    ' ... more methods omitted
+  }
+
+  class JPAWeblogEntryManagerImpl {
+    -roller : Weblogger
+    -strategy : JPAPersistenceStrategy
+    -entryAnchorToIdMap : Map
+    +saveWeblogCategory(WeblogCategory cat) : void
+    +removeWeblogCategory(WeblogCategory cat) : void
+    +moveWeblogCategoryContents(WeblogCategory srcCat, WeblogCategory destCat) : void
+    +saveComment(WeblogEntryComment comment) : void
+    +removeComment(WeblogEntryComment comment) : void
+    +saveWeblogEntry(WeblogEntry entry) : void
+    +removeWeblogEntry(WeblogEntry entry) : void
+    +removeWeblogEntryAttribute(String name, WeblogEntry entry) : void
+    +createAnchor(WeblogEntry entry) : String
+    +removeMatchingComments(CommentSearchParams searchParams) : int
+    +release() : void
+    +applyCommentDefaultsToEntries(Weblog website) : void
+    ' ... more methods omitted
+  }
+
+  class JPAWeblogManagerImpl {
+    -log : Log
+    -roller : Weblogger
+    -strategy : JPAPersistenceStrategy
+    -weblogHandleToIdMap : Map
+    +release() : void
+    +saveWeblog(Weblog weblog) : void
+    +removeWeblog(Weblog weblog) : void
+    +updateTagAggregates(List tags) : void
+    +saveTemplate(WeblogTemplate template) : void
+    +saveTemplateRendition(CustomTemplateRendition rendition) : void
+    +removeTemplate(WeblogTemplate template) : void
+    +addWeblog(Weblog newWeblog) : void
+  }
+
+  class JPAWebloggerImpl {
+    -strategy : JPAPersistenceStrategy
+    +flush() : void
+    +release() : void
+    +shutdown() : void
+  }
+
+  class JPAWebloggerModule {
+    +configure(Binder binder) : void
+  }
+
+}
+
+package "org.apache.roller.weblogger.business.search" <<business.search>> {
+  interface IndexManager {
+  }
+
+  class SearchResultList {
+  }
+
+  class SearchResultMap {
+  }
+
+}
+
+' === Relationships ===
+
+Weblog "1" o-- "many" FileContent
+ObjectPermission <|-- WeblogPermission
+ThemeTemplate <|.. WeblogTemplate
+Weblog "1" o-- "many" WeblogTemplate
+Weblog "1" o-- "many" MediaFile
+MediaFileDirectory "1" o-- "many" MediaFile
+FileContent "1" o-- "many" MediaFile
+Weblog "1" o-- "many" WeblogBookmarkFolder
+PingTarget "1" o-- "many" PingQueueEntry
+Weblog "1" o-- "many" PingQueueEntry
+Weblog "1" o-- "many" WeblogEntryTagAggregate
+Weblog "1" o-- "many" WeblogHitCount
+Template <|.. StaticTemplate
+TemplateRendition "1" o-- "many" StaticTemplate
+WeblogEntry "1" o-- "many" WeblogEntryPresenter
+ThemeTemplate <|.. StaticThemeTemplate
+Weblog "1" o-- "many" WeblogEntrySearchCriteria
+User "1" o-- "many" WeblogEntrySearchCriteria
+Weblog "1" o-- "many" WeblogSettings
+WeblogThemeConfig "1" o-- "many" Weblog
+WeblogCategory "1" o-- "many" Weblog
+Weblog "1" o-- "many" WeblogEntryTag
+WeblogEntry "1" o-- "many" WeblogEntryTag
+Weblog "1" o-- "many" WeblogCategory
+MediaFile "1" o-- "many" MediaFileTag
+Template <|-- ThemeTemplate
+WeblogEntry "1" o-- "many" WeblogEntryComment
+Weblog "1" o-- "many" CommentSearchCriteria
+WeblogEntry "1" o-- "many" CommentSearchCriteria
+PingTarget "1" o-- "many" AutoPing
+Weblog "1" o-- "many" AutoPing
+Weblog "1" o-- "many" WeblogEntry
+WeblogCategory "1" o-- "many" WeblogEntry
+WeblogBookmarkFolder "1" o-- "many" WeblogBookmark
+TemplateRendition <|.. CustomTemplateRendition
+WeblogTemplate "1" o-- "many" CustomTemplateRendition
+Theme <|.. WeblogTheme
+Weblog "1" o-- "many" WeblogTheme
+URLStrategy <|.. AbstractURLStrategy
+AbstractURLStrategy <|-- MultiWeblogURLStrategy
+MultiWeblogURLStrategy <|-- PreviewURLStrategy
+WebloggerProvider <|.. GuiceWebloggerProvider
+Weblogger "1" o-- "many" GuiceWebloggerProvider
+Weblogger <|.. WebloggerImpl
+BookmarkManager "1" o-- "many" WebloggerImpl
+IndexManager "1" o-- "many" WebloggerImpl
+MediaFileManager "1" o-- "many" WebloggerImpl
+FileContentManager "1" o-- "many" WebloggerImpl
+PropertiesManager "1" o-- "many" WebloggerImpl
+UserManager "1" o-- "many" WebloggerImpl
+WeblogManager "1" o-- "many" WebloggerImpl
+WeblogEntryManager "1" o-- "many" WebloggerImpl
+OAuthManager "1" o-- "many" WebloggerImpl
+URLStrategy "1" o-- "many" WebloggerImpl
+FileContentManager <|.. FileContentManagerImpl
+Weblogger "1" o-- "many" JPAAutoPingManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAAutoPingManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAPingTargetManagerImpl
+WebloggerImpl <|-- JPAWebloggerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAWebloggerImpl
+PropertiesManager <|.. JPAPropertiesManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAPropertiesManagerImpl
+MediaFileManager <|.. JPAMediaFileManagerImpl
+Weblogger "1" o-- "many" JPAMediaFileManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAMediaFileManagerImpl
+BookmarkManager <|.. JPABookmarkManagerImpl
+Weblogger "1" o-- "many" JPABookmarkManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPABookmarkManagerImpl
+OAuthManager <|.. JPAOAuthManagerImpl
+Weblogger "1" o-- "many" JPAOAuthManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAOAuthManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAThreadManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAPingQueueManagerImpl
+WeblogManager <|.. JPAWeblogManagerImpl
+Weblogger "1" o-- "many" JPAWeblogManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAWeblogManagerImpl
+WeblogEntryManager <|.. JPAWeblogEntryManagerImpl
+Weblogger "1" o-- "many" JPAWeblogEntryManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAWeblogEntryManagerImpl
+UserManager <|.. JPAUserManagerImpl
+JPAPersistenceStrategy "1" o-- "many" JPAUserManagerImpl
+
+@enduml

@@ -303,6 +303,26 @@ create table roller_hitcounts (
 create index rhc_websiteid_idx on roller_hitcounts( websiteid );
 create index rhc_dailyhits_idx on roller_hitcounts( dailyhits );
 
+-- User weblog stars (favourites)
+create table user_weblog_star (
+    id              varchar(48) not null primary key,
+    userid          varchar(48) not null,
+    weblogid        varchar(48) not null,
+    starred_time    $db.TIMESTAMP_SQL_TYPE not null
+);
+create unique index uws_user_weblog_idx on user_weblog_star( userid, weblogid );
+create index uws_weblogid_idx on user_weblog_star( weblogid );
+
+-- User entry stars (favourites)
+create table user_entry_star (
+    id              varchar(48) not null primary key,
+    userid          varchar(48) not null,
+    entryid         varchar(48) not null,
+    starred_time    $db.TIMESTAMP_SQL_TYPE not null
+);
+create unique index ues_user_entry_idx on user_entry_star( userid, entryid );
+create index ues_entryid_idx on user_entry_star( entryid );
+
 -- Entry attribute: metadata for weblog entries
 create table entryattribute (
     id       varchar(48) not null primary key,
@@ -533,3 +553,17 @@ alter table autoping add constraint ap_pingtargetid_fk
 -- oauth indexes
 
 create index oc_username_idx  on roller_oauthconsumer( username$!db.INDEXSIZE );
+
+-- user star foreign keys
+
+alter table user_weblog_star add constraint uws_userid_fk
+    foreign key ( userid ) references roller_user( id ) $!db.ADDL_FK_PARAMS ;
+
+alter table user_weblog_star add constraint uws_weblogid_fk
+    foreign key ( weblogid ) references weblog( id ) $!db.ADDL_FK_PARAMS ;
+
+alter table user_entry_star add constraint ues_userid_fk
+    foreign key ( userid ) references roller_user( id ) $!db.ADDL_FK_PARAMS ;
+
+alter table user_entry_star add constraint ues_entryid_fk
+    foreign key ( entryid ) references weblogentry( id ) $!db.ADDL_FK_PARAMS ;

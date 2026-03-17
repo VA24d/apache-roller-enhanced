@@ -66,7 +66,8 @@ public class JPAWebloggerImpl extends WebloggerImpl {
 		FeedFetcher          feedFetcher,
         PlanetManager        planetManager,
         PlanetURLStrategy    planetUrlStrategy,
-        URLStrategy          urlStrategy) throws WebloggerException {
+        URLStrategy          urlStrategy,
+        StarManager          starManager) throws WebloggerException {
         
         super(
             autoPingManager,
@@ -88,7 +89,8 @@ public class JPAWebloggerImpl extends WebloggerImpl {
             feedFetcher,
             planetManager,
             planetUrlStrategy,
-            urlStrategy);
+            urlStrategy,
+            starManager);
         
         this.strategy = strategy;
     }

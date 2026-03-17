@@ -25,4 +25,33 @@
     <div class="sidebar">
     #showPageMenu($model.weblog)
     #showAuthorMenu(true)
+    #if($utils.isUserAuthenticated())
+    <a href="$url.site/roller-ui/starredWeblogs.rol">Starred Blogs</a>
+    <a href="$url.site/roller-ui/starredEntries.rol">Starred Posts</a>
+    #end
     </div>
+
+    ## Star button — shown to any logged-in user who is NOT the blog creator
+    #set($blogHandle = $model.weblog.handle)
+    #if($utils.isUserAuthenticated() && $utils.authenticatedUser.userName != $model.weblog.creatorUserName)
+    <h2>This Blog</h2>
+    <div class="sidebar">
+    #if($utils.isWeblogStarred($blogHandle))
+        <form method="post" action="$url.site/roller-ui/starWeblog!unstar.rol">
+            <input type="hidden" name="weblogHandle" value="$blogHandle"/>
+            <button type="submit"
+                style="cursor:pointer;background:none;border:1px solid #c00;border-radius:4px;padding:4px 10px;color:#c00;font-size:0.95em;">
+                &#9733; Unstar this blog
+            </button>
+        </form>
+    #else
+        <form method="post" action="$url.site/roller-ui/starWeblog!star.rol">
+            <input type="hidden" name="weblogHandle" value="$blogHandle"/>
+            <button type="submit"
+                style="cursor:pointer;background:none;border:1px solid #c8860a;border-radius:4px;padding:4px 10px;color:#c8860a;font-size:0.95em;">
+                &#9734; Star this blog
+            </button>
+        </form>
+    #end
+    </div>
+    #end
