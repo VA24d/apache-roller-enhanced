@@ -27,14 +27,16 @@ import org.apache.roller.weblogger.config.WebloggerConfig;
  * Factory that constructs an {@link EntryProcessingPipeline} based on
  * admin configuration in roller.properties.
  *
- * Each step can be independently enabled/disabled via properties:
- * <ul>
+ * <p>Each step can be independently enabled/disabled via properties:
+ * <ol>
  *   <li>{@code pipeline.step.profanityFilter.enabled} — profanity filter</li>
- *   <li>{@code pipeline.step.contentSummarizer.enabled} — content truncation</li>
+ *   <li>{@code pipeline.step.contentSummarizer.enabled} — AI summary generation</li>
+ *   <li>{@code pipeline.step.sentimentAnalysis.enabled} — sentiment detection</li>
+ *   <li>{@code pipeline.step.readingTimeEstimator.enabled} — reading time badge</li>
  *   <li>{@code pipeline.step.autoTagGenerator.enabled} — auto tag generation</li>
- * </ul>
+ * </ol>
  *
- * New steps can be added by creating a class implementing
+ * <p>New steps can be added by creating a class implementing
  * {@link EntryProcessingStep} and adding it to this factory.
  */
 public final class EntryProcessingPipelineFactory {
@@ -49,23 +51,42 @@ public final class EntryProcessingPipelineFactory {
     /**
      * Build a pipeline from the current admin configuration.
      * Steps that are disabled (or not configured) are skipped.
+     *
+     * <p>Execution order:
+     * <ol>
+     *   <li>ProfanityFilter — cleans text before downstream steps see it</li>
+     *   <li>ContentSummarizer — generates AI summary from clean text</li>
+     *   <li>SentimentAnalysis — analyzes clean text for sentiment</li>
+     *   <li>ReadingTimeEstimator — calculates reading time from substantive content</li>
+     *   <li>AutoTagGenerator — appends tags last so they don't affect other steps</li>
+     * </ol>
      */
     public static EntryProcessingPipeline createPipeline() {
         EntryProcessingPipeline pipeline = new EntryProcessingPipeline();
 
-        // Step 1: Profanity filter
+        // Step 1: Profanity filter (must run first — cleans text for downstream)
         if (isStepEnabled("pipeline.step.profanityFilter.enabled")) {
             pipeline.addStep(new ProfanityFilterStep());
         }
 
-        // Step 2: Content summarizer
+        // Step 2: Content summarizer (AI-powered, generates entry.summary)
         if (isStepEnabled("pipeline.step.contentSummarizer.enabled")) {
-            int maxWords = getIntConfig(
-                    "pipeline.step.contentSummarizer.maxWords", 500);
-            pipeline.addStep(new ContentSummarizerStep(maxWords));
+            pipeline.addStep(new ContentSummarizerStep());
         }
 
-        // Step 3: Auto tag generator
+        // Step 3: Sentiment analysis (keyword-based, prepends badge)
+        if (isStepEnabled("pipeline.step.sentimentAnalysis.enabled")) {
+            pipeline.addStep(new SentimentAnalysisStep());
+        }
+
+        // Step 4: Reading time estimator (prepends "X min read" badge)
+        if (isStepEnabled("pipeline.step.readingTimeEstimator.enabled")) {
+            int wpm = getIntConfig(
+                    "pipeline.step.readingTimeEstimator.wordsPerMinute", 238);
+            pipeline.addStep(new ReadingTimeEstimatorStep(wpm));
+        }
+
+        // Step 5: Auto tag generator (runs last — tags should not affect other steps)
         if (isStepEnabled("pipeline.step.autoTagGenerator.enabled")) {
             int maxTags = getIntConfig(
                     "pipeline.step.autoTagGenerator.maxTags", 5);

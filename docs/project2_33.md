@@ -143,21 +143,22 @@ ORDER BY starCount DESC
 
 ### Overview
 
-An admin-side entry processing pipeline that runs when blog entries are saved. It applies configurable processing steps (profanity filter, content summarization, auto tag generation) to entry content before persistence.
+An admin-side entry processing pipeline that runs when blog entries are saved. It applies 5 configurable processing steps to entry content before persistence: profanity filtering, AI-powered summarization, sentiment analysis, reading time estimation, and auto tag generation.
 
 ### Requirements Addressed
 
-- Posted blogs go through at least 3 processing steps
-- Steps include profanity filter, text summarization, and tag generation
+- Posted blogs go through 5 processing steps (exceeds the minimum 3)
+- Steps include profanity filter, AI text summarization, sentiment analysis, reading time estimation, and tag generation
 - Steps can be added/removed without affecting the remaining process
 - Admin-side processing (not user-side)
 - Tags added to the body of the blog (no separate storage needed)
+- Summary stored in `entry.summary` field — Roller's built-in `displayContent()` automatically shows summary + "Read More" on list pages, full text on permalink pages
 
 ### Design Patterns Used
 
 #### 3. Chain of Responsibility Pattern
 
-**Where:** `EntryProcessingStep` (interface), `EntryProcessingPipeline` (orchestrator), and the three step implementations.
+**Where:** `EntryProcessingStep` (interface), `EntryProcessingPipeline` (orchestrator), and the five step implementations.
 
 **Rationale:** The Chain of Responsibility pattern allows multiple processing steps to be applied sequentially to a blog entry, where each step can modify the entry independently. The pipeline maintains an ordered list of steps and executes each one, passing the same `WeblogEntry` object through. Steps do not know about each other — they only depend on the `EntryProcessingStep` interface.
 
@@ -189,9 +190,11 @@ An admin-side entry processing pipeline that runs when blog entries are saved. I
 
 **Where:** Each `EntryProcessingStep` implementation encapsulates a different processing algorithm behind the same interface.
 
-**Rationale:** `ProfanityFilterStep`, `ContentSummarizerStep`, and `AutoTagGeneratorStep` all implement `EntryProcessingStep` but use completely different algorithms:
+**Rationale:** All five step implementations implement `EntryProcessingStep` but use completely different algorithms:
 - Profanity filter: regex-based word boundary matching
-- Content summarizer: HTML-aware word counting and truncation
+- Content summarizer: Gemini AI with extractive fallback
+- Sentiment analysis: keyword-based positive/negative scoring
+- Reading time estimator: word count / WPM calculation
 - Auto tag generator: TF-based keyword extraction with stop word filtering
 
 **Quality attribute improvement:**
@@ -217,7 +220,7 @@ This design follows the hint in the assignment: *"the controls mentioned in this
 | File | Change |
 |------|--------|
 | `EntryEdit.java` | Added 3 lines in `save()`: create pipeline from factory and execute on entry (line 214-218) |
-| `roller.properties` | Added 5 pipeline configuration properties |
+| `roller.properties` | Added 8 pipeline configuration properties (5 step enables + 3 config values) |
 
 ### New Files Created
 
@@ -225,9 +228,11 @@ This design follows the hint in the assignment: *"the controls mentioned in this
 |------|---------|
 | `business/pipeline/EntryProcessingStep.java` | Interface: `getName()`, `getDescription()`, `process(WeblogEntry)` |
 | `business/pipeline/EntryProcessingPipeline.java` | Orchestrator: manages step list, executes sequentially with error isolation |
-| `business/pipeline/ProfanityFilterStep.java` | Replaces profane words with asterisks using precompiled regex patterns |
-| `business/pipeline/ContentSummarizerStep.java` | Truncates text exceeding configurable word limit, HTML-aware |
-| `business/pipeline/AutoTagGeneratorStep.java` | Extracts top-N keywords by frequency, appends as tags to body |
+| `business/pipeline/ProfanityFilterStep.java` | Step 1: Replaces profane words with asterisks using precompiled regex patterns |
+| `business/pipeline/ContentSummarizerStep.java` | Step 2: AI-powered summary via Gemini API with extractive fallback; stores in `entry.summary` |
+| `business/pipeline/SentimentAnalysisStep.java` | Step 3: Keyword-based sentiment detection; prepends colored badge to entry text |
+| `business/pipeline/ReadingTimeEstimatorStep.java` | Step 4: Calculates reading time (238 WPM); prepends "X min read" badge |
+| `business/pipeline/AutoTagGeneratorStep.java` | Step 5: Extracts top-N keywords by frequency, appends as tags to body |
 | `business/pipeline/EntryProcessingPipelineFactory.java` | Static factory reading enabled steps from `roller.properties` |
 
 ### Key Implementation Details
@@ -238,11 +243,27 @@ This design follows the hint in the assignment: *"the controls mentioned in this
 - Processes title, text, and summary fields independently
 - Whole-word matching prevents false positives (e.g., "hell" in "shell" is NOT filtered)
 
-#### Content Summarizer
-- HTML-aware: strips tags for word counting but preserves HTML structure in output
-- Configurable word limit (default 500, set via `pipeline.step.contentSummarizer.maxWords`)
-- Appends " [...]" when truncation occurs
-- Only modifies text if it actually exceeds the word limit
+#### Content Summarizer (AI-powered)
+- Calls Gemini API (reuses `pulse.llm.apiKey` and `pulse.llm.apiUrl` from Task 6 config)
+- Generates a 2-3 sentence AI summary stored in `entry.setSummary()`
+- **Original text is never modified** — preserves full content for permalink views
+- Falls back to extractive summarization (first 2-3 sentences) when API is unavailable
+- Leverages Roller's built-in `WeblogEntryPresenter.displayContent(readMoreLink)`:
+  - **List pages:** shows summary + "Read More" link automatically
+  - **Permalink pages:** shows full text automatically
+- Skips entries with ≤ 2 sentences (too short for a separate summary)
+
+#### Sentiment Analysis
+- Keyword-based approach (no API call) for speed and reliability
+- 40 positive words (great, excellent, amazing, love, ...) and 40 negative words (terrible, awful, hate, ...)
+- Score = positiveCount − negativeCount; threshold ±1 for classification
+- Prepends a colored badge: green (Positive), gray (Neutral), red (Negative)
+- Also stores sentiment in `entry.searchDescription` for SEO meta tags
+
+#### Reading Time Estimator
+- Calculates reading time based on word count / 238 WPM (configurable)
+- Prepends a blue "X min read" badge to entry text
+- Minimum 1 minute for short entries
 
 #### Auto Tag Generator
 - Strips HTML, tokenizes text, filters stop words and short words (< 4 chars)
@@ -254,19 +275,34 @@ This design follows the hint in the assignment: *"the controls mentioned in this
 
 In `roller.properties`:
 ```properties
-# Profanity Filter
+# Execution order: Profanity → Summarizer → Sentiment → ReadingTime → AutoTag
+
+# Step 1: Profanity Filter
 pipeline.step.profanityFilter.enabled=true
 
-# Content Summarizer
+# Step 2: Content Summarizer (AI-powered, uses pulse.llm.apiKey)
 pipeline.step.contentSummarizer.enabled=true
-pipeline.step.contentSummarizer.maxWords=500
 
-# Auto Tag Generator
+# Step 3: Sentiment Analysis (keyword-based)
+pipeline.step.sentimentAnalysis.enabled=true
+
+# Step 4: Reading Time Estimator
+pipeline.step.readingTimeEstimator.enabled=true
+pipeline.step.readingTimeEstimator.wordsPerMinute=238
+
+# Step 5: Auto Tag Generator
 pipeline.step.autoTagGenerator.enabled=true
 pipeline.step.autoTagGenerator.maxTags=5
 ```
 
 To disable any step, set its `enabled` property to `false`. No code changes or recompilation needed — just restart the application.
+
+**Pipeline execution order rationale:**
+1. Profanity filter runs first — cleans text before downstream steps analyze it
+2. Content summarizer runs on clean text — generates AI summary before badges are prepended
+3. Sentiment analysis runs on clean text — accurate keyword matching
+4. Reading time estimator runs before tags — tag section shouldn't count as reading content
+5. Auto tag generator runs last — tags are appended and don't affect other steps
 
 ### How to Add a New Step
 
@@ -340,18 +376,20 @@ mvn test -pl app -Dtest="org.apache.roller.weblogger.business.StarManagerTest"
 
 > **Note:** `StarManagerTest` is an integration test that requires the full Roller DB schema to be initialized. This is a pre-existing infrastructure constraint — all Roller business-layer integration tests (e.g., `WeblogTest`, `UserTest`) require the same DB setup and fail identically without it.
 
-### Task 2 — Unit Tests (31 total, all passing)
+### Task 2 — Unit Tests (59 total, all passing)
 
 | Test Class | # Tests | What's Tested |
 |-----------|---------|---------------|
 | `ProfanityFilterStepTest` | 8 | Word boundary matching, case insensitivity, title/text/summary filtering, null handling |
-| `ContentSummarizerStepTest` | 8 | Truncation, exact limits, HTML preservation, null/empty text |
+| `ContentSummarizerStepTest` | 11 | AI summary fallback, original text preservation, extractive summarization, HTML stripping, short text skipping |
+| `SentimentAnalysisStepTest` | 12 | Positive/negative/neutral classification, badge HTML, search description update, mixed sentiment |
+| `ReadingTimeEstimatorStepTest` | 11 | Short/medium/long text timing, badge prepend, custom WPM, null/empty handling |
 | `AutoTagGeneratorStepTest` | 9 | Tag extraction, stop word exclusion, HTML stripping, max tags limit, null/blank text |
-| `EntryProcessingPipelineTest` | 6 | Add/remove steps, execution order, null entry, empty pipeline, unmodifiable list, full integration |
+| `EntryProcessingPipelineTest` | 8 | Add/remove steps, execution order, null entry, full 5-step integration, text preservation |
 
 Run all Task 2 tests:
 ```bash
-mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pipeline.ProfanityFilterStepTest,org.apache.roller.weblogger.business.pipeline.ContentSummarizerStepTest,org.apache.roller.weblogger.business.pipeline.AutoTagGeneratorStepTest,org.apache.roller.weblogger.business.pipeline.EntryProcessingPipelineTest"
+mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pipeline.ProfanityFilterStepTest,org.apache.roller.weblogger.business.pipeline.ContentSummarizerStepTest,org.apache.roller.weblogger.business.pipeline.SentimentAnalysisStepTest,org.apache.roller.weblogger.business.pipeline.ReadingTimeEstimatorStepTest,org.apache.roller.weblogger.business.pipeline.AutoTagGeneratorStepTest,org.apache.roller.weblogger.business.pipeline.EntryProcessingPipelineTest"
 ```
 
 ### Task 6 — Unit Tests (48 total, all passing)
@@ -401,13 +439,16 @@ mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pulse.ActivityLeve
 The pipeline runs automatically when any blog entry is saved. No user action is required.
 
 **Admin configuration** (in `roller.properties`):
-- Enable/disable each step independently
-- Adjust word limit for summarizer and max tags for tag generator
+- Enable/disable each of the 5 steps independently
+- Configure reading speed (WPM) and max tags
+- AI summary uses the same Gemini API key as Community Pulse (`pulse.llm.apiKey`)
 - Changes take effect after application restart
 
 **Effects visible in published posts:**
 - Profane words replaced with asterisks
-- Long posts truncated with "[...]" suffix
+- AI-generated summary shown on blog list pages with "Read More" link to full text
+- Colored sentiment badge (Positive/Neutral/Negative) at the top of each entry
+- "X min read" badge indicating estimated reading time
 - Auto-generated tags appended at the bottom
 
 ---

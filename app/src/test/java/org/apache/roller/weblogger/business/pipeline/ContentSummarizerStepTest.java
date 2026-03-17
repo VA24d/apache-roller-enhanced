@@ -31,67 +31,116 @@ class ContentSummarizerStepTest {
         ContentSummarizerStep step = new ContentSummarizerStep();
         assertEquals("ContentSummarizer", step.getName());
         assertNotNull(step.getDescription());
+        assertTrue(step.getDescription().contains("summary"));
     }
 
     @Test
-    void testShortTextUnchanged() {
-        ContentSummarizerStep step = new ContentSummarizerStep(10);
+    void testOriginalTextPreservedAfterProcess() {
+        // The step should NEVER modify entry.text — only set entry.summary
+        ContentSummarizerStep step = new ContentSummarizerStep();
         WeblogEntry entry = new WeblogEntry();
-        entry.setText("Short text here.");
+        String originalText = "First sentence here. Second sentence here. Third sentence here. Fourth one too.";
+        entry.setText(originalText);
+
         step.process(entry);
-        assertEquals("Short text here.", entry.getText());
+
+        // Original text must be untouched
+        assertEquals(originalText, entry.getText());
+        // Summary should be generated (extractive fallback since no API key in tests)
+        assertNotNull(entry.getSummary());
+        assertTrue(entry.getSummary().contains("First sentence here"));
     }
 
     @Test
-    void testLongTextTruncated() {
-        ContentSummarizerStep step = new ContentSummarizerStep(5);
+    void testShortTextSkipsSummarization() {
+        ContentSummarizerStep step = new ContentSummarizerStep();
         WeblogEntry entry = new WeblogEntry();
-        entry.setText("one two three four five six seven eight nine ten");
+        entry.setText("Just one sentence.");
         step.process(entry);
-        assertTrue(entry.getText().endsWith("[...]"));
-        // Should contain the first 5 words
-        assertTrue(entry.getText().startsWith("one two three four five"));
+
+        // Too short for summarization — summary should remain null
+        assertNull(entry.getSummary());
+        assertEquals("Just one sentence.", entry.getText());
     }
 
     @Test
-    void testTruncateStaticMethod() {
-        String result = ContentSummarizerStep.truncateToWordLimit(
-                "word1 word2 word3 word4 word5 word6", 3);
-        assertTrue(result.endsWith("[...]"));
-        assertTrue(result.contains("word1"));
-        assertTrue(result.contains("word3"));
-        assertFalse(result.contains("word6"));
+    void testTwoSentencesSkipsSummarization() {
+        ContentSummarizerStep step = new ContentSummarizerStep();
+        WeblogEntry entry = new WeblogEntry();
+        entry.setText("First sentence. Second sentence.");
+        step.process(entry);
+
+        assertNull(entry.getSummary());
     }
 
     @Test
     void testNullTextIgnored() {
-        ContentSummarizerStep step = new ContentSummarizerStep(10);
+        ContentSummarizerStep step = new ContentSummarizerStep();
         WeblogEntry entry = new WeblogEntry();
         assertDoesNotThrow(() -> step.process(entry));
+        assertNull(entry.getSummary());
     }
 
     @Test
     void testEmptyTextIgnored() {
-        String result = ContentSummarizerStep.truncateToWordLimit("", 10);
-        assertEquals("", result);
+        ContentSummarizerStep step = new ContentSummarizerStep();
+        WeblogEntry entry = new WeblogEntry();
+        entry.setText("   ");
+        assertDoesNotThrow(() -> step.process(entry));
+        assertNull(entry.getSummary());
     }
 
     @Test
-    void testExactWordLimitNotTruncated() {
-        ContentSummarizerStep step = new ContentSummarizerStep(5);
-        WeblogEntry entry = new WeblogEntry();
-        entry.setText("one two three four five");
-        step.process(entry);
-        assertEquals("one two three four five", entry.getText());
+    void testExtractiveFallbackReturnsFirstThreeSentences() {
+        String text = "First sentence. Second sentence. Third sentence. Fourth sentence. Fifth sentence.";
+        String summary = ContentSummarizerStep.extractiveFallbackSummary(text);
+
+        assertNotNull(summary);
+        assertTrue(summary.contains("First sentence."));
+        assertTrue(summary.contains("Second sentence."));
+        assertTrue(summary.contains("Third sentence."));
+        assertFalse(summary.contains("Fourth sentence."));
     }
 
     @Test
-    void testHtmlTagsPreservedDuringTruncation() {
-        ContentSummarizerStep step = new ContentSummarizerStep(3);
+    void testExtractiveFallbackWithQuestionAndExclamation() {
+        String text = "What is Java? It is amazing! Third point here. More content follows.";
+        String summary = ContentSummarizerStep.extractiveFallbackSummary(text);
+
+        assertNotNull(summary);
+        assertTrue(summary.contains("What is Java?"));
+        assertTrue(summary.contains("It is amazing!"));
+        assertTrue(summary.contains("Third point here."));
+        assertFalse(summary.contains("More content"));
+    }
+
+    @Test
+    void testExtractiveFallbackNullAndEmpty() {
+        assertNull(ContentSummarizerStep.extractiveFallbackSummary(null));
+        assertNull(ContentSummarizerStep.extractiveFallbackSummary("   "));
+    }
+
+    @Test
+    void testStripHtmlRemovesTags() {
+        String html = "<p>Hello <b>world</b></p><br/>Test &amp; more";
+        String plain = ContentSummarizerStep.stripHtml(html);
+
+        assertFalse(plain.contains("<"));
+        assertFalse(plain.contains(">"));
+        assertTrue(plain.contains("Hello"));
+        assertTrue(plain.contains("world"));
+        assertTrue(plain.contains("& more"));
+    }
+
+    @Test
+    void testSummaryWrappedInParagraphTag() {
+        ContentSummarizerStep step = new ContentSummarizerStep();
         WeblogEntry entry = new WeblogEntry();
-        entry.setText("<p>Hello <b>world</b> this</p> is extra text here");
+        entry.setText("First sentence here. Second sentence here. Third sentence here. Fourth one.");
         step.process(entry);
-        // Should truncate after ~3 visible words, and end with [...]
-        assertTrue(entry.getText().endsWith("[...]"));
+
+        assertNotNull(entry.getSummary());
+        assertTrue(entry.getSummary().startsWith("<p>"));
+        assertTrue(entry.getSummary().endsWith("</p>"));
     }
 }

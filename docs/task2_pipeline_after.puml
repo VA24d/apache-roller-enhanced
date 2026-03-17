@@ -4,7 +4,7 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 skinparam defaultFontSize 11
 
-title Task 2 – Transforming Feeds (AFTER)\nAdmin-side entry processing pipeline with Chain of Responsibility pattern
+title Task 2 – Transforming Feeds (AFTER)\nAdmin-side entry processing pipeline with Chain of Responsibility pattern\n5 configurable steps: Profanity → AI Summary → Sentiment → ReadingTime → AutoTag
 
 package "business.plugins.entry" {
   interface WeblogEntryPlugin {
@@ -61,14 +61,33 @@ package "business.pipeline" #LightYellow {
     +getName(): String
     +getDescription(): String
     +process(entry: WeblogEntry): void
+    -filterText(text: String): String
   }
 
   class ContentSummarizerStep #LightGreen {
-    -maxWords: int
     +getName(): String
     +getDescription(): String
     +process(entry: WeblogEntry): void
-    +{static} truncateToWordLimit(html: String, maxWords: int): String
+    ~callGeminiForSummary(text: String): String
+    +{static} extractiveFallbackSummary(text: String): String
+    +{static} stripHtml(html: String): String
+  }
+
+  class SentimentAnalysisStep #LightGreen {
+    -POSITIVE_WORDS: Set<String>
+    -NEGATIVE_WORDS: Set<String>
+    +getName(): String
+    +getDescription(): String
+    +process(entry: WeblogEntry): void
+    +{static} analyzeSentiment(text: String): String
+  }
+
+  class ReadingTimeEstimatorStep #LightGreen {
+    -wordsPerMinute: int
+    +getName(): String
+    +getDescription(): String
+    +process(entry: WeblogEntry): void
+    +{static} calculateReadingTime(text: String): int
   }
 
   class AutoTagGeneratorStep #LightGreen {
@@ -77,7 +96,7 @@ package "business.pipeline" #LightYellow {
     +getName(): String
     +getDescription(): String
     +process(entry: WeblogEntry): void
-    +extractTags(text: String, maxTags: int): List<String>
+    +{static} extractTags(text: String, maxTags: int): List<String>
   }
 }
 
@@ -98,10 +117,18 @@ package "pojos" {
     -title: String
     -text: String
     -summary: String
+    -searchDescription: String
     -status: PubStatus
     +setText(text: String): void
     +setTitle(title: String): void
     +setSummary(summary: String): void
+    +setSearchDescription(desc: String): void
+  }
+
+  class WeblogEntryPresenter {
+    +displayContent(readMoreLink: String): String
+    +getTransformedSummary(): String
+    +getTransformedText(): String
   }
 }
 
@@ -117,14 +144,23 @@ WeblogEntryPlugin <|.. EncodePreTagsPlugin
 WeblogEntryPlugin <|.. ObfuscateEmailPlugin
 WeblogEntryPlugin <|.. SmileysPlugin
 
-' New pipeline relationships
+' New pipeline relationships — all 5 steps implement the interface
 EntryProcessingStep <|.. ProfanityFilterStep
 EntryProcessingStep <|.. ContentSummarizerStep
+EntryProcessingStep <|.. SentimentAnalysisStep
+EntryProcessingStep <|.. ReadingTimeEstimatorStep
 EntryProcessingStep <|.. AutoTagGeneratorStep
 
 EntryProcessingPipeline o-- EntryProcessingStep : steps (ordered)
 EntryProcessingPipelineFactory ..> EntryProcessingPipeline : creates
 EntryProcessingPipelineFactory ..> WebloggerConfig : reads config
+
+' ContentSummarizer uses Gemini API via config
+ContentSummarizerStep ..> WebloggerConfig : reads API key
+
+' SentimentAnalysis and ReadingTime reuse stripHtml from ContentSummarizer
+SentimentAnalysisStep ..> ContentSummarizerStep : stripHtml()
+ReadingTimeEstimatorStep ..> ContentSummarizerStep : stripHtml()
 
 ' Integration point
 EntryEdit ..> EntryProcessingPipelineFactory : uses
@@ -133,12 +169,18 @@ EntryEdit ..> WeblogEntry : saves
 ' Pipeline processes entries
 EntryProcessingPipeline ..> WeblogEntry : processes
 
+' Display flow: summary → list view with "Read More", text → permalink view
+WeblogEntryPresenter ..> WeblogEntry : wraps
+
 legend right
   |= Color |= Meaning |
   | <#LightGreen> | New class/interface added |
   | <#LightYellow> | New package |
   Existing render-time plugins (left) are unchanged.
   New save-time pipeline (right) runs in EntryEdit.save().
+  ContentSummarizer sets entry.summary (AI or extractive).
+  WeblogEntryPresenter.displayContent() shows summary
+  on list pages with "Read More", full text on permalink.
 endlegend
 
 @enduml

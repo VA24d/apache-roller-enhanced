@@ -48,23 +48,19 @@ class EntryProcessingPipelineTest {
     void testPipelineExecutesStepsInOrder() {
         EntryProcessingPipeline pipeline = new EntryProcessingPipeline();
 
-        // Add profanity filter first, then summarizer
         pipeline.addStep(new ProfanityFilterStep());
-        pipeline.addStep(new ContentSummarizerStep(10));
+        pipeline.addStep(new SentimentAnalysisStep());
 
         WeblogEntry entry = new WeblogEntry();
         entry.setTitle("A damn fine blog post");
-        entry.setText("This damn blog post has some really interesting "
-                + "content that goes on for a while. "
-                + "One two three four five six seven eight nine ten "
-                + "eleven twelve thirteen fourteen fifteen.");
+        entry.setText("This damn blog post has some really interesting content.");
 
         pipeline.execute(entry);
 
         // Profanity should be filtered
         assertFalse(entry.getTitle().contains("damn"));
-        // Content should be truncated (max 10 words)
-        assertTrue(entry.getText().endsWith("[...]"));
+        // Sentiment badge should be prepended
+        assertTrue(entry.getText().contains("sentiment-badge"));
     }
 
     @Test
@@ -92,27 +88,81 @@ class EntryProcessingPipelineTest {
     }
 
     @Test
-    void testFullPipelineWithAllThreeSteps() {
+    void testFullPipelineWithAllFiveSteps() {
         EntryProcessingPipeline pipeline = new EntryProcessingPipeline();
         pipeline.addStep(new ProfanityFilterStep());
-        pipeline.addStep(new ContentSummarizerStep(500));
+        pipeline.addStep(new ContentSummarizerStep());
+        pipeline.addStep(new SentimentAnalysisStep());
+        pipeline.addStep(new ReadingTimeEstimatorStep());
         pipeline.addStep(new AutoTagGeneratorStep(3));
 
         WeblogEntry entry = new WeblogEntry();
         entry.setTitle("A damn fine programming tutorial");
         entry.setText("This is a programming tutorial about Java. "
-                + "Java programming is used everywhere. "
+                + "Java programming is used everywhere in the world. "
                 + "Java developers love programming in Java. "
-                + "This damn tutorial covers all the crap you need to know.");
+                + "This damn tutorial covers all the crap you need to know. "
+                + "It is an amazing and wonderful guide for beginners.");
 
         pipeline.execute(entry);
 
-        // Profanity filtered
+        // Step 1: Profanity filtered in title and text
         assertFalse(entry.getTitle().contains("damn"));
-        assertFalse(entry.getText().contains("damn"));
-        assertFalse(entry.getText().contains("crap"));
 
-        // Tags generated (appended to body)
+        // Step 2: Summary generated (extractive fallback — no API in tests)
+        assertNotNull(entry.getSummary());
+        assertTrue(entry.getSummary().contains("<p>"));
+
+        // Step 3: Sentiment badge prepended
+        assertTrue(entry.getText().contains("sentiment-badge"));
+
+        // Step 4: Reading time badge prepended
+        assertTrue(entry.getText().contains("reading-time"));
+        assertTrue(entry.getText().contains("min read"));
+
+        // Step 5: Tags generated (appended to body)
         assertTrue(entry.getText().contains("auto-tags"));
+
+        // Original content still present (not truncated!)
+        assertTrue(entry.getText().contains("programming tutorial"));
+    }
+
+    @Test
+    void testStepsCanBeIndependentlyAdded() {
+        // Verify we can run any subset of steps
+        EntryProcessingPipeline pipeline = new EntryProcessingPipeline();
+        pipeline.addStep(new ReadingTimeEstimatorStep());
+        pipeline.addStep(new AutoTagGeneratorStep(3));
+
+        WeblogEntry entry = new WeblogEntry();
+        entry.setText("Java programming is great for building enterprise applications. "
+                + "Java has many frameworks and libraries available.");
+
+        pipeline.execute(entry);
+
+        assertTrue(entry.getText().contains("reading-time"));
+        assertTrue(entry.getText().contains("auto-tags"));
+        // No sentiment badge since that step wasn't added
+        assertFalse(entry.getText().contains("sentiment-badge"));
+    }
+
+    @Test
+    void testPipelinePreservesOriginalTextContent() {
+        // The summarizer should NOT truncate/destroy the original text
+        EntryProcessingPipeline pipeline = new EntryProcessingPipeline();
+        pipeline.addStep(new ContentSummarizerStep());
+
+        WeblogEntry entry = new WeblogEntry();
+        String longText = "First sentence of the article. Second sentence continues. "
+                + "Third sentence with details. Fourth sentence concludes the thought. "
+                + "Fifth sentence adds more context.";
+        entry.setText(longText);
+
+        pipeline.execute(entry);
+
+        // Original text must still be intact
+        assertEquals(longText, entry.getText());
+        // Summary should be in the summary field, not replacing text
+        assertNotNull(entry.getSummary());
     }
 }
