@@ -184,8 +184,9 @@
         <action name="starWeblog"
                 class="org.apache.roller.weblogger.ui.struts2.core.StarWeblogAction">
             <!-- Redirect back to the public blog page after star/unstar -->
-            <result name="success" type="redirect">/roller/${weblogHandle}/</result>
-            <result name="error" type="redirect">/roller/</result>
+            <!-- Struts2 prependServletContext adds /roller automatically -->
+            <result name="success" type="redirect">/${weblogHandle}/</result>
+            <result name="error" type="redirect">/</result>
             <allowed-methods>star,unstar</allowed-methods>
         </action>
 
