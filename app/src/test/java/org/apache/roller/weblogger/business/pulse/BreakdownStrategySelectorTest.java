@@ -2,20 +2,26 @@ package org.apache.roller.weblogger.business.pulse;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BreakdownStrategySelectorTest {
 
     private BreakdownStrategySelector selector;
+    private boolean llmConfigured;
 
     @BeforeEach
     void setUp() {
         selector = new BreakdownStrategySelector();
+        // Detect actual config state so tests pass regardless of apiKey setting
+        String apiKey = WebloggerConfig.getProperty("pulse.llm.apiKey", "");
+        llmConfigured = apiKey != null && !apiKey.trim().isEmpty();
     }
 
     @Test
-    void testSmallCommentSetUsesTfIdf() {
+    void testSmallCommentSetAlwaysUsesTfIdf() {
+        // Regardless of LLM config, small sets always use TF-IDF
         BreakdownStrategy strategy = selector.selectStrategy(3);
         assertEquals("tfidf", strategy.getName());
     }
@@ -27,17 +33,23 @@ public class BreakdownStrategySelectorTest {
     }
 
     @Test
-    void testMediumCommentSetWithoutLlm() {
-        // Without LLM configured, should use TF-IDF
+    void testMediumCommentSetSelection() {
         BreakdownStrategy strategy = selector.selectStrategy(15);
-        assertEquals("tfidf", strategy.getName());
+        if (llmConfigured) {
+            assertEquals("hybrid-llm", strategy.getName());
+        } else {
+            assertEquals("tfidf", strategy.getName());
+        }
     }
 
     @Test
-    void testLargeCommentSetWithoutLlm() {
-        // Without LLM configured, should fall back to TF-IDF
+    void testLargeCommentSetSelection() {
         BreakdownStrategy strategy = selector.selectStrategy(100);
-        assertEquals("tfidf", strategy.getName());
+        if (llmConfigured) {
+            assertEquals("hybrid-llm", strategy.getName());
+        } else {
+            assertEquals("tfidf", strategy.getName());
+        }
     }
 
     @Test
@@ -59,10 +71,13 @@ public class BreakdownStrategySelectorTest {
     }
 
     @Test
-    void testAvailableStrategiesWithoutLlm() {
+    void testAvailableStrategiesMatchConfig() {
         BreakdownStrategy[] strategies = selector.getAvailableStrategies();
-        // Without API key, only TF-IDF should be available
-        assertEquals(1, strategies.length);
-        assertEquals("tfidf", strategies[0].getName());
+        if (llmConfigured) {
+            assertEquals(2, strategies.length);
+        } else {
+            assertEquals(1, strategies.length);
+            assertEquals("tfidf", strategies[0].getName());
+        }
     }
 }
