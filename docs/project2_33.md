@@ -320,13 +320,25 @@ No existing steps or the pipeline orchestrator need to be modified.
 
 ## Testing
 
-### Task 1 — Unit Tests
+### Task 1 — Unit Tests (10 POJO tests passing + 1 integration test)
 
-| Test Class | Tests | Coverage |
-|-----------|-------|----------|
-| `UserWeblogStarTest` | POJO getters/setters, equals/hashCode, UUID generation | pojos |
-| `UserEntryStarTest` | POJO getters/setters, equals/hashCode, UUID generation | pojos |
-| `StarManagerTest` | Full CRUD, duplicate prevention, trending queries, star counts | business layer |
+| Test Class | # Tests | What's Tested | Type |
+|-----------|---------|---------------|------|
+| `UserWeblogStarTest` | 5 | POJO getters/setters, equals/hashCode, UUID generation | Unit (no DB) |
+| `UserEntryStarTest` | 5 | POJO getters/setters, equals/hashCode, UUID generation | Unit (no DB) |
+| `StarManagerTest` | — | Full CRUD, duplicate prevention, trending queries, star counts | Integration (requires DB) |
+
+Run Task 1 POJO tests:
+```bash
+mvn test -pl app -Dtest="org.apache.roller.weblogger.pojos.UserWeblogStarTest,org.apache.roller.weblogger.pojos.UserEntryStarTest"
+```
+
+Run Task 1 integration test (requires running Derby DB via `mvn jetty:run`):
+```bash
+mvn test -pl app -Dtest="org.apache.roller.weblogger.business.StarManagerTest"
+```
+
+> **Note:** `StarManagerTest` is an integration test that requires the full Roller DB schema to be initialized. This is a pre-existing infrastructure constraint — all Roller business-layer integration tests (e.g., `WeblogTest`, `UserTest`) require the same DB setup and fail identically without it.
 
 ### Task 2 — Unit Tests (31 total, all passing)
 
@@ -339,7 +351,7 @@ No existing steps or the pipeline orchestrator need to be modified.
 
 Run all Task 2 tests:
 ```bash
-mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pipeline.*"
+mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pipeline.ProfanityFilterStepTest,org.apache.roller.weblogger.business.pipeline.ContentSummarizerStepTest,org.apache.roller.weblogger.business.pipeline.AutoTagGeneratorStepTest,org.apache.roller.weblogger.business.pipeline.EntryProcessingPipelineTest"
 ```
 
 ### Task 6 — Unit Tests (48 total, all passing)
