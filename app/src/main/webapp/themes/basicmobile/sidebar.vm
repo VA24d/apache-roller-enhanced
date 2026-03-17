@@ -33,7 +33,7 @@
     <h2>This Blog</h2>
     <div class="sidebar">
     #if($utils.isWeblogStarred($blogHandle))
-        <form method="post" action="$url.site/roller-ui/starWeblog!unstar">
+        <form method="post" action="$url.site/roller-ui/starWeblog!unstar.rol">
             <input type="hidden" name="weblogHandle" value="$blogHandle"/>
             <button type="submit"
                 style="cursor:pointer;background:none;border:1px solid #c00;border-radius:4px;padding:4px 10px;color:#c00;font-size:0.95em;">
@@ -41,7 +41,7 @@
             </button>
         </form>
     #else
-        <form method="post" action="$url.site/roller-ui/starWeblog!star">
+        <form method="post" action="$url.site/roller-ui/starWeblog!star.rol">
             <input type="hidden" name="weblogHandle" value="$blogHandle"/>
             <button type="submit"
                 style="cursor:pointer;background:none;border:1px solid #c8860a;border-radius:4px;padding:4px 10px;color:#c8860a;font-size:0.95em;">

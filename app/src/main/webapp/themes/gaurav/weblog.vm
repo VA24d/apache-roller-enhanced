@@ -85,14 +85,14 @@
 				<div class="well">
 					<h3>This Blog</h3>
 					#if($utils.isWeblogStarred($blogHandle))
-						<form method="post" action="$url.site/roller-ui/starWeblog!unstar">
+						<form method="post" action="$url.site/roller-ui/starWeblog!unstar.rol">
 							<input type="hidden" name="weblogHandle" value="$blogHandle"/>
 							<button type="submit" class="btn btn-danger btn-sm">
 								&#9733; Unstar this blog
 							</button>
 						</form>
 					#else
-						<form method="post" action="$url.site/roller-ui/starWeblog!star">
+						<form method="post" action="$url.site/roller-ui/starWeblog!star.rol">
 							<input type="hidden" name="weblogHandle" value="$blogHandle"/>
 							<button type="submit" class="btn btn-warning btn-sm">
 								&#9734; Star this blog

@@ -178,7 +178,7 @@
 #if($utils.isUserAuthenticated() && $model.weblogEntry)
 <div style="margin:10px 0;">
 #if($utils.isEntryStarred($model.weblogEntry.id))
-    <form method="post" action="$url.site/roller-ui/starEntry!unstar" style="display:inline;">
+    <form method="post" action="$url.site/roller-ui/starEntry!unstar.rol" style="display:inline;">
         <input type="hidden" name="entryId" value="$model.weblogEntry.id"/>
         <button type="submit"
             style="cursor:pointer;background:none;border:1px solid #c00;border-radius:4px;padding:4px 10px;color:#c00;font-size:0.95em;">
@@ -186,7 +186,7 @@
         </button>
     </form>
 #else
-    <form method="post" action="$url.site/roller-ui/starEntry!star" style="display:inline;">
+    <form method="post" action="$url.site/roller-ui/starEntry!star.rol" style="display:inline;">
         <input type="hidden" name="entryId" value="$model.weblogEntry.id"/>
         <button type="submit"
             style="cursor:pointer;background:none;border:1px solid #c8860a;border-radius:4px;padding:4px 10px;color:#c8860a;font-size:0.95em;">
