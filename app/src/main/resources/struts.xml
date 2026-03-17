@@ -306,20 +306,17 @@
             <allowed-methods>execute</allowed-methods>
         </action>
         
-<!-- <<<<<<< project-2-admin-dashboard -->
         <action name="siteSummary"
                 class="org.apache.roller.weblogger.ui.struts2.admin.SiteSummary">
             <result name="success" type="tiles">.SiteSummary</result>
             <allowed-methods>execute</allowed-methods>
         </action>
-<!-- ======= -->
-      
+
         <action name="bugReportsAdmin"
                 class="org.apache.roller.weblogger.ui.struts2.admin.BugReportsAdmin">
             <result name="list" type="tiles">.BugReportsAdmin</result>
             <allowed-methods>execute,changeStatus,delete</allowed-methods>
         </action>
-<!-- >>>>>>> master -->
 
         <action name="cacheInfo"
                 class="org.apache.roller.weblogger.ui.struts2.admin.CacheInfo">
