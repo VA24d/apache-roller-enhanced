@@ -17,6 +17,8 @@
  */
 package org.apache.roller.selenium.editor;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.apache.roller.selenium.AbstractRollerPage;
 
 /**
@@ -29,6 +31,29 @@ public abstract class AbstractEntryPage extends AbstractRollerPage {
     }
 
     public void setText(String value) {
+        // Roller uses either a plain textarea editor or a Summernote rich-text editor.
+        // On CI/headless runs the rich-text editor is commonly enabled; setting the textarea
+        // directly may be overwritten by the editor's submit sync, resulting in empty content.
+        try {
+            boolean hasSummernoteEditable = !driver.findElements(By.cssSelector(".note-editor .note-editable")).isEmpty();
+            if (hasSummernoteEditable) {
+                ((JavascriptExecutor) driver).executeScript(
+                        "var textarea = document.getElementById('edit_content');"
+                                + "if (!textarea) { return; }"
+                                + "if (window.jQuery && jQuery(textarea).data('summernote')) {"
+                                + "  jQuery(textarea).summernote('code', arguments[0]);"
+                                + "} else {"
+                                + "  textarea.value = arguments[0];"
+                                + "  textarea.dispatchEvent(new Event('input', { bubbles: true }));"
+                                + "  textarea.dispatchEvent(new Event('change', { bubbles: true }));"
+                                + "}",
+                        value);
+                return;
+            }
+        } catch (RuntimeException ignored) {
+            // Fall back to plain textarea interaction below.
+        }
+
         setFieldValue("edit_content", value);
     }
 
