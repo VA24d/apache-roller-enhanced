@@ -37,7 +37,20 @@
 <%-- Results (only shown after analysis) --%>
 <s:if test="pulseResult != null">
 
-    <h3><s:property value="pulseResult.entry.title" /></h3>
+    <h3>
+        <s:property value="pulseResult.entry.title" />
+        <%-- Manual Refresh Button --%>
+        <s:url var="refreshUrl" action="communityPulse!analyze">
+            <s:param name="weblog" value="actionWeblog.handle" />
+            <s:param name="entryId" value="entryId" />
+            <s:param name="strategy" value="pulseResult.breakdown.methodUsed" />
+            <s:param name="refresh" value="true" />
+        </s:url>
+        <a href="<s:property value='#refreshUrl' />" class="btn btn-sm btn-default" style="margin-left:10px;"
+           title="Force regenerate analysis (bypasses cache)">
+            &#x21bb; Refresh
+        </a>
+    </h3>
 
     <%-- ============ 6A: Discussion Overview ============ --%>
     <h4 style="margin-top:20px;"><s:text name="communityPulse.overview" /></h4>

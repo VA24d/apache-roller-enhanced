@@ -35,8 +35,14 @@ public class CommunityPulse extends UIAction {
     // Input: optional strategy override
     private String strategy;
 
+    // Input: force cache bypass
+    private boolean refresh;
+
     // Output: the pulse analysis result
     private PulseResult pulseResult;
+
+    // Output: whether the result was served from cache
+    private boolean cachedResult;
 
     // Output: list of entries for selection
     private List<WeblogEntry> recentEntries;
@@ -74,7 +80,8 @@ public class CommunityPulse extends UIAction {
 
         try {
             CommunityPulseAnalyzer analyzer = new CommunityPulseAnalyzer();
-            pulseResult = analyzer.analyze(entryId, strategy);
+            pulseResult = analyzer.analyze(entryId, strategy, refresh);
+            cachedResult = !refresh;
         } catch (Exception e) {
             log.error("Error analyzing community pulse for entry: " + entryId, e);
             addError("communityPulse.analysisError");
@@ -125,7 +132,12 @@ public class CommunityPulse extends UIAction {
     public String getStrategy() { return strategy; }
     public void setStrategy(String strategy) { this.strategy = strategy; }
 
+    public boolean isRefresh() { return refresh; }
+    public void setRefresh(boolean refresh) { this.refresh = refresh; }
+
     public PulseResult getPulseResult() { return pulseResult; }
+
+    public boolean isCachedResult() { return cachedResult; }
 
     public List<WeblogEntry> getRecentEntries() { return recentEntries; }
 }
