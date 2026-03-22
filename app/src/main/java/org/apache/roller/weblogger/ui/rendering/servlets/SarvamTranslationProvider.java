@@ -4,18 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.roller.weblogger.config.WebloggerConfig;
 
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class SarvamTranslationProvider implements TranslationProvider {
@@ -26,31 +23,7 @@ public class SarvamTranslationProvider implements TranslationProvider {
     private String apiKey;
 
     public SarvamTranslationProvider() {
-        this.apiKey = WebloggerConfig.getProperty("translation.sarvam.apiKey");
-
-        // Attempt to load from secure properties file if not in main config
-        if (this.apiKey == null || this.apiKey.isEmpty()) {
-            try {
-                // In Jetty/Tomcat, the working directory or root may contain
-                // translation-api.properties
-                // We'll try user.dir as fallback
-                String userDir = System.getProperty("user.dir");
-                java.io.File propFile = new java.io.File(userDir, "translation-api.properties");
-                if (!propFile.exists()) {
-                    propFile = new java.io.File(userDir, "../translation-api.properties");
-                }
-
-                if (propFile.exists()) {
-                    Properties props = new Properties();
-                    try (InputStream is = new FileInputStream(propFile)) {
-                        props.load(is);
-                        this.apiKey = props.getProperty("translation.sarvam.apiKey");
-                    }
-                }
-            } catch (Exception e) {
-                log.warn("Could not load translation-api.properties", e);
-            }
-        }
+        this.apiKey = LocalApiPropertiesSupport.getProperty("translation.sarvam.apiKey");
 
         if (this.apiKey == null || this.apiKey.isEmpty()) {
             log.warn("Sarvam API key is not configured. Translations will fail.");
