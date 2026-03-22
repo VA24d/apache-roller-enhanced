@@ -296,6 +296,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>WeblogQAServlet</servlet-name>
+        <servlet-class>org.apache.roller.weblogger.ui.rendering.servlets.WeblogQAServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>XmlRpcServlet</servlet-name>
         <servlet-class>org.apache.xmlrpc.webserver.XmlRpcServlet</servlet-class>
         <init-param>
@@ -445,6 +450,11 @@
     <servlet-mapping>
         <servlet-name>TranslationServlet</servlet-name>
         <url-pattern>/roller-services/translate/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>WeblogQAServlet</servlet-name>
+        <url-pattern>/roller-services/weblog-qa/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

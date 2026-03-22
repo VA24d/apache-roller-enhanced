@@ -59,5 +59,7 @@
 
 <link rel="stylesheet" href="$url.site/theme/styles/translation.css">
 <script src="$url.site/theme/scripts/translation.js"></script>
+<link rel="stylesheet" href="$url.site/theme/styles/weblog-qa.css">
+<script src="$url.site/theme/scripts/weblog-qa.js"></script>
 </body>
 </html>

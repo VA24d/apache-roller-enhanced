@@ -1,0 +1,85 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+package "Frontend" {
+  class TranslationWidget <<script>> {
+    +injectWidget()
+    +collectSections()
+    +handleTranslate()
+    +restoreOriginalText()
+  }
+}
+
+package "Translation Servlet Layer" {
+  class TranslationServlet {
+    - CACHE_SERVICE : TranslationCacheService
+    + doPost(request, response)
+  }
+
+  class TranslationSectionRequest {
+    - sectionId : String
+    - texts : List<String>
+    + getSectionId()
+    + getTexts()
+  }
+
+  class TranslationSectionResponse {
+    - sectionId : String
+    - contentHash : String
+    - translations : List<String>
+    - cached : boolean
+    + getTranslations()
+    + isCached()
+  }
+}
+
+package "Translation Services" {
+  class TranslationCacheService {
+    - sectionCache : ConcurrentMap<String, CachedSectionTranslation>
+    + translateSections(providerName, provider, sourceLang, targetLang, sectionRequests)
+    + computeContentHash(texts)
+  }
+
+  class TranslationLanguageSupport {
+    + getSupportedLanguages()
+    + normalizeLanguageCode(languageCode, defaultValue)
+    + mapSarvamLanguageCode(languageCode)
+  }
+
+  class TranslationProviderFactory {
+    + getProvider(providerName)
+  }
+
+  interface TranslationProvider {
+    + translate(texts, sourceLang, targetLang)
+  }
+
+  class MyMemoryTranslationProvider {
+    - API_URL : String
+    + translate(texts, sourceLang, targetLang)
+  }
+
+  class SarvamTranslationProvider {
+    - API_URL : String
+    - apiKey : String
+    + translate(texts, sourceLang, targetLang)
+  }
+}
+
+TranslationWidget ..> TranslationServlet : POST /roller-services/translate
+TranslationWidget ..> TranslationSectionRequest : builds
+TranslationServlet ..> TranslationLanguageSupport : normalizes languages
+TranslationServlet ..> TranslationProviderFactory : resolves provider
+TranslationServlet --> TranslationCacheService : delegates section translation
+TranslationServlet --> TranslationSectionResponse : returns
+TranslationCacheService ..> TranslationSectionRequest : consumes
+TranslationCacheService ..> TranslationSectionResponse : creates
+TranslationCacheService ..> TranslationProvider : translates misses
+TranslationProviderFactory ..> TranslationProvider : creates
+TranslationProvider <|.. MyMemoryTranslationProvider
+TranslationProvider <|.. SarvamTranslationProvider
+SarvamTranslationProvider ..> TranslationLanguageSupport : maps provider codes
+MyMemoryTranslationProvider ..> TranslationLanguageSupport : normalizes codes
+
+@enduml

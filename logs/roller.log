@@ -1,177 +1,164 @@
-INFO  2026-03-15 21:36:03 [main] ContextLoader - Root WebApplicationContext: initialization started
-INFO  2026-03-15 21:36:04 [main] SpringSecurityCoreVersion - You are running with Spring Security Core 5.8.14
-INFO  2026-03-15 21:36:04 [main] SecurityNamespaceHandler - Spring Security 'config' module version is 5.8.14
-INFO  2026-03-15 21:36:04 [main] HttpSecurityBeanDefinitionParser - Checking sorted filter chain: [Root bean: class [org.springframework.security.web.session.DisableEncodeUrlFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 100, Root bean: class [org.springframework.security.web.context.SecurityContextPersistenceFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 400, Root bean: class [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 600, Root bean: class [org.springframework.security.web.header.HeaderWriterFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 700, <org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter#0>, order = 2100, <openidAuthenticationProcessingFilter>, order = 2200, Root bean: class [org.springframework.security.web.savedrequest.RequestCacheAwareFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 2800, Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.security.config.http.HttpConfigurationBuilder$SecurityContextHolderAwareRequestFilterBeanFactory#0; factoryMethodName=getBean; initMethodName=null; destroyMethodName=null, order = 2900, Root bean: class [org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3100, Root bean: class [org.springframework.security.web.authentication.AnonymousAuthenticationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3200, Root bean: class [org.springframework.security.web.session.SessionManagementFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3500, Root bean: class [org.springframework.security.web.access.ExceptionTranslationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3600, <org.springframework.security.web.access.intercept.FilterSecurityInterceptor#0>, order = 3700]
-INFO  2026-03-15 21:36:04 [main] DefaultSecurityFilterChain - Will not secure Ant [pattern='/images/**']
-INFO  2026-03-15 21:36:04 [main] DefaultSecurityFilterChain - Will not secure Ant [pattern='/scripts/**']
-INFO  2026-03-15 21:36:04 [main] DefaultSecurityFilterChain - Will not secure Ant [pattern='/styles/**']
-WARN  2026-03-15 21:36:04 [main] RealmVerifier - RP discovery / realm validation disabled; 
-INFO  2026-03-15 21:36:05 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@60a4595e, org.springframework.security.web.context.SecurityContextPersistenceFilter@4a234e1f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@406cc81b, org.springframework.security.web.header.HeaderWriterFilter@64ef9b9a, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@264340f0, org.apache.roller.weblogger.ui.core.filters.CustomOpenIDAuthenticationProcessingFilter@7640a191, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@504a9352, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48e1e18a, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@74997ca6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7a6078d, org.springframework.security.web.session.SessionManagementFilter@372c428, org.springframework.security.web.access.ExceptionTranslationFilter@4458887d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7b1bb01c]
-INFO  2026-03-15 21:36:05 [main] DefaultFilterChainValidator - Checking whether login URL '/roller-ui/login.rol' is accessible with your configuration
-INFO  2026-03-15 21:36:05 [main] ContextLoader - Root WebApplicationContext initialized in 1242 ms
-INFO  2026-03-15 21:36:05 [main] DatabaseProvider - SUCCESS: Got parameters. Using configuration type JDBC_PROPERTIES
-INFO  2026-03-15 21:36:05 [main] DatabaseProvider - -- Using JDBC driver class: org.apache.derby.jdbc.ClientDriver
-INFO  2026-03-15 21:36:05 [main] DatabaseProvider - -- Using JDBC connection URL: jdbc:derby://localhost:4224/memory:rollerdb;create=true
-INFO  2026-03-15 21:36:05 [main] DatabaseProvider - -- Using JDBC username: app
-INFO  2026-03-15 21:36:05 [main] DatabaseProvider - -- Using JDBC password: [hidden]
-INFO  2026-03-15 21:36:05 [main] DatabaseProvider - SUCCESS: loaded JDBC driver class [org.apache.derby.jdbc.ClientDriver]
-INFO  2026-03-15 21:36:11 [main] RollerContext - 
+INFO  2026-03-22 14:59:09 [main] ContextLoader - Root WebApplicationContext: initialization started
+INFO  2026-03-22 14:59:09 [main] SpringSecurityCoreVersion - You are running with Spring Security Core 5.8.14
+INFO  2026-03-22 14:59:09 [main] SecurityNamespaceHandler - Spring Security 'config' module version is 5.8.14
+INFO  2026-03-22 14:59:09 [main] HttpSecurityBeanDefinitionParser - Checking sorted filter chain: [Root bean: class [org.springframework.security.web.session.DisableEncodeUrlFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 100, Root bean: class [org.springframework.security.web.context.SecurityContextPersistenceFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 400, Root bean: class [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 600, Root bean: class [org.springframework.security.web.header.HeaderWriterFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 700, <org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter#0>, order = 2100, <openidAuthenticationProcessingFilter>, order = 2200, Root bean: class [org.springframework.security.web.savedrequest.RequestCacheAwareFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 2800, Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.security.config.http.HttpConfigurationBuilder$SecurityContextHolderAwareRequestFilterBeanFactory#0; factoryMethodName=getBean; initMethodName=null; destroyMethodName=null, order = 2900, Root bean: class [org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3100, Root bean: class [org.springframework.security.web.authentication.AnonymousAuthenticationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3200, Root bean: class [org.springframework.security.web.session.SessionManagementFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3500, Root bean: class [org.springframework.security.web.access.ExceptionTranslationFilter]; scope=; abstract=false; lazyInit=null; autowireMode=0; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=null; factoryMethodName=null; initMethodName=null; destroyMethodName=null, order = 3600, <org.springframework.security.web.access.intercept.FilterSecurityInterceptor#0>, order = 3700]
+INFO  2026-03-22 14:59:09 [main] DefaultSecurityFilterChain - Will not secure Ant [pattern='/images/**']
+INFO  2026-03-22 14:59:09 [main] DefaultSecurityFilterChain - Will not secure Ant [pattern='/scripts/**']
+INFO  2026-03-22 14:59:09 [main] DefaultSecurityFilterChain - Will not secure Ant [pattern='/styles/**']
+WARN  2026-03-22 14:59:10 [main] RealmVerifier - RP discovery / realm validation disabled; 
+INFO  2026-03-22 14:59:10 [main] DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2f4bc3ff, org.springframework.security.web.context.SecurityContextPersistenceFilter@2297c8bf, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@154fcedd, org.springframework.security.web.header.HeaderWriterFilter@34a06981, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@458500d1, org.apache.roller.weblogger.ui.core.filters.CustomOpenIDAuthenticationProcessingFilter@59cbeaee, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3299ee2c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@542759f, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@68ac6e6e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6eb6750f, org.springframework.security.web.session.SessionManagementFilter@13231e7b, org.springframework.security.web.access.ExceptionTranslationFilter@55b7f0d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@e0faed6]
+INFO  2026-03-22 14:59:10 [main] DefaultFilterChainValidator - Checking whether login URL '/roller-ui/login.rol' is accessible with your configuration
+INFO  2026-03-22 14:59:10 [main] ContextLoader - Root WebApplicationContext initialized in 1161 ms
+INFO  2026-03-22 14:59:10 [main] DatabaseProvider - SUCCESS: Got parameters. Using configuration type JDBC_PROPERTIES
+INFO  2026-03-22 14:59:10 [main] DatabaseProvider - -- Using JDBC driver class: org.apache.derby.jdbc.ClientDriver
+INFO  2026-03-22 14:59:10 [main] DatabaseProvider - -- Using JDBC connection URL: jdbc:derby://localhost:4224/memory:rollerdb;create=true
+INFO  2026-03-22 14:59:10 [main] DatabaseProvider - -- Using JDBC username: app
+INFO  2026-03-22 14:59:10 [main] DatabaseProvider - -- Using JDBC password: [hidden]
+INFO  2026-03-22 14:59:10 [main] DatabaseProvider - SUCCESS: loaded JDBC driver class [org.apache.derby.jdbc.ClientDriver]
+INFO  2026-03-22 14:59:14 [main] RollerContext - 
 --------------------------------------------------------------
 Roller Weblogger startup INCOMPLETE, user interaction required
 --------------------------------------------------------------
-INFO  2026-03-15 21:36:11 [main] RollerContext - Remember Me enabled: false
-WARN  2026-03-15 21:36:11 [main] RollerContext - New passwords are stored in plain text!
-INFO  2026-03-15 21:36:11 [main] RollerContext - Password Encryption Algorithm set to 'noop'
-INFO  2026-03-15 21:36:11 [main] RollerContext - Initializing Velocity
-INFO  2026-03-15 21:36:11 [main] StrutsTilesListener - Starting Struts Tiles 3 integration ...
-INFO  2026-03-15 21:36:14 [main] TilesAccess - Publishing TilesContext for context: org.apache.struts2.tiles.StrutsWildcardServletApplicationContext
-INFO  2026-03-15 21:36:15 [main] StrutsSpringObjectFactory - Initializing Struts-Spring integration...
-INFO  2026-03-15 21:36:15 [main] SpringObjectFactory - Setting autowire strategy to name
-INFO  2026-03-15 21:36:15 [main] StrutsSpringObjectFactory - ... initialized Struts-Spring integration successfully
-WARN  2026-03-15 21:36:16 [main] DefaultExcludedPatternsChecker - Replacing excluded patterns [[(^|\%\{)((#?)(top(\.|\['|\[")|\[\d\]\.)?)(dojo|struts|session|request|response|application|servlet(Request|Response|Context)|parameters|context|_memberAccess)(\.|\[).*, .*(^|\.|\[|\'|"|get)class(\(\.|\[|\'|").*]] with [[^method:.*, ^action:.*]], be aware that this affects all instances and safety of your application!
-WARN  2026-03-15 21:36:16 [main] PackageBasedActionConfigBuilder - The includeJars pattern [false] did not match any jars in the classpath
-INFO  2026-03-15 21:36:17 [main] RequestMappingFilter - Request mapping filter initialized, 1 mappers configured.
-INFO  2026-03-15 21:36:17 [main] RequestMappingFilter - [class org.apache.roller.weblogger.ui.rendering.WeblogRequestMapper]
-INFO  2026-03-15 21:36:17 [main] IPBanFilter - INIT IPBanFilter
-INFO  2026-03-15 21:36:17 [main] WebjarsServlet - The webjars-locator-core library is not present, WebjarsServlet will not try to resolve the version of requested WebJar assets (for the version agnostic way of working)
-INFO  2026-03-15 21:36:17 [main] WebjarsServlet - WebjarsServlet initialization completed
-INFO  2026-03-15 21:36:17 [main] FeedServlet - Initializing FeedServlet
-INFO  2026-03-15 21:36:17 [main] WeblogFeedCache - {size=200, id=cache.weblogfeed, enabled=false, timeout=3600}
-WARN  2026-03-15 21:36:17 [main] WeblogFeedCache - Caching has been DISABLED
-INFO  2026-03-15 21:36:17 [main] SiteWideCache - {size=50, id=cache.sitewide, enabled=false, timeout=1800}
-WARN  2026-03-15 21:36:17 [main] SiteWideCache - Caching has been DISABLED
-INFO  2026-03-15 21:36:17 [main] MediaResourceServlet - Initializing ResourceServlet
-INFO  2026-03-15 21:36:17 [main] PageServlet - Initializing PageServlet
-INFO  2026-03-15 21:36:17 [main] WeblogPageCache - {size=400, id=cache.weblogpage, enabled=false, timeout=3600}
-WARN  2026-03-15 21:36:17 [main] WeblogPageCache - Caching has been DISABLED
-INFO  2026-03-15 21:36:17 [main] PageServlet - Referrer spam check enabled = false
-INFO  2026-03-15 21:36:17 [main] ResourceServlet - Initializing ResourceServlet
-INFO  2026-03-15 21:36:17 [main] SearchServlet - Initializing SearchServlet
-INFO  2026-03-15 21:36:17 [main] CommentServlet - Initializing CommentServlet
-INFO  2026-03-15 21:36:17 [main] CommentValidationManager - Configured 3 CommentValidators
-INFO  2026-03-15 21:36:17 [main] CommentValidationManager - [class org.apache.roller.weblogger.ui.rendering.plugins.comments.BannedwordslistCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessLinksCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessSizeCommentValidator]
-INFO  2026-03-15 21:36:17 [main] CommentServlet - Comment Throttling DISABLED
-INFO  2026-03-15 21:36:17 [main] PlanetFeedServlet - Initializing PlanetRssServlet
-INFO  2026-03-15 21:36:17 [main] PlanetCache - Planet cache = {size=10, id=cache.planet, enabled=false, timeout=1800}
-WARN  2026-03-15 21:36:17 [main] PlanetCache - Caching has been DISABLED
-INFO  2026-03-15 21:36:17 [main] RSDServlet - Initializing RSDServlet
-INFO  2026-03-15 21:36:17 [main] CommentValidationManager - Configured 3 CommentValidators
-INFO  2026-03-15 21:36:17 [main] CommentValidationManager - [class org.apache.roller.weblogger.ui.rendering.plugins.comments.BannedwordslistCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessLinksCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessSizeCommentValidator]
-INFO  2026-03-15 21:36:17 [main] PreviewResourceServlet - Initializing PreviewResourceServlet
-INFO  2026-03-15 21:36:17 [main] PreviewServlet - Initializing PreviewServlet
-WARN  2026-03-15 21:36:23 [qtp1686632440-72] StrutsLocalizedTextProvider - Trying to find text with null key!
-WARN  2026-03-15 21:36:25 [qtp1686632440-63] StrutsLocalizedTextProvider - Trying to find text with null key!
-INFO  2026-03-15 21:36:26 [qtp1686632440-71] SaltCache - {size=5000, id=cache.salt, timeout=3600, enabled=true}
-INFO  2026-03-15 21:36:26 [qtp1686632440-71] CacheManager - Cache Manager Initialized.
-INFO  2026-03-15 21:36:26 [qtp1686632440-71] CacheManager - Cache Factory = org.apache.roller.weblogger.util.cache.ExpiringLRUCacheFactoryImpl
-WARN  2026-03-15 21:36:26 [qtp1686632440-68] StrutsLocalizedTextProvider - Trying to find text with null key!
-INFO  2026-03-15 21:36:29 [qtp1686632440-59] DatabaseInstaller - Creating Roller Weblogger database tables.
-WARN  2026-03-15 21:36:30 [qtp1686632440-59] StrutsLocalizedTextProvider - Trying to find text with null key!
-INFO  2026-03-15 21:36:32 [qtp1686632440-67] Install - ENTERING
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] WebloggerFactory - Bootstrapping Roller Weblogger business tier
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] WebloggerFactory - Weblogger Provider = org.apache.roller.weblogger.business.GuiceWebloggerProvider
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] DatabaseProvider - SUCCESS: Got parameters. Using configuration type JDBC_PROPERTIES
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] DatabaseProvider - -- Using JDBC driver class: org.apache.derby.jdbc.ClientDriver
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] DatabaseProvider - -- Using JDBC connection URL: jdbc:derby://localhost:4224/memory:rollerdb;create=true
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] DatabaseProvider - -- Using JDBC username: app
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] DatabaseProvider - -- Using JDBC password: [hidden]
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] DatabaseProvider - SUCCESS: loaded JDBC driver class [org.apache.derby.jdbc.ClientDriver]
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] JPAPersistenceStrategy - hibernate.transaction.factory_class: org.hibernate.transaction.JDBCTransactionFactory
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] JPAPersistenceStrategy - eclipselink.logging.logger: org.eclipse.persistence.logging.slf4j.SLF4JLogger
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] JPAPersistenceStrategy - hibernate.dialect: org.hibernate.dialect.DerbyDialect
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] JPAPersistenceStrategy - eclipselink.persistence-context.flush-mode: auto
-INFO  2026-03-15 21:36:33 [qtp1686632440-67] JPAPersistenceStrategy - hibernate.transaction.manager_lookup_class: org.hibernate.transaction.JBossTransactionManagerLookup
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] LuceneIndexManager - search enabled: true
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] LuceneIndexManager - index dir: C:\Users\navee\Desktop\project-1-team-33\app\target\work\search-index
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] PluginManagerImpl - Configured comment plugins
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] PluginManagerImpl - [class org.apache.roller.weblogger.business.plugins.comment.LinkMarkupPlugin,class org.apache.roller.weblogger.business.plugins.comment.AutoformatPlugin,class org.apache.roller.weblogger.business.plugins.comment.HTMLSubsetPlugin]
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] ThreadManagerImpl - Instantiating Thread Manager
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] WebloggerFactory - Roller Weblogger business tier successfully bootstrapped
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] WebloggerFactory -    Version: 6.1.5
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] WebloggerFactory -    Revision: rd11fc4c25b47c8fda957dff6e8201574bba1f3c5
-INFO  2026-03-15 21:36:36 [qtp1686632440-67] WebloggerImpl - Initializing Roller Weblogger business tier
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.name not yet in roller_properties database table, will store with default value of [Roller Site`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.shortName not yet in roller_properties database table, will store with default value of [Front Page`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.description not yet in roller_properties database table, will store with default value of [A default install of the Roller Weblogger open source blog server`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.frontpage.weblog.handle not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.frontpage.weblog.aggregated not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.adminemail not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.absoluteurl not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property pings.suspendPingProcessing not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.registration.enabled not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property user.account.email.activation not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.registration.url not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.allowUserWeblogCreation not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.editor.pages not yet in roller_properties database table, will store with default value of [editor-text.jsp,editor-summernote.jsp`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property webservices.enableXmlRpc not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property webservices.enableAtomPub not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property webservices.atomPubAuth not yet in roller_properties database table, will store with default value of [basic`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.pages.maxEntries not yet in roller_properties database table, will store with default value of [30`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.newsfeeds.defaultEntries not yet in roller_properties database table, will store with default value of [30`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.newsfeeds.styledFeeds not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.comments.enabled not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property comments.ignoreSpam.enabled not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.trackbacks.enabled not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property trackbacks.ignoreSpam.enabled not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.comments.htmlenabled not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.comments.plugins not yet in roller_properties database table, will store with default value of [HTMLSubset`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.comments.emailnotify not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.moderation.required not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property site.trackbackVerification.enabled not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property uploads.enabled not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property uploads.types.allowed not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property uploads.types.forbid not yet in roller_properties database table, will store with default value of [exe`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property uploads.file.maxsize not yet in roller_properties database table, will store with default value of [2.00`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property uploads.dir.maxsize not yet in roller_properties database table, will store with default value of [20.00`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property users.themes.path not yet in roller_properties database table, will store with default value of [/themes`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property themes.customtheme.allowed not yet in roller_properties database table, will store with default value of [false`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property spam.bannedwordslist not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property analytics.default.tracking.code not yet in roller_properties database table, will store with default value of [`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property analytics.code.override.allowed not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property bugreport.notification.channels not yet in roller_properties database table, will store with default value of [email`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] JPAPropertiesManagerImpl - Property bugreport.notification.notifyReporterStatus not yet in roller_properties database table, will store with default value of [true`]
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Loading themes from C:\Users\navee\Desktop\project-1-team-33\app\..\app\src\main\webapp\themes...
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Loaded theme 'basic'
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Loaded theme 'basicmobile'
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Loaded theme 'fauxcoly'
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Loaded theme 'frontpage'
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Loaded theme 'gaurav'
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThemeManagerImpl - Successfully loaded 5 themes from disk.
-INFO  2026-03-15 21:36:37 [qtp1686632440-67] ThreadManagerImpl - Initializing task: ScheduledEntriesTask
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] ThreadManagerImpl - Initializing task: ResetHitCountsTask
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] ThreadManagerImpl - Initializing task: PingQueueTask
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] ThreadManagerImpl - Initializing task: TestTask
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] LuceneIndexManager - Index was inconsistent. Rebuilding index in the background...
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] PingConfig - Creating common ping target 'Technorati' from configuration properties.
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] PingConfig - Creating common ping target 'Weblogs.com' from configuration properties.
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] PingConfig - Creating common ping target 'blo.gs' from configuration properties.
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] PingConfig - Creating common ping target 'IceRocket' from configuration properties.
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] WebloggerImpl - Roller Weblogger business tier successfully initialized
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] DatabaseProvider - SUCCESS: Got parameters. Using configuration type JDBC_PROPERTIES
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] DatabaseProvider - -- Using JDBC driver class: org.apache.derby.jdbc.ClientDriver
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] DatabaseProvider - -- Using JDBC connection URL: jdbc:derby://localhost:4224/memory:rollerdb;create=true
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] DatabaseProvider - -- Using JDBC username: app
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] DatabaseProvider - -- Using JDBC password: [hidden]
-INFO  2026-03-15 21:36:38 [qtp1686632440-67] DatabaseProvider - SUCCESS: loaded JDBC driver class [org.apache.derby.jdbc.ClientDriver]
-INFO  2026-03-15 21:36:38 [pool-2-thread-1] RebuildWebsiteIndexOperation - Completed rebuilding index for all users in '0.289' secs
-INFO  2026-03-15 21:36:44 [qtp1686632440-67] Install - EXITING - Bootstrap successful, forwarding to Roller
-WARN  2026-03-15 21:38:12 [qtp1686632440-57] UIPluginManagerImpl - Default editor was not properly configured, picking one at random instead.
-INFO  2026-03-15 21:38:49 [HitCountQueueProcessor] ContinuousWorkerThread - HitCountQueueProcessor Started.
-INFO  2026-03-15 21:38:49 [qtp1686632440-58] RendererManager - Renderer Manager Initialized, 1 factories configured.
-INFO  2026-03-15 21:38:49 [qtp1686632440-58] RendererManager - [class org.apache.roller.weblogger.ui.rendering.velocity.VelocityRendererFactory]
-INFO  2026-03-15 21:38:49 [qtp1686632440-58] RollerVelocity - Initializing Velocity Rendering Engine
-INFO  2026-03-15 21:39:02 [qtp1686632440-58] BugReportNotificationService - Resolved admin notification recipients: [naveenhardik12@gmail.com]
-INFO  2026-03-15 21:39:02 [qtp1686632440-58] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[naveenhardik12@gmail.com], event=CREATED
-INFO  2026-03-15 21:39:39 [qtp1686632440-67] BugReportNotificationService - Resolved admin notification recipients: [naveenhardik12@gmail.com]
-INFO  2026-03-15 21:39:39 [qtp1686632440-67] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[naveenhardik12@gmail.com], event=STATUS_CHANGED
-INFO  2026-03-15 21:39:45 [qtp1686632440-67] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[hardikchadha1106@gmail.com], event=STATUS_CHANGED
-INFO  2026-03-15 21:40:10 [qtp1686632440-72] BugReportNotificationService - Resolved admin notification recipients: [naveenhardik12@gmail.com]
-INFO  2026-03-15 21:40:10 [qtp1686632440-72] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[naveenhardik12@gmail.com], event=STATUS_CHANGED
-INFO  2026-03-15 21:40:18 [qtp1686632440-72] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[hardikchadha1106@gmail.com], event=STATUS_CHANGED
-INFO  2026-03-15 21:40:48 [qtp1686632440-67] BugReportNotificationService - Resolved admin notification recipients: [naveenhardik12@gmail.com]
-INFO  2026-03-15 21:40:48 [qtp1686632440-67] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[naveenhardik12@gmail.com], event=DELETED
-INFO  2026-03-15 21:40:55 [qtp1686632440-67] EmailBugNotificationChannel - Bug notification email: from=MS_MWeEFI@test-eqvygm0w35zl0p7w.mlsender.net, recipients=[hardikchadha1106@gmail.com], event=DELETED
-INFO  2026-03-15 21:41:28 [JettyShutdownThread] TilesAccess - Removing TilesContext for context: org.apache.struts2.tiles.StrutsWildcardServletApplicationContext
-INFO  2026-03-15 21:41:28 [JettyShutdownThread] HitCountQueue - stopping worker HitCountQueueProcessor
-INFO  2026-03-15 21:41:28 [HitCountQueueProcessor] ContinuousWorkerThread - HitCountQueueProcessor INTERRUPT: sleep interrupted
-INFO  2026-03-15 21:41:28 [HitCountQueueProcessor] ContinuousWorkerThread - HitCountQueueProcessor Done.
+INFO  2026-03-22 14:59:14 [main] RollerContext - Remember Me enabled: false
+WARN  2026-03-22 14:59:14 [main] RollerContext - New passwords are stored in plain text!
+INFO  2026-03-22 14:59:14 [main] RollerContext - Password Encryption Algorithm set to 'noop'
+INFO  2026-03-22 14:59:14 [main] RollerContext - Initializing Velocity
+INFO  2026-03-22 14:59:14 [main] StrutsTilesListener - Starting Struts Tiles 3 integration ...
+INFO  2026-03-22 14:59:15 [main] TilesAccess - Publishing TilesContext for context: org.apache.struts2.tiles.StrutsWildcardServletApplicationContext
+INFO  2026-03-22 14:59:15 [main] StrutsSpringObjectFactory - Initializing Struts-Spring integration...
+INFO  2026-03-22 14:59:15 [main] SpringObjectFactory - Setting autowire strategy to name
+INFO  2026-03-22 14:59:15 [main] StrutsSpringObjectFactory - ... initialized Struts-Spring integration successfully
+WARN  2026-03-22 14:59:16 [main] DefaultExcludedPatternsChecker - Replacing excluded patterns [[(^|\%\{)((#?)(top(\.|\['|\[")|\[\d\]\.)?)(dojo|struts|session|request|response|application|servlet(Request|Response|Context)|parameters|context|_memberAccess)(\.|\[).*, .*(^|\.|\[|\'|"|get)class(\(\.|\[|\'|").*]] with [[^method:.*, ^action:.*]], be aware that this affects all instances and safety of your application!
+WARN  2026-03-22 14:59:16 [main] PackageBasedActionConfigBuilder - The includeJars pattern [false] did not match any jars in the classpath
+INFO  2026-03-22 14:59:17 [main] RequestMappingFilter - Request mapping filter initialized, 1 mappers configured.
+INFO  2026-03-22 14:59:17 [main] RequestMappingFilter - [class org.apache.roller.weblogger.ui.rendering.WeblogRequestMapper]
+INFO  2026-03-22 14:59:17 [main] IPBanFilter - INIT IPBanFilter
+INFO  2026-03-22 14:59:17 [main] WebjarsServlet - The webjars-locator-core library is not present, WebjarsServlet will not try to resolve the version of requested WebJar assets (for the version agnostic way of working)
+INFO  2026-03-22 14:59:17 [main] WebjarsServlet - WebjarsServlet initialization completed
+INFO  2026-03-22 14:59:17 [main] FeedServlet - Initializing FeedServlet
+INFO  2026-03-22 14:59:17 [main] WeblogFeedCache - {size=200, id=cache.weblogfeed, enabled=false, timeout=3600}
+WARN  2026-03-22 14:59:17 [main] WeblogFeedCache - Caching has been DISABLED
+INFO  2026-03-22 14:59:17 [main] SiteWideCache - {size=50, id=cache.sitewide, enabled=false, timeout=1800}
+WARN  2026-03-22 14:59:17 [main] SiteWideCache - Caching has been DISABLED
+INFO  2026-03-22 14:59:17 [main] MediaResourceServlet - Initializing ResourceServlet
+INFO  2026-03-22 14:59:17 [main] PageServlet - Initializing PageServlet
+INFO  2026-03-22 14:59:17 [main] WeblogPageCache - {size=400, id=cache.weblogpage, enabled=false, timeout=3600}
+WARN  2026-03-22 14:59:17 [main] WeblogPageCache - Caching has been DISABLED
+INFO  2026-03-22 14:59:17 [main] PageServlet - Referrer spam check enabled = false
+INFO  2026-03-22 14:59:17 [main] ResourceServlet - Initializing ResourceServlet
+INFO  2026-03-22 14:59:17 [main] SearchServlet - Initializing SearchServlet
+INFO  2026-03-22 14:59:17 [main] CommentServlet - Initializing CommentServlet
+INFO  2026-03-22 14:59:17 [main] CommentValidationManager - Configured 3 CommentValidators
+INFO  2026-03-22 14:59:17 [main] CommentValidationManager - [class org.apache.roller.weblogger.ui.rendering.plugins.comments.BannedwordslistCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessLinksCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessSizeCommentValidator]
+INFO  2026-03-22 14:59:17 [main] CommentServlet - Comment Throttling DISABLED
+INFO  2026-03-22 14:59:17 [main] PlanetFeedServlet - Initializing PlanetRssServlet
+INFO  2026-03-22 14:59:17 [main] PlanetCache - Planet cache = {size=10, id=cache.planet, enabled=false, timeout=1800}
+WARN  2026-03-22 14:59:17 [main] PlanetCache - Caching has been DISABLED
+INFO  2026-03-22 14:59:17 [main] RSDServlet - Initializing RSDServlet
+INFO  2026-03-22 14:59:17 [main] CommentValidationManager - Configured 3 CommentValidators
+INFO  2026-03-22 14:59:17 [main] CommentValidationManager - [class org.apache.roller.weblogger.ui.rendering.plugins.comments.BannedwordslistCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessLinksCommentValidator,class org.apache.roller.weblogger.ui.rendering.plugins.comments.ExcessSizeCommentValidator]
+INFO  2026-03-22 14:59:17 [main] PreviewResourceServlet - Initializing PreviewResourceServlet
+INFO  2026-03-22 14:59:17 [main] PreviewServlet - Initializing PreviewServlet
+WARN  2026-03-22 14:59:28 [qtp210204797-39] StrutsLocalizedTextProvider - Trying to find text with null key!
+INFO  2026-03-22 14:59:30 [qtp210204797-50] SaltCache - {size=5000, id=cache.salt, timeout=3600, enabled=true}
+INFO  2026-03-22 14:59:30 [qtp210204797-50] CacheManager - Cache Manager Initialized.
+INFO  2026-03-22 14:59:30 [qtp210204797-50] CacheManager - Cache Factory = org.apache.roller.weblogger.util.cache.ExpiringLRUCacheFactoryImpl
+WARN  2026-03-22 14:59:30 [qtp210204797-53] StrutsLocalizedTextProvider - Trying to find text with null key!
+INFO  2026-03-22 14:59:32 [qtp210204797-51] DatabaseInstaller - Creating Roller Weblogger database tables.
+WARN  2026-03-22 14:59:32 [qtp210204797-51] StrutsLocalizedTextProvider - Trying to find text with null key!
+INFO  2026-03-22 14:59:34 [qtp210204797-43] Install - ENTERING
+INFO  2026-03-22 14:59:35 [qtp210204797-43] WebloggerFactory - Bootstrapping Roller Weblogger business tier
+INFO  2026-03-22 14:59:35 [qtp210204797-43] WebloggerFactory - Weblogger Provider = org.apache.roller.weblogger.business.GuiceWebloggerProvider
+INFO  2026-03-22 14:59:35 [qtp210204797-43] DatabaseProvider - SUCCESS: Got parameters. Using configuration type JDBC_PROPERTIES
+INFO  2026-03-22 14:59:35 [qtp210204797-43] DatabaseProvider - -- Using JDBC driver class: org.apache.derby.jdbc.ClientDriver
+INFO  2026-03-22 14:59:35 [qtp210204797-43] DatabaseProvider - -- Using JDBC connection URL: jdbc:derby://localhost:4224/memory:rollerdb;create=true
+INFO  2026-03-22 14:59:35 [qtp210204797-43] DatabaseProvider - -- Using JDBC username: app
+INFO  2026-03-22 14:59:35 [qtp210204797-43] DatabaseProvider - -- Using JDBC password: [hidden]
+INFO  2026-03-22 14:59:35 [qtp210204797-43] DatabaseProvider - SUCCESS: loaded JDBC driver class [org.apache.derby.jdbc.ClientDriver]
+INFO  2026-03-22 14:59:35 [qtp210204797-43] JPAPersistenceStrategy - hibernate.transaction.factory_class: org.hibernate.transaction.JDBCTransactionFactory
+INFO  2026-03-22 14:59:35 [qtp210204797-43] JPAPersistenceStrategy - eclipselink.logging.logger: org.eclipse.persistence.logging.slf4j.SLF4JLogger
+INFO  2026-03-22 14:59:35 [qtp210204797-43] JPAPersistenceStrategy - hibernate.dialect: org.hibernate.dialect.DerbyDialect
+INFO  2026-03-22 14:59:35 [qtp210204797-43] JPAPersistenceStrategy - eclipselink.persistence-context.flush-mode: auto
+INFO  2026-03-22 14:59:35 [qtp210204797-43] JPAPersistenceStrategy - hibernate.transaction.manager_lookup_class: org.hibernate.transaction.JBossTransactionManagerLookup
+INFO  2026-03-22 14:59:37 [qtp210204797-43] LuceneIndexManager - search enabled: true
+INFO  2026-03-22 14:59:37 [qtp210204797-43] LuceneIndexManager - index dir: C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\Project-2\project-1-team-33\app\target\work\search-index
+INFO  2026-03-22 14:59:37 [qtp210204797-43] PluginManagerImpl - Configured comment plugins
+INFO  2026-03-22 14:59:37 [qtp210204797-43] PluginManagerImpl - [class org.apache.roller.weblogger.business.plugins.comment.LinkMarkupPlugin,class org.apache.roller.weblogger.business.plugins.comment.AutoformatPlugin,class org.apache.roller.weblogger.business.plugins.comment.HTMLSubsetPlugin]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThreadManagerImpl - Instantiating Thread Manager
+INFO  2026-03-22 14:59:37 [qtp210204797-43] WebloggerFactory - Roller Weblogger business tier successfully bootstrapped
+INFO  2026-03-22 14:59:37 [qtp210204797-43] WebloggerFactory -    Version: 6.1.5
+INFO  2026-03-22 14:59:37 [qtp210204797-43] WebloggerFactory -    Revision: r2c517076f4a70ef251e7839ca9a5a6cdede398f0
+INFO  2026-03-22 14:59:37 [qtp210204797-43] WebloggerImpl - Initializing Roller Weblogger business tier
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.name not yet in roller_properties database table, will store with default value of [Roller Site`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.shortName not yet in roller_properties database table, will store with default value of [Front Page`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.description not yet in roller_properties database table, will store with default value of [A default install of the Roller Weblogger open source blog server`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.frontpage.weblog.handle not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.frontpage.weblog.aggregated not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.adminemail not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.absoluteurl not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property pings.suspendPingProcessing not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.registration.enabled not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property user.account.email.activation not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.registration.url not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.allowUserWeblogCreation not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.editor.pages not yet in roller_properties database table, will store with default value of [editor-text.jsp,editor-summernote.jsp`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property webservices.enableXmlRpc not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property webservices.enableAtomPub not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property webservices.atomPubAuth not yet in roller_properties database table, will store with default value of [basic`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.pages.maxEntries not yet in roller_properties database table, will store with default value of [30`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.newsfeeds.defaultEntries not yet in roller_properties database table, will store with default value of [30`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.newsfeeds.styledFeeds not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.comments.enabled not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property comments.ignoreSpam.enabled not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.trackbacks.enabled not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property trackbacks.ignoreSpam.enabled not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.comments.htmlenabled not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.comments.plugins not yet in roller_properties database table, will store with default value of [HTMLSubset`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.comments.emailnotify not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.moderation.required not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property site.trackbackVerification.enabled not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property uploads.enabled not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property uploads.types.allowed not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property uploads.types.forbid not yet in roller_properties database table, will store with default value of [exe`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property uploads.file.maxsize not yet in roller_properties database table, will store with default value of [2.00`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property uploads.dir.maxsize not yet in roller_properties database table, will store with default value of [20.00`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property users.themes.path not yet in roller_properties database table, will store with default value of [/themes`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property themes.customtheme.allowed not yet in roller_properties database table, will store with default value of [false`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property spam.bannedwordslist not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property analytics.default.tracking.code not yet in roller_properties database table, will store with default value of [`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property analytics.code.override.allowed not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property bugreport.notification.channels not yet in roller_properties database table, will store with default value of [email`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] JPAPropertiesManagerImpl - Property bugreport.notification.notifyReporterStatus not yet in roller_properties database table, will store with default value of [true`]
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Loading themes from C:\Users\Aryan\WINDOWS 11\IIIT HYDERABAD\6th SEM\Software Engineering\PROJECTS\Project-2\project-1-team-33\app\..\app\src\main\webapp\themes...
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Loaded theme 'basic'
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Loaded theme 'basicmobile'
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Loaded theme 'fauxcoly'
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Loaded theme 'frontpage'
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Loaded theme 'gaurav'
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThemeManagerImpl - Successfully loaded 5 themes from disk.
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThreadManagerImpl - Initializing task: ScheduledEntriesTask
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThreadManagerImpl - Initializing task: ResetHitCountsTask
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThreadManagerImpl - Initializing task: PingQueueTask
+INFO  2026-03-22 14:59:37 [qtp210204797-43] ThreadManagerImpl - Initializing task: TestTask
+INFO  2026-03-22 14:59:37 [qtp210204797-43] LuceneIndexManager - Index initialized and ready for use.
+INFO  2026-03-22 14:59:37 [qtp210204797-43] PingConfig - Creating common ping target 'Technorati' from configuration properties.
+INFO  2026-03-22 14:59:37 [qtp210204797-43] PingConfig - Creating common ping target 'Weblogs.com' from configuration properties.
+INFO  2026-03-22 14:59:37 [qtp210204797-43] PingConfig - Creating common ping target 'blo.gs' from configuration properties.
+INFO  2026-03-22 14:59:37 [qtp210204797-43] PingConfig - Creating common ping target 'IceRocket' from configuration properties.
+INFO  2026-03-22 14:59:38 [qtp210204797-43] WebloggerImpl - Roller Weblogger business tier successfully initialized
+INFO  2026-03-22 14:59:38 [qtp210204797-43] DatabaseProvider - SUCCESS: Got parameters. Using configuration type JDBC_PROPERTIES
+INFO  2026-03-22 14:59:38 [qtp210204797-43] DatabaseProvider - -- Using JDBC driver class: org.apache.derby.jdbc.ClientDriver
+INFO  2026-03-22 14:59:38 [qtp210204797-43] DatabaseProvider - -- Using JDBC connection URL: jdbc:derby://localhost:4224/memory:rollerdb;create=true
+INFO  2026-03-22 14:59:38 [qtp210204797-43] DatabaseProvider - -- Using JDBC username: app
+INFO  2026-03-22 14:59:38 [qtp210204797-43] DatabaseProvider - -- Using JDBC password: [hidden]
+INFO  2026-03-22 14:59:38 [qtp210204797-43] DatabaseProvider - SUCCESS: loaded JDBC driver class [org.apache.derby.jdbc.ClientDriver]
+INFO  2026-03-22 14:59:41 [qtp210204797-43] Install - EXITING - Bootstrap successful, forwarding to Roller
+WARN  2026-03-22 15:02:06 [qtp210204797-53] UIPluginManagerImpl - Default editor was not properly configured, picking one at random instead.
+INFO  2026-03-22 15:02:28 [HitCountQueueProcessor] ContinuousWorkerThread - HitCountQueueProcessor Started.
+INFO  2026-03-22 15:02:28 [qtp210204797-43] RendererManager - Renderer Manager Initialized, 1 factories configured.
+INFO  2026-03-22 15:02:28 [qtp210204797-43] RendererManager - [class org.apache.roller.weblogger.ui.rendering.velocity.VelocityRendererFactory]
+INFO  2026-03-22 15:02:28 [qtp210204797-43] RollerVelocity - Initializing Velocity Rendering Engine
+INFO  2026-03-22 15:18:49 [JettyShutdownThread] TilesAccess - Removing TilesContext for context: org.apache.struts2.tiles.StrutsWildcardServletApplicationContext
+INFO  2026-03-22 15:18:49 [JettyShutdownThread] HitCountQueue - stopping worker HitCountQueueProcessor
+INFO  2026-03-22 15:18:49 [HitCountQueueProcessor] ContinuousWorkerThread - HitCountQueueProcessor INTERRUPT: sleep interrupted
+INFO  2026-03-22 15:18:49 [HitCountQueueProcessor] ContinuousWorkerThread - HitCountQueueProcessor Done.
