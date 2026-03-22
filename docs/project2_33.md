@@ -1139,6 +1139,227 @@ To enable the Hybrid method, set `pulse.llm.apiKey` to a valid Gemini API key. T
 
 ---
 
+## Bonus 1: Weblog Q&A Chatbot
+
+### 1. Feature Description
+
+This bonus feature adds a grounded question-answering chatbot to public Roller weblog pages. Instead of browsing multiple entries manually, a reader can ask natural-language questions such as "What has this blog said about data privacy?" or "When was topic X last discussed?" and receive an answer based only on the current weblog's published archive.
+
+The implementation focuses on public weblog-facing pages that include the shared chatbot widget. The system is grounded by design: answers are built from published weblog content, and the UI returns supporting source citations so the reader can trace the answer back to the original entries.
+
+Key capabilities include:
+
+* Asking free-form questions about the current weblog archive
+* Switching between `RAG` and `Long Context` answering strategies
+* Using `Auto Pick` so Gemini can choose the more suitable strategy and explain why
+* Returning grounded answers with source citations
+* Keeping the chatbot embedded directly on public weblog pages without breaking layout
+
+---
+
+### 2. Implementation
+
+#### Backend
+
+The backend is built around a small Q&A pipeline exposed through `WeblogQAServlet`.
+
+`WeblogQAServlet` accepts JSON requests from the frontend, resolves the current weblog handle and requested strategy, and delegates the actual answer generation to `WeblogQaService`.
+
+---
+
+#### Core Components
+
+**Q&A Entry Point**
+ `WeblogQAServlet` handles request parsing, strategy resolution, and response generation.
+
+**Service Layer**
+ `WeblogQaService` orchestrates the flow by loading the weblog archive, resolving the requested strategy, and producing a structured `WeblogQaAnswer` with answer text, citations, and metadata.
+
+**Repository Layer**
+ `WeblogQaEntryRepository` and `BusinessLayerWeblogQaEntryRepository` isolate archive-loading logic from the answering pipeline and convert Roller entries into normalized `WeblogQaEntryDocument` objects.
+
+**Answering Strategies**
+ The `WeblogQaAnswerStrategy` interface defines a common contract for answer-generation approaches.
+
+Concrete implementations include:
+
+* `RetrievalAugmentedWeblogQaStrategy`
+* `LongContextWeblogQaStrategy`
+
+`RetrievalAugmentedWeblogQaStrategy` retrieves and ranks the most relevant passages first, then sends that focused context to Gemini for final synthesis.
+
+`LongContextWeblogQaStrategy` scans a larger archive slice up to a context budget, then sends that broader grounded context to Gemini for final synthesis.
+
+**Gemini Integration**
+ `GeminiQaSynthesisSupport` performs the shared Gemini REST call used by both strategies for final answer generation.
+
+**Auto Strategy Routing**
+ `GeminiQaAutoStrategySelector` is used only for `Auto Pick`. It sends the prompt to Gemini, receives a strategy choice (`RAG` or `Long Context`) with a reason, and then allows the selected strategy to run through the normal pipeline. If Gemini-based routing is unavailable, the selector falls back to a heuristic rule set.
+
+**Text Processing Support**
+ `WeblogQaTextSupport` centralizes passage splitting, tokenization, ranking helpers, normalization, and snippet formatting.
+
+---
+
+#### Backend Functionality
+
+* `WeblogQAServlet` exposes a JSON endpoint at `/roller-services/weblog-qa/*`
+* `WeblogQaService` resolves strategy selection and delegates answer generation
+* `RetrievalAugmentedWeblogQaStrategy` retrieves a focused set of passages before Gemini synthesis
+* `LongContextWeblogQaStrategy` builds a wider archive context before Gemini synthesis
+* `GeminiQaAutoStrategySelector` is used only for `Auto Pick` and returns both a selected strategy and the reason for the choice
+* `GeminiQaSynthesisSupport` performs the shared Gemini REST call for grounded answer generation
+* `LocalApiPropertiesSupport` loads local-only API credentials from `translation-api.properties`
+* `WeblogQaTextSupport` centralizes ranking and text-normalization helpers
+
+---
+
+#### Frontend
+
+The frontend is implemented as a shared JavaScript widget using:
+
+* `weblog-qa.js`
+* `weblog-qa.css`
+
+The widget is injected on page load and performs the following steps:
+
+* Detects the current weblog handle from the page URL
+* Renders a floating chat panel with a question box, strategy selector, answer area, and citations
+* Sends the question and strategy choice to `/roller-services/weblog-qa/*`
+* Displays the grounded answer, cited sources, and any `Auto Pick` explanation
+
+Additional features include:
+
+* Manual switching between `RAG` and `Long Context`
+* `Auto Pick` strategy routing with an explanation of why the strategy was chosen
+* Scrollable long answers so widget controls remain reachable
+* More resilient initialization across page load timing differences
+
+---
+
+#### Screenshots
+
+1. Public weblog page with Q&A widget
+
+2. Same question answered using `RAG`
+
+3. Same question answered using `Long Context`
+
+4. `Auto Pick` example showing chosen strategy and reason
+
+---
+
+### 3. Assumptions / Constraints
+
+* The chatbot is available only on public theme views that include the shared widget
+* Answers are grounded only in published entries from the current weblog archive
+* The feature does not use comments, admin pages, or arbitrary site-wide content for answering
+* `RAG` and `Long Context` both use Gemini for final answer synthesis; they differ only in how grounded context is constructed
+* `Auto Pick` uses Gemini only to choose between `RAG` and `Long Context`
+* Gemini requires a valid API key in local configuration
+* Long-context processing uses a bounded context budget, so very large archives may be truncated
+* Frontend integration is limited to selected public theme views
+
+---
+
+### 4. Files Modified / Added
+
+#### Backend
+
+* `WeblogQAServlet.java`
+* `WeblogQaService.java`
+* `WeblogQaAnswer.java`
+* `WeblogQaSource.java`
+* `WeblogQaAnswerStrategy.java`
+* `WeblogQaEntryRepository.java`
+* `BusinessLayerWeblogQaEntryRepository.java`
+* `WeblogQaEntryDocument.java`
+* `WeblogQaTextSupport.java`
+* `RetrievalAugmentedWeblogQaStrategy.java`
+* `LongContextWeblogQaStrategy.java`
+* `GeminiQaSynthesisSupport.java`
+* `GeminiQaAutoStrategySelector.java`
+* `LocalApiPropertiesSupport.java`
+* `web.xml`
+
+---
+
+#### Frontend
+
+* `weblog-qa.js`
+* `weblog-qa.css`
+
+---
+
+#### Theme Integration
+
+* `weblog.vm`
+* `permalink.vm`
+* `searchresults.vm`
+* `archives.vm`
+* `tags_index.vm`
+* `_footer.vm`
+
+---
+
+#### Tests and Documentation
+
+* `WeblogQaServiceTest.java`
+* `GeminiQaSynthesisSupportTest.java`
+* `weblog-qa-chatbot.md`
+
+---
+
+### 5. Design Patterns Used
+
+* **Strategy Pattern**
+   The **Strategy Pattern** is used through the `WeblogQaAnswerStrategy` interface and its two concrete implementations, `RetrievalAugmentedWeblogQaStrategy` and `LongContextWeblogQaStrategy`. This allows the system to compare and switch between two answering approaches without changing the servlet or UI contract. It improves extensibility, maintainability, and testability by isolating context-construction behavior behind a common interface.
+
+* **Repository Pattern**
+   The **Repository Pattern** is used via `WeblogQaEntryRepository` and `BusinessLayerWeblogQaEntryRepository` to separate archive-loading logic from question-answering logic. This keeps the Q&A subsystem independent from Roller business-layer details, improves maintainability, and makes the service layer easier to test with stubbed repositories.
+
+* **Template Method Style Flow**
+   A **Template Method-style workflow** is followed by `WeblogQAServlet` and `WeblogQaService`, which define a stable request-processing sequence: parse request, resolve strategy, load archive, build grounded context, synthesize answer, and return citations. This improves readability and maintainability while keeping the high-level flow predictable.
+
+* **Adapter-like Integration Pattern**
+   An **Adapter-like pattern** is used in `GeminiQaSynthesisSupport` and `GeminiQaAutoStrategySelector` to convert internal grounded-passage structures and strategy-decision objects into Gemini-compatible REST payloads and then map the responses back into application-specific objects. This keeps provider-specific details out of the strategy and servlet classes.
+
+* **Factory-like Routing Pattern**
+   A **Factory-like routing layer** is present in `WeblogQaService` together with `GeminiQaAutoStrategySelector`. The system resolves a requested strategy name into the actual strategy instance to execute, and in `Auto Pick` mode it first determines the most suitable strategy before delegating. This centralizes selection logic and makes future extension easier.
+
+---
+
+### 6. Rationale Behind Pattern Selection
+
+* Strategy cleanly separates `RAG` and `Long Context` while allowing both to share the same Gemini synthesis layer
+* Repository keeps archive-loading logic separate from retrieval and synthesis logic
+* Template-style flow keeps the request lifecycle structured and easy to reason about
+* Adapter-like integration isolates Gemini request/response handling from the rest of the subsystem
+* Factory-like routing keeps manual strategy selection and `Auto Pick` policy centralized
+
+---
+
+### 7. User Flow
+
+1. User opens a public weblog page with the Q&A widget
+2. `weblog-qa.js` initializes and detects the current weblog handle
+3. User enters a question and chooses `RAG`, `Long Context`, or `Auto Pick`
+4. The widget sends the request to `/roller-services/weblog-qa/*`
+5. `WeblogQAServlet` forwards the request to `WeblogQaService`
+6. If `Auto Pick` is selected, `GeminiQaAutoStrategySelector` chooses the strategy and provides a reason
+7. `WeblogQaService` loads published entries through `WeblogQaEntryRepository`
+8. The selected strategy constructs grounded context and sends it to `GeminiQaSynthesisSupport`
+9. The backend returns the answer along with cited sources and metadata
+10. The widget renders the answer, citations, and chosen strategy information
+
+---
+
+### 8. UML Diagram
+
+*(See UML Diagrams section below)*
+
+---
+
 ## Design Patterns Summary
 
 | # | Pattern | Location | Task | Justification |
@@ -1154,6 +1375,11 @@ To enable the Hybrid method, set `pulse.llm.apiKey` to a valid Gemini API key. T
 | 9 | Template Method | `DiscussionIndicator` with 5 implementations | 6 | Common contract for indicators; each computes independently; error isolation |
 | 10 | Builder | `DashboardReportBuilder` / `DashboardReport` / `DashboardMetric` | 4 | Separates view definition from data-fetching logic; flexible view composition |
 | 11 | Strategy (Metrics) | 9 `DashboardMetric` implementations | 4 | Different data-fetching algorithms behind uniform interface; extensible |
+| 12 | Strategy (Q&A) | `WeblogQaAnswerStrategy` / `RetrievalAugmentedWeblogQaStrategy` / `LongContextWeblogQaStrategy` | Bonus 1 | Switchable grounded answering methods using the same external synthesis layer |
+| 13 | Repository | `WeblogQaEntryRepository` / `BusinessLayerWeblogQaEntryRepository` | Bonus 1 | Separates weblog archive loading from answer-generation logic |
+| 14 | Template Method Style Flow | `WeblogQAServlet` / `WeblogQaService` | Bonus 1 | Keeps request handling structured while allowing strategy-specific context construction |
+| 15 | Adapter-like Integration | `GeminiQaSynthesisSupport` / `GeminiQaAutoStrategySelector` | Bonus 1 | Isolates Gemini payload formatting and response parsing from core feature logic |
+| 16 | Factory-like Routing | `WeblogQaService` / `GeminiQaAutoStrategySelector` | Bonus 1 | Centralizes manual strategy resolution and `Auto Pick` decision routing |
 
 ---
 
@@ -1261,6 +1487,24 @@ Run all Task 6 tests:
 mvn test -pl app -Dtest="org.apache.roller.weblogger.business.pulse.ActivityLevelIndicatorTest,org.apache.roller.weblogger.business.pulse.ResponseTypeIndicatorTest,org.apache.roller.weblogger.business.pulse.RecurringKeywordsIndicatorTest,org.apache.roller.weblogger.business.pulse.TopContributorsIndicatorTest,org.apache.roller.weblogger.business.pulse.UniqueCommenterIndicatorTest,org.apache.roller.weblogger.business.pulse.TfIdfBreakdownStrategyTest,org.apache.roller.weblogger.business.pulse.BreakdownStrategySelectorTest,org.apache.roller.weblogger.business.pulse.DiscussionOverviewTest"
 ```
 
+### Bonus 1 — Weblog Q&A Chatbot Tests
+
+| Test Class | # Tests | What's Tested |
+|-----------|---------|---------------|
+| `WeblogQaServiceTest` | 5 | Strategy resolution, `Auto Pick` routing, source generation, and answer metadata |
+| `GeminiQaSynthesisSupportTest` | 1 | Grounded Gemini synthesis formatting and answer payload generation |
+
+Run Bonus 1 targeted tests:
+```bash
+mvn test -pl app -Dtest="org.apache.roller.weblogger.ui.rendering.servlets.WeblogQaServiceTest,org.apache.roller.weblogger.ui.rendering.servlets.GeminiQaSynthesisSupportTest"
+```
+
+Current validation status:
+
+* `mvn -pl app -DskipTests compile` — passes
+* `mvn -pl app test` — passes for the existing app test suite
+* Focused Q&A tests — pass
+
 ---
 
 ## How to Use
@@ -1301,3 +1545,28 @@ The pipeline runs automatically when any blog entry is saved. No user action is 
 - Colored sentiment badge (Positive/Neutral/Negative) at the top of each entry
 - "X min read" badge indicating estimated reading time
 - Auto-generated tags appended at the bottom
+
+### Bonus 1: Weblog Q&A Chatbot
+
+**Setup:**
+- Configure a Gemini API key in local `translation-api.properties`
+- Open a public weblog page that includes the chatbot widget
+- Make sure the weblog has several published posts so both strategies have enough content to compare
+
+**How to use:**
+1. Open a public weblog page
+2. Locate the floating **Weblog Q&A Chatbot** widget in the lower-left corner
+3. Enter a natural-language question about the current weblog
+4. Choose `RAG`, `Long Context`, or `Auto Pick`
+5. Submit the question and inspect the grounded answer with source citations
+6. Compare the same question across strategies to observe the trade-offs
+
+**Suggested prompts:**
+- "What has this blog said about data privacy?"
+- "When was privacy last discussed?"
+- "Summarize all the entries in this blog"
+
+**What to observe:**
+- `RAG` usually produces tighter answers for focused questions
+- `Long Context` performs better for broad summary or timeline-style questions
+- `Auto Pick` shows both the chosen strategy and the reason it was selected
