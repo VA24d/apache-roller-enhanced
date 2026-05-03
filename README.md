@@ -1,94 +1,60 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/HIOZk3CI)
+# Apache Roller Enhanced 🚀
 
-# Apache Roller
+An enterprise-grade blogging platform extended with modern AI capabilities, automated pipelines, and advanced social features. This project was developed as part of the Software Engineering curriculum at IIIT Hyderabad.
 
-[Apache Roller](http://roller.apache.org) is a Java-based, full-featured, multi-user and group-blog server suitable for blog sites large and small.
-Roller is typically run with Apache Tomcat and MySQL.
-Roller is made up of the following Maven projects:
+## 🌟 Key Features
 
-* _roller-project_:         Top level project
-* _app_:                    Roller Weblogger webapp, JSP pages, Velocity templates
-* _assembly-release_:       Used to create official distributions of Roller
-* _docs_:                   Roller documentation in ASCII Doc format
-* _it-selenium_:            Integrated browser tests for Roller using Selenium
+### 1. Social Engagement (User Highlights)
+- **Starring System**: Users can "star" both weblogs and individual entries.
+- **Dynamic Paging**: Starred content is displayed with efficient pagination and sorted by recency of posts.
+- **Trending Metrics**: Real-time "Trending Blogs" and "Trending Posts" leaderboards, optimized using database-level aggregation (`GROUP BY + COUNT`) for maximum performance.
 
-## Project Coursework Additions
+### 2. Transforming Feeds Pipeline
+- **Automated Processing**: Every blog post passes through a modular processing pipeline upon saving.
+- **Modular Steps**: 
+    - **Profanity Filtering**: Automatic censorship of restricted content.
+    - **AI Summarization**: Generates concise summaries using Gemini 2.0 Flash.
+    - **Sentiment Analysis**: Detects the emotional tone of the content.
+    - **Automatic Tagging**: Intelligent metadata generation.
+- **Design Pattern**: Implemented using the **Chain of Responsibility** pattern for high extensibility.
 
-This repo includes a **Task 3C automated refactoring pipeline** under `task3-pipeline/`.
-It scans Designite outputs, generates LLM-based refactoring suggestions, and creates
-an auto-generated PR containing the report (without changing source code). See:
+### 3. Admin & Community Insights
+- **Site Summary Dashboard**: A centralized hub for admins to monitor site-wide metrics (Users, Blogs, Activity). Supports **Minimalist** and **Full** views using the **Builder Pattern**.
+- **Community Pulse**: Visualizes comment section activity using classical statistical measures and AI-driven conversation breakdowns.
+- **Bug Reporting System**: Integrated issue tracking with automated email notifications (via MailerSend) and modular support for Slack/Teams integrations.
 
-- `task3-pipeline/README.md`
-- `task3-pipeline/docs/pipeline.md`
+### 4. AI-Powered Enhancements
+- **Web Translation**: Real-time translation supporting 5+ languages via Sarvam AI and Google Translate, featuring an intelligent **Differential Caching** layer.
+- **Weblog Q&A Chatbot**: A RAG-based (Retrieval-Augmented Generation) assistant that answers natural language questions grounded in a blog's specific history.
 
-## Documentation
+---
 
-The Roller Install, User and Template Guides are available in ODT format (for OpenOffice or LibraOffice):
+## 🛠️ Technical Architecture
 
-* <https://github.com/apache/roller/tree/master/docs>
+- **Core**: Java, JSP, Struts2, JPA (Hibernate/OpenJPA)
+- **Database**: Apache Derby / PostgreSQL
+- **AI/LLM**: Google Gemini API, Sarvam AI
+- **Patterns**: Chain of Responsibility, Builder, Repository, Static Factory, Strategy.
+- **DevOps**: Docker, Maven, GitHub Actions.
 
-## For more information
+## 📂 Project Structure
 
-Hit the Roller Confluence wiki:
+- `app/`: Main web application source code.
+- `docs/`: Technical reports, UML diagrams (PlantUML), and architecture documentation.
+- `task3-pipeline/`: Automated LLM-based refactoring tools.
+- `db-utils/`: Database migration and utility scripts.
 
-* How to build and run Roller: <https://cwiki.apache.org/confluence/x/EM4>
-* How to contribute to Roller: <https://cwiki.apache.org/confluence/x/2hsB>
-* How to make a release of Roller: <https://cwiki.apache.org/confluence/x/gycB>
-* Other developer resources: <https://cwiki.apache.org/confluence/x/D84>
+---
 
+## 🚀 Getting Started
 
-## Installing Roller 
+1. **Build**: `mvn clean install -DskipTests`
+2. **Run**: `mvn jetty:run -pl app`
+3. **Access**: `http://localhost:8080/roller`
 
-If you want to run Roller in production, then you should down load the latest official release and install it by following the Installation Guide, which you can find at the documentation link: <https://github.com/apache/roller/tree/master/docs>.
+---
 
-
-## Quick start: Running via Maven
-
-You probably should not run Roller in production using this technique, but it's a relatively easy way to try Roller for yourself. 
-Assuming you've got a UNIX shell, Java, Maven and Git:
-
-Get the code:
-
-    $ git clone https://github.com/apache/roller.git
-
-Compile and build Roller:
-
-    $ cd roller
-    $ mvn -DskipTests=true install
-
-Run Roller in Jetty with an embedded Derby database (for testing only):
-
-    $ mvn jetty:run
-
-Once Jetty is up and running browse to <http://localhost:8080/roller> to try to Roller.
-
-
-## Quick start: running via Docker
-
-Another way to try Roller is to use Docker. 
-This is actually easier than running via Maven because you do not need Maven or Java. 
-If you've got Docker, here's how you can run Roller for demo purposes.
-
-Get the code:
-
-    $ git clone https://github.com/apache/roller.git
-
-Run Docker Compose to build and launch Roller along with a PostgreSQL database:
-
-    $ cd roller
-    $ docker-compose up
-
-
-
-
-
-    
-It will take a while to build and start the Docker image. 
-Once it's done browse to <http://localhost:8080/roller> to try Roller.
-
-
-
-
-
-
-
+## 📝 Academic Context
+Developed for **CS6.401: Software Engineering** at IIIT Hyderabad.
+- **Project 1**: Focused on Reverse Engineering, Design Smell Analysis, and Manual/Automated Refactoring.
+- **Project 2**: Focused on Feature Extension, Design Pattern Integration, and AI System Design.
