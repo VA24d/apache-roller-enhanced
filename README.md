@@ -1,6 +1,6 @@
 # Apache Roller Enhanced 🚀
 
-An enterprise-grade blogging platform extended with modern AI capabilities, automated pipelines, and advanced social features. This project was developed as part of the Software Engineering curriculum at IIIT Hyderabad.
+An enterprise-grade blogging platform extended with modern AI capabilities, automated pipelines, and advanced social features. This project was developed as part of the Software Engineering course at IIIT Hyderabad.
 
 ## 🌟 Key Features
 
@@ -40,9 +40,11 @@ An enterprise-grade blogging platform extended with modern AI capabilities, auto
 ## 📂 Project Structure
 
 - `app/`: Main web application source code.
-- `docs/`: Technical reports, UML diagrams (PlantUML), and architecture documentation.
-- `task3-pipeline/`: Automated LLM-based refactoring tools.
-- `db-utils/`: Database migration and utility scripts.
+- `docs/reports/`: Full technical reports and summaries.
+- `docs/diagrams/`: PlantUML sources and architectural visualizations.
+- `docs/guides/`: Installation and template configuration guides.
+- `app/`: Main application source code.
+- `db-utils/`: Database migration tools.
 
 ---
 
