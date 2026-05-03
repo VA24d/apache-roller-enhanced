@@ -31,7 +31,7 @@
 </p>
 
 <%-- Metrics table --%>
-<s:if test="report != null && report.results.size() > 0">
+<s:if test="report != null && report.metricCount > 0">
 
     <table class="rollertable table table-striped">
         <tr class="rollertable">
@@ -45,7 +45,7 @@
                 <td class="rollertable"><s:property value="#metric.label" /></td>
                 <td class="rollertable"><b><s:property value="#metric.value" /></b></td>
                 <td class="rollertable">
-                    <s:if test="#metric.details != null && #metric.details.size() > 0">
+                    <s:if test="#metric.details != null && !#metric.details.isEmpty">
                         <s:iterator var="detail" value="#metric.details" status="dIdx">
                             <s:property value="#detail" />
                             <s:if test="!#dIdx.last"> &middot; </s:if>
